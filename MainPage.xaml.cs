@@ -14,7 +14,7 @@
             count++;
 
             if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
+                CounterBtn.Text = $"Näin monta mökkiä ostettu {count} time";
             else
                 CounterBtn.Text = $"Clicked {count} times";
 
