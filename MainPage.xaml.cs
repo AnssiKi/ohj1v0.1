@@ -14,9 +14,9 @@
             count++;
 
             if (count == 1)
-                CounterBtn.Text = $"Näin monta mökkiä ostettu {count} time";
+                CounterBtn.Text = $"Vasta {count} mökki ostettu";
             else
-                CounterBtn.Text = $"Clicked {count} times";
+                CounterBtn.Text = $"No nyt on jo {count} mökkiä ostettu";
 
             SemanticScreenReader.Announce(CounterBtn.Text);
         }
