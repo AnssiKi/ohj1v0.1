@@ -41,9 +41,5 @@ namespace ohj1v0._1
             get { return alue_nimi; }
             set { alue_nimi = value; }
         }
-
-
     }
-
-
 }
