@@ -216,6 +216,23 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
+-- Data for table `vn`.`alue`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `vn`;
+INSERT INTO `vn`.`alue` (`alue_id`, `nimi`) VALUES (1, 'Himos');
+INSERT INTO `vn`.`alue` (`alue_id`, `nimi`) VALUES (2, 'Vuokatti');
+INSERT INTO `vn`.`alue` (`alue_id`, `nimi`) VALUES (3, 'Iso-Syöte');
+INSERT INTO `vn`.`alue` (`alue_id`, `nimi`) VALUES (4, 'Sallatunturi');
+INSERT INTO `vn`.`alue` (`alue_id`, `nimi`) VALUES (5, 'Levi');
+INSERT INTO `vn`.`alue` (`alue_id`, `nimi`) VALUES (6, 'Ruka');
+INSERT INTO `vn`.`alue` (`alue_id`, `nimi`) VALUES (7, 'Tahko');
+INSERT INTO `vn`.`alue` (`alue_id`, `nimi`) VALUES (8, 'Ylläs');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
 -- Data for table `vn`.`posti`
 -- -----------------------------------------------------
 START TRANSACTION;
@@ -255,7 +272,7 @@ INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('00331', 'HELSINKI'
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('00511', 'HELSINKI');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('00650', 'HELSINKI');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('02140', 'ESPOO');
-INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('8501', 'LOHJA');
+INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('08501', 'LOHJA');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('30420', 'FORSSA');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('36430', 'SAHALAHTI');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('40400', 'JYVÄSKYLÄ');
@@ -265,9 +282,8 @@ INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('68920', 'FORSBY');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('91750', 'LIMINPURO');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('95410', 'TORNIO');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('95640', 'JUOKSENKI');
-INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('22', 'TILASTOKESKUS');
-INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('760', 'HELSINKI');
-INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('2320', 'ESPOO');
+INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('00760', 'HELSINKI');
+INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('02320', 'ESPOO');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('21660', 'NAUVO');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('26930', 'VERMUNTILA');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('31380', 'LETKU');
@@ -278,7 +294,7 @@ INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('89110', 'TÖRMÄNM
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('92180', 'LAPALUOTO');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('95840', 'VENEJÄRVENKYLÄ');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('98850', 'KUOSKU');
-INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('4380', 'TUUSULA');
+INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('04380', 'TUUSULA');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('11111', 'RIIHIMÄKI');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('16270', 'VILLIKKALA');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('21930', 'UUSIKARTANO');
@@ -308,8 +324,8 @@ INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('79190', 'VALKEAMÄ
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('82840', 'PIRTTIAHO');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('86980', 'VÄLIAHO');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('91210', 'JAKKUKYLÄ');
-INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('1300', 'VANTAA');
-INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('3790', 'VIHTIJÄRVI');
+INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('01300', 'VANTAA');
+INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('03790', 'VIHTIJÄRVI');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('13210', 'HÄMEENLINNA');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('25560', 'KOSKI AS');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('38720', 'VIHTELJÄRVI');
@@ -322,9 +338,9 @@ INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('58300', 'SAVONRANT
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('66710', 'KAITSOR');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('70870', 'HILTULANLAHTI');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('75501', 'NURMES');
-INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('1530', 'VANTAA');
-INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('1680', 'VANTAA');
-INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('4301', 'TUUSULA');
+INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('01530', 'VANTAA');
+INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('01680', 'VANTAA');
+INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('04301', 'TUUSULA');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('10470', 'FISKARI');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('29320', 'LEINEPERI');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('33251', 'TAMPERE');
@@ -338,7 +354,7 @@ INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('75990', 'HÖLJÄKK
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('94900', 'KEMI');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('97840', 'LEHTINIEMI');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('70401', 'KUOPIO');
-INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('4601', 'MÄNTSÄLÄ');
+INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('04601', 'MÄNTSÄLÄ');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('29860', 'OTAMO');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('37800', 'AKAA');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('41231', 'UURAINEN');
@@ -5075,6 +5091,85 @@ INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('99104', 'SMARTPOST
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('36204', 'SMARTPOST');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('58904', 'SMARTPOST');
 INSERT INTO `vn`.`posti` (`postinro`, `toimipaikka`) VALUES ('74204', 'SMARTPOST');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `vn`.`asiakas`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `vn`;
+INSERT INTO `vn`.`asiakas` (`asiakas_id`, `postinro`, `etunimi`, `sukunimi`, `lahiosoite`, `email`, `puhelinnro`) VALUES (1, '76100', 'Erkki', 'Esimerkki', 'Esimerkkikatu 3', 'erkki.esimerkki@gmail.com', '0401231231');
+INSERT INTO `vn`.`asiakas` (`asiakas_id`, `postinro`, `etunimi`, `sukunimi`, `lahiosoite`, `email`, `puhelinnro`) VALUES (2, '70100', 'Sinikka ', 'Sorsa', 'Sinikellonkuja 1', 'sinikka.sorsa@gmail.com', '0501231231');
+INSERT INTO `vn`.`asiakas` (`asiakas_id`, `postinro`, `etunimi`, `sukunimi`, `lahiosoite`, `email`, `puhelinnro`) VALUES (3, '77570', 'Oskari', 'Virtanen', 'Kilinkuja 1', 'oskari.virtanen@gmail.com', '0400654321');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `vn`.`mokki`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `vn`;
+INSERT INTO `vn`.`mokki` (`mokki_id`, `alue_id`, `postinro`, `mokkinimi`, `katuosoite`, `hinta`, `kuvaus`, `henkilomaara`, `varustelu`) VALUES (1, 1, '42100', 'Iso-Pekka', 'Laskettelijankatu 1', 200, 'Hieno mökki ', 15, 'Puusauna, poreamme');
+INSERT INTO `vn`.`mokki` (`mokki_id`, `alue_id`, `postinro`, `mokkinimi`, `katuosoite`, `hinta`, `kuvaus`, `henkilomaara`, `varustelu`) VALUES (2, 1, '42100', 'Pikku-Pekka', 'Pekantien 2', 70, 'Karmea mökki', 5, 'ulko-wc');
+INSERT INTO `vn`.`mokki` (`mokki_id`, `alue_id`, `postinro`, `mokkinimi`, `katuosoite`, `hinta`, `kuvaus`, `henkilomaara`, `varustelu`) VALUES (3, 2, '88610', 'Hirvenselkä', 'Hirvenpolku 1', 100, 'Järven rannalla ', 6, 'Sähköauton lautausmahdollisuus');
+INSERT INTO `vn`.`mokki` (`mokki_id`, `alue_id`, `postinro`, `mokkinimi`, `katuosoite`, `hinta`, `kuvaus`, `henkilomaara`, `varustelu`) VALUES (4, 3, '93280', 'Kivitukka', 'Kivisentie 3', 70, 'Upea mökki', 5, 'Puusauna');
+INSERT INTO `vn`.`mokki` (`mokki_id`, `alue_id`, `postinro`, `mokkinimi`, `katuosoite`, `hinta`, `kuvaus`, `henkilomaara`, `varustelu`) VALUES (5, 4, '98900', 'Sallan Simpukka', 'Sallankatu 1', 80, 'Sallan hienoin mökki', 8, 'poreamme');
+INSERT INTO `vn`.`mokki` (`mokki_id`, `alue_id`, `postinro`, `mokkinimi`, `katuosoite`, `hinta`, `kuvaus`, `henkilomaara`, `varustelu`) VALUES (6, 4, '98900', 'Sallan Sydän', 'Sallankatu 2', 120, 'Sallan tunnelmallisin mökki', 10, 'Puusauna');
+INSERT INTO `vn`.`mokki` (`mokki_id`, `alue_id`, `postinro`, `mokkinimi`, `katuosoite`, `hinta`, `kuvaus`, `henkilomaara`, `varustelu`) VALUES (7, 5, '99130', 'Pikku Karhu', 'Karhunmutka 12', 70, 'Pikku Karju tarjoaa lomallesi arvoisen viettopaikan', 5, NULL);
+INSERT INTO `vn`.`mokki` (`mokki_id`, `alue_id`, `postinro`, `mokkinimi`, `katuosoite`, `hinta`, `kuvaus`, `henkilomaara`, `varustelu`) VALUES (8, 6, '93800', 'Rukan Pressa', 'Tienkatu 3', 120, 'Tässä mökissä voit rauhoittua', 5, NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `vn`.`varaus`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `vn`;
+INSERT INTO `vn`.`varaus` (`varaus_id`, `asiakas_id`, `mokki_id`, `varattu_pvm`, `vahvistus_pvm`, `varattu_alkupvm`, `varattu_loppupvm`) VALUES (1, 1, 1, '2024-03-01', '2024-03-01', '2024-03-04', '2024-03-10');
+INSERT INTO `vn`.`varaus` (`varaus_id`, `asiakas_id`, `mokki_id`, `varattu_pvm`, `vahvistus_pvm`, `varattu_alkupvm`, `varattu_loppupvm`) VALUES (2, 1, 2, '2024-03-04', '2024-03-04', '2024-03-11', '2024-03-17');
+INSERT INTO `vn`.`varaus` (`varaus_id`, `asiakas_id`, `mokki_id`, `varattu_pvm`, `vahvistus_pvm`, `varattu_alkupvm`, `varattu_loppupvm`) VALUES (3, 2, 3, '2024-03-05', '2024-04-29', '2024-05-06', '2024-05-12');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `vn`.`lasku`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `vn`;
+INSERT INTO `vn`.`lasku` (`lasku_id`, `varaus_id`, `summa`, `alv`, `maksettu`) VALUES (1, 1, 1290.32, 309.68, 1);
+INSERT INTO `vn`.`lasku` (`lasku_id`, `varaus_id`, `summa`, `alv`, `maksettu`) VALUES (2, 2, 616.34, 116.66, 0);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `vn`.`palvelu`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `vn`;
+INSERT INTO `vn`.`palvelu` (`palvelu_id`, `alue_id`, `nimi`, `kuvaus`, `hinta`, `alv`) VALUES (1, 1, 'Vesiskootteriajelu', 'Vesiskootterilla saat adrenaliinin virtaamaan!', 100, 24);
+INSERT INTO `vn`.`palvelu` (`palvelu_id`, `alue_id`, `nimi`, `kuvaus`, `hinta`, `alv`) VALUES (2, 1, 'Airsoft', 'Varatkaa porukalla pelit.', 40, 10);
+INSERT INTO `vn`.`palvelu` (`palvelu_id`, `alue_id`, `nimi`, `kuvaus`, `hinta`, `alv`) VALUES (3, 2, 'Hevosajelu', 'Rauhallinen hevosajelu läheisessä metsässä.', 50, 10);
+INSERT INTO `vn`.`palvelu` (`palvelu_id`, `alue_id`, `nimi`, `kuvaus`, `hinta`, `alv`) VALUES (4, 2, 'Airsoft', 'Varatkaa porukalla pelit.', 40, 10);
+INSERT INTO `vn`.`palvelu` (`palvelu_id`, `alue_id`, `nimi`, `kuvaus`, `hinta`, `alv`) VALUES (5, 3, 'Prosafari', 'Hieno tutustuminen läheiseen poroalueeseen!', 50, 24);
+INSERT INTO `vn`.`palvelu` (`palvelu_id`, `alue_id`, `nimi`, `kuvaus`, `hinta`, `alv`) VALUES (6, 4, 'Koiravaljakkoajelu', 'Huskyt vievät sinut upealle ajelulle.', 40, 24);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `vn`.`varauksen_palvelut`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `vn`;
+INSERT INTO `vn`.`varauksen_palvelut` (`varaus_id`, `palvelu_id`, `lkm`) VALUES (1, 1, 2);
+INSERT INTO `vn`.`varauksen_palvelut` (`varaus_id`, `palvelu_id`, `lkm`) VALUES (2, 2, 6);
+INSERT INTO `vn`.`varauksen_palvelut` (`varaus_id`, `palvelu_id`, `lkm`) VALUES (3, 3, 2);
 
 COMMIT;
 
