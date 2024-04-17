@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ohj1v0._1
+namespace ohj1v0._1.Luokat
 {
     class Mokki : Alue
     {
@@ -14,7 +14,7 @@ namespace ohj1v0._1
 
         //Yksityiset muuttujat
         private int mokki_id;
-        private string mokki_postinumero; 
+        private string mokki_postinumero;
         private string mokki_nimi;
         private string mokki_katusosoite;
         private double mokki_hinta;

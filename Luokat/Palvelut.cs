@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ohj1v0._1
+namespace ohj1v0._1.Luokat
 {
     class Palvelut : Alue
     {
@@ -21,12 +21,12 @@ namespace ohj1v0._1
         private double palvelu_alv;
 
         //Muodostimet
-        public Palvelut() :base() // Kutsuu myos Alue-luokan oletusmuodostinta
+        public Palvelut() : base() // Kutsuu myos Alue-luokan oletusmuodostinta
         {
         }
 
-        public Palvelut(int palvelu_id, string palvelu_nimi, string palvelu_kuvaus, 
-            double palvelu_hinta, double palvelu_alv, int alue_id, string alue_nimi) 
+        public Palvelut(int palvelu_id, string palvelu_nimi, string palvelu_kuvaus,
+            double palvelu_hinta, double palvelu_alv, int alue_id, string alue_nimi)
             : base(alue_id, alue_nimi) // Kutsuu myos Alue-luokan parametrillista muodostinta 
         {
             this.palvelu_id = palvelu_id;

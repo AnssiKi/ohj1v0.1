@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ohj1v0._1
+namespace ohj1v0._1.Luokat
 {   // Muokkaushistoria:
     // Luokka luotu 10042024 AK
     class Lasku

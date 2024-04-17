@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ohj1v0._1
+namespace ohj1v0._1.Luokat
 {   // Muokkaushistoria:
     // Luokka luotu 10042024 AK
     class Varaus
@@ -22,11 +22,11 @@ namespace ohj1v0._1
         }
         public Varaus(int varausID, DateTime varauspvm, DateTime vahvistuspvm, DateTime alkupvm, DateTime loppupvm)
         {
-            this.VarausID = varausID;
-            this.Varauspvm = varauspvm;
-            this.Vahvistuspvm = vahvistuspvm;
-            this.Alkupvm = alkupvm;
-            this.Loppupvm = loppupvm;
+            VarausID = varausID;
+            Varauspvm = varauspvm;
+            Vahvistuspvm = vahvistuspvm;
+            Alkupvm = alkupvm;
+            Loppupvm = loppupvm;
         }
 
         // GET/SET -metodit

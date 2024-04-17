@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MySqlConnector;
 
-namespace ohj1v0._1
+namespace ohj1v0._1.Luokat
 {
     public class DatabaseConnector
     {

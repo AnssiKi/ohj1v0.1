@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ohj1v0._1
+namespace ohj1v0._1.Luokat
 {   // Muokkaushistoria:
     // Luokka luotu 10042024 AK
     class Asiakas
@@ -24,13 +24,13 @@ namespace ohj1v0._1
         }
         public Asiakas(int asiakasID, int postinumero, string etunimi, string sukunimi, string lahiosoite, string email, string puhelinnumero)
         {
-            this.AsiakasID = asiakasID;
-            this.Postinumero = postinumero;
-            this.Etunimi = etunimi;
-            this.Sukunimi = sukunimi;
-            this.Lahiosoite = lahiosoite;
-            this.Email = email;
-            this.Puhelinnumero = puhelinnumero;
+            AsiakasID = asiakasID;
+            Postinumero = postinumero;
+            Etunimi = etunimi;
+            Sukunimi = sukunimi;
+            Lahiosoite = lahiosoite;
+            Email = email;
+            Puhelinnumero = puhelinnumero;
         }
 
         // GET/SET -metodit

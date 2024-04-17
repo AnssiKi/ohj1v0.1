@@ -1,4 +1,5 @@
 ﻿using MySqlConnector;
+using ohj1v0._1.Luokat;
 
 namespace ohj1v0._1
 {
