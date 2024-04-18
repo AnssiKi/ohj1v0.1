@@ -45,11 +45,17 @@
                     </Grid.RowDefinitions>
 
                     <Label
-             Text="ID"/>
+                Text="ID"/>
+                    <Entry
+                        Text=""
+                        IsReadOnly="True"
+                        Grid.Column="0"
+                        Grid.Row="1"/>
 
                     <Label
              Text="Alue"
-             Grid.Column="1"/>
+             Grid.Column="1"
+                        Grid.Row="0"/>
 
                     <Picker 
                   x:Name="alue"
@@ -132,7 +138,7 @@
                     <Entry
               x:Name="postinumero"
               Text=""
-              Grid.Row="10"
+              Grid.Row="11"
               Grid.Column="0"/>
 
                     <Label
@@ -145,17 +151,17 @@
              x:Name="paikkakunta"
              Text=""
              Grid.Column="1"
-             Grid.Row="10"
+             Grid.Row="11"
              IsEnabled="False"/>
 
                     <Label
                 Text="Alku pvm:"
                 Grid.Column="0"
-                Grid.Row="11"
+                Grid.Row="12"
                 Margin="0,5,0,0"/>
 
                     <DatePicker
-                    Grid.Row="12"
+                    Grid.Row="13"
                     Grid.Column="0"
                     x:Name="alkupvm"
                     DateSelected="alkupvm_DateSelected"/>
@@ -163,11 +169,11 @@
                     <Label
                 Text="Loppu pvm:"
                 Grid.Column="1"
-                Grid.Row="11"
+                Grid.Row="12"
                 Margin="0,5,0,0"/>
 
                     <DatePicker
-                Grid.Row="12"
+                Grid.Row="13"
                 Grid.Column="1"
                 x:Name="loppupvm"
                 DateSelected="loppupvm_DateSelected"/>
@@ -175,11 +181,11 @@
                     <Label
                 Text="Vahvistus pvm:"
                 Grid.Column="0"
-                Grid.Row="13"
+                Grid.Row="14"
                 Margin="0,5,0,0"/>
 
                     <DatePicker
-                Grid.Row="14"
+                Grid.Row="15"
                 Grid.Column="0"
                 x:Name="vahvistuspvm"
                 DateSelected="vahvistuspvm_DateSelected"/>
@@ -187,11 +193,11 @@
                     <Label
                 Text="Varaus pvm:"
                 Grid.Column="1"
-                Grid.Row="13"
+                Grid.Row="14"
                 Margin="0,5,0,0"/>
 
                     <DatePicker
-                Grid.Row="14"
+                Grid.Row="15"
                 Grid.Column="1"
                 x:Name="varauspvm"
                 DateSelected="varauspvm_DateSelected"/>
