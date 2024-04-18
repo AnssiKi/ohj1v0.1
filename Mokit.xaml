@@ -3,10 +3,242 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ohj1v0._1.Mokit"
              Title="Mokit">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout
+        Spacing="25"
+        Padding="30,0"
+        VerticalOptions="Center">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid
+                Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Label
+                    Text="ID"/>
+
+                    <Label
+                    Text="Alue"
+                    Grid.Column="1"/>
+
+                    <Entry                       
+                    x:Name="mokki_id"
+                    Text=""
+                    IsEnabled="False"
+                    Grid.Row="1"/>
+
+                    <Picker 
+                    x:Name="alue_nimi" 
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    SelectedIndexChanged="alue_nimi_SelectedIndexChanged">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String></x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+
+                    <Label
+                    Text="Mökin nimi"
+                    Margin="0,5,0,0"
+                    Grid.Row="2"/>
+
+                    <Entry
+                    x:Name="mokki_nimi"
+                    Text=""
+                    Grid.Row="3"
+                    Grid.ColumnSpan="2" 
+                    HorizontalOptions="FillAndExpand"
+                    TextChanged="mokki_nimi_TextChanged"/>
+
+                    <Label
+                    Text="Osoite"
+                    Margin="0,5,0,0"
+                    Grid.Row="4"/>
+
+                    <Entry
+                    x:Name="mokki_katuosoite"
+                    Text=""
+                    Grid.Row="5"
+                    Grid.ColumnSpan="2" 
+                    HorizontalOptions="FillAndExpand"
+                    TextChanged="mokki_katuosoite_TextChanged"/>
+
+                    <Label
+                    Text="Postinumero"
+                    Margin="0,5,0,0"
+                    Grid.Row="6"/>
+
+                    <Label
+                    Text="Paikkakunta"
+                    Margin="0,5,0,0"
+                    Grid.Column="1"
+                    Grid.Row="6"/>
+
+                    <Entry
+                    x:Name="mokki_postinumero"
+                    Text=""
+                    Grid.Row="7"
+                    TextChanged="mokki_postinumero_TextChanged"/>
+
+                    <Entry
+                    x:Name="mokki_paikkakunta"
+                    Text=""
+                    Grid.Column="1"
+                    Grid.Row="7"
+                    IsEnabled="False"/>
+
+                    <Label
+                    Text="Hinta"
+                    Margin="0,5,0,0"
+                    Grid.Row="8"/>
+
+                    <Entry
+                    x:Name="mokki_hinta"
+                    Text=""
+                    Grid.Row="9"
+                    Grid.ColumnSpan="2" 
+                    HorizontalOptions="FillAndExpand"
+                    TextChanged="mokki_hinta_TextChanged"/>
+
+                    <Label
+                    Text="Kuvaus"
+                    Margin="0,5,0,0"
+                    Grid.Row="10"/>
+
+                    <Entry
+                    x:Name="mokki_kuvaus"
+                    Text=""
+                    Grid.Row="11"
+                    Grid.ColumnSpan="2" 
+                    HorizontalOptions="FillAndExpand"
+                    TextChanged="mokki_kuvaus_TextChanged"/>
+
+                    <Label
+                    Text="Varustelu"
+                    Margin="0,5,0,0"
+                    Grid.Row="12"/>
+
+                    <Entry
+                    x:Name="mokki_varustelu"
+                    Text=""
+                    Grid.Row="13"
+                    Grid.ColumnSpan="2" 
+                    HorizontalOptions="FillAndExpand"
+                    TextChanged="mokki_varustelu_TextChanged"/>
+
+                    <Label
+                    Text="Henkilomäärä"
+                    Margin="0,5,0,0"
+                    Grid.Row="14"/>
+
+                    <Entry
+                    x:Name="mokki_henkilomaara"
+                    Text=""
+                    Grid.Row="15"
+                    Grid.ColumnSpan="2" 
+                    HorizontalOptions="FillAndExpand"
+                    TextChanged="mokki_henkilomaara_TextChanged"/>
+
+                    <Button
+                    x:Name="tallenna"
+                    Text="Tallenna"
+                    Margin="0,5,0,0"
+                    Grid.Row="16"
+                    Clicked="tallenna_Clicked"/>
+
+                    <Button
+                    x:Name="tyhjenna"
+                    Text="Tyhjennä"
+                    Margin="0,5,0,0"
+                    Grid.Column="1"
+                    Grid.Row="16"
+                    Clicked="tyhjenna_Clicked"/>
+
+                    <Button
+                    x:Name="poista"
+                    Text="Poista"
+                    Margin="0,5,0,0"
+                    Grid.Row="17"
+                    Clicked="poista_Clicked"/>
+                </Grid>
+
+                <Grid
+                Grid.Column="1"
+                Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Label
+                    Text="Hae nimellä"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"/>
+
+                    <Entry
+                    x:Name="hae_nimella"
+                    Text=""
+                    Grid.Column="1"
+                    TextChanged="hae_nimella_TextChanged"/>
+
+                    <Frame
+                    BorderColor="Black"
+                    CornerRadius="2"
+                    Padding="5"
+                    Margin="0,10,0,0"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2" 
+                    HorizontalOptions="FillAndExpand">
+
+                        <ListView
+                        x:Name="lista"
+                        BackgroundColor="Grey">
+                            <ListView.ItemsSource>
+                                <x:String></x:String>
+                            </ListView.ItemsSource>
+                        </ListView>
+                    </Frame>
+
+                </Grid>
+
+
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
