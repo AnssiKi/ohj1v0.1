@@ -31,6 +31,7 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Label
@@ -82,6 +83,7 @@
                     <Label
                     Text="Maksettu"
                     Margin="0,5,0,0"
+                    VerticalOptions="Center"
                     Grid.Row="6"/>
 
                     <CheckBox 
@@ -95,7 +97,7 @@
                     x:Name="tulosta"
                     Text="Tulosta"
                     Margin="0,5,0,0"
-                    Grid.Row="12"
+                    Grid.Row="7"
                     Clicked="tulosta_Clicked"/>
 
                     <Button
@@ -103,7 +105,7 @@
                     Text="Tyhjennä"
                     Margin="0,5,0,0"
                     Grid.Column="1"
-                    Grid.Row="12"
+                    Grid.Row="7"
                     Clicked="tyhjenna_Clicked"/>
 
                 </Grid>

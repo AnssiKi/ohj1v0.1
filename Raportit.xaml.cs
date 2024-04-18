@@ -6,4 +6,8 @@ public partial class Raportit : ContentPage
 	{
 		InitializeComponent();
 	}
+    private void hae_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }
