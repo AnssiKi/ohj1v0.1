@@ -5,9 +5,9 @@
              Title="Alueet">
     <ScrollView>
         <VerticalStackLayout
-        Spacing="25"
-        Padding="30,0"
-        VerticalOptions="Center">
+         Spacing="25"
+         Padding="30,0"
+         VerticalOptions="Center">
 
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -30,56 +30,81 @@
                     </Grid.ColumnDefinitions>
 
                     <Label
-                     Text="Alue"/>
+             Text="Alue"/>
                     <Entry
-                       Grid.Row="1"
-                       Grid.ColumnSpan="2"
-                       x:Name="alue"
-                       TextChanged="alue_TextChanged"
-                         />
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            x:Name="alue"
+            TextChanged="alue_TextChanged"
+              />
                     <Button
-                        Grid.Row="2"
-                       Grid.Column="0"
-                       Margin="0,5,0,0"
-                       x:Name="tallenna"
-                       Text="Tallenna"
-                       Clicked="tallenna_Clicked"
-                     />
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="0,5,0,0"
+                x:Name="tallenna"
+                Text="Tallenna"
+                Clicked="tallenna_Clicked"
+                />
                     <Button
-                       Grid.Row="2"
-                       Grid.Column="1"
-                       Margin="0,5,0,0"
-                       x:Name="tyhjenna"
-                       Text="Tyhjennä"
-                       Clicked="tyhjenna_Clicked"
-                        />
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="0,5,0,0"
+                x:Name="tyhjenna"
+                Text="Tyhjennä"
+                Clicked="tyhjenna_Clicked"
+                 />
                     <Button
-                   Grid.Row="3"
-                   Grid.Column="0"
-                   Margin="0,5,0,0"
-                   x:Name="poista"
-                   Text="Poista"
-                   Clicked="poista_Clicked"
-                     />
+                Grid.Row="3"
+                Grid.Column="0"
+                Margin="0,5,0,0"
+                x:Name="poista"
+                Text="Poista"
+                Clicked="poista_Clicked"
+                  />
                 </Grid>
-                <Frame
-                    BorderColor="Black"
-                    CornerRadius="2"
-                    Padding="5"
-                    Margin="0,10,0,0"
-                    Grid.Column="2" 
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="FillAndExpand">
+                <Grid Grid.Column="1"
+                 Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="400"/>
+                    </Grid.RowDefinitions>
 
-                    <ListView
-                    x:Name="lista"
-                    BackgroundColor="Grey"
-                     ItemTapped="lista_ItemTapped">
-                        <ListView.ItemsSource>
-                            <x:String></x:String>
-                        </ListView.ItemsSource>
-                    </ListView>
-                </Frame>
+                    <Label
+                      Grid.Column="0"
+                      Grid.Row="0"
+                     Text="Hae alueen nimellä"/>
+
+                    <Entry
+                     Grid.Column="1"
+                     Grid.Row="0"
+                     x:Name="Hae_alue"
+                     TextChanged="Hae_alue_TextChanged"/>
+
+
+                    <Frame
+                 BorderColor="Black"
+                 CornerRadius="2"
+                 Padding="5"
+                 Margin="0,10,0,0"
+                 Grid.ColumnSpan="2" 
+                 Grid.Row="1"
+                 HorizontalOptions="FillAndExpand"
+                 VerticalOptions="FillAndExpand">
+
+                        <ListView
+                     x:Name="lista"
+                     BackgroundColor="Grey"
+                      ItemTapped="lista_ItemTapped">
+                            <ListView.ItemsSource>
+                                <x:String></x:String>
+                            </ListView.ItemsSource>
+                        </ListView>
+                    </Frame>
+                </Grid>
             </Grid>
         </VerticalStackLayout>
     </ScrollView>
