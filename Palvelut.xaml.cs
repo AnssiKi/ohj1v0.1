@@ -6,4 +6,48 @@ public partial class Palvelut : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    private void palvelu_nimi_TextChanged(object sender, TextChangedEventArgs e)
+    {
+
+    }
+
+    private void palvelu_kuvaus_TextChanged(object sender, TextChangedEventArgs e)
+    {
+
+    }
+
+    private void palvelu_hinta_TextChanged(object sender, TextChangedEventArgs e)
+    {
+
+    }
+
+    private void palvelu_alv_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
+    private void tallenna_Clicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void tyhjenna_Clicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void poista_Clicked(object sender, EventArgs e)
+    {
+
+    }
+
+    private void hae_nimella_TextChanged(object sender, TextChangedEventArgs e)
+    {
+
+    }
 }
