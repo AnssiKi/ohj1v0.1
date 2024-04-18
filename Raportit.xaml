@@ -47,27 +47,31 @@
 
                     <Label
                         Text="Alku päivämäärä"
+                        Margin="0,5,0,0"
                         Grid.Row="2"/>
 
                     <Label
                         Text="Loppu päivämäärä"
+                        Margin="0,5,0,0"
                         Grid.Column="1"
                         Grid.Row="2"/>
 
-                    <Entry                       
+                    <DatePicker
+                        Grid.Row="3"
+                        Grid.Column="0"
                         x:Name="alkupvm"
-                        Text=""
-                        Grid.Row="3"/>
+                        DateSelected="alkupvm_DateSelected"/>
 
-                    <Entry                       
-                        x:Name="loppupvm"
-                        Text=""
+                    <DatePicker
+                        Grid.Row="3"
                         Grid.Column="1"
-                        Grid.Row="3"/>
+                        x:Name="loppupvm"
+                        DateSelected="loppupvm_DateSelected"/>
 
                     <Button 
                         x:Name="hae"
                         Text="Hae"
+                        Margin="0,5,0,0"
                         Grid.Row="4"
                         Clicked="hae_Clicked"/>
 

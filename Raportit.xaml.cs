@@ -10,4 +10,14 @@ public partial class Raportit : ContentPage
     {
 
     }
+
+    private void alkupvm_DateSelected(object sender, DateChangedEventArgs e)
+    {
+
+    }
+
+    private void loppupvm_DateSelected(object sender, DateChangedEventArgs e)
+    {
+
+    }
 }
