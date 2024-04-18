@@ -50,4 +50,9 @@ public partial class Palvelut : ContentPage
     {
 
     }
+
+    private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
+    {
+
+    }
 }
