@@ -31,4 +31,9 @@ public partial class Alueet : ContentPage
     {
 
     }
+
+    private void Hae_alue_TextChanged(object sender, TextChangedEventArgs e)
+    {
+
+    }
 }
