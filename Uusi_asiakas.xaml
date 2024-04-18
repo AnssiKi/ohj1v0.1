@@ -5,7 +5,6 @@
              Title="Uusi_asiakas">
     <ScrollView>
         <VerticalStackLayout>
-            <!--Uusi asiakas, joka liitetään myöhemmin uusi varaus sivulle.-->
             <Grid Padding="10">
 
                 <Grid.ColumnDefinitions>
