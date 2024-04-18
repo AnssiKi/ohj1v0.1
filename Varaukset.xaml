@@ -3,10 +3,274 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ohj1v0._1.Varaukset"
              Title="Varaukset">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout
+         Spacing="25"
+         Padding="30,0"
+         VerticalOptions="Center">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid
+                    Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Label
+                    Text="ID"/>
+
+                    <Label
+                 Text="Alue"
+                 Grid.Column="1"/>  
+
+                    <Picker 
+                  x:Name="alue"
+                    Grid.Column="1"
+                  Grid.Row="1">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String></x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+
+                    <Label
+                     Text="Etunimi"
+                     Margin="0,5,0,0"
+                     Grid.Row="2"/>
+
+                    <Entry
+                     x:Name="etunimi"
+                     Text=""
+                     Grid.Row="3"
+                     Grid.Column="0" 
+                     HorizontalOptions="FillAndExpand"/>
+
+                    <Label
+                     Text="Sukunimi"
+                     Margin="0,5,0,0"
+                     Grid.Row="2"
+                     Grid.Column="1"/>
+
+                    <Entry
+                 x:Name="sukunimi"
+                 Text=""
+                 Grid.Row="3"
+                 Grid.Column="1" 
+                 HorizontalOptions="FillAndExpand"/>
+
+                    <Label
+                 Text="Puhelinnumero"
+                 Margin="0,5,0,0"
+                 Grid.Row="4"/>
+
+                    <Entry
+                 x:Name="puhelinnumero"
+                 Text=""
+                 Grid.Row="5"
+                 Grid.ColumnSpan="2" 
+                 HorizontalOptions="FillAndExpand"/>
+
+                    <Label
+                 Text="Sähköposti"
+                 Margin="0,5,0,0"
+                 Grid.Row="6"/>
+                    
+                    <Entry
+                    x:Name="sahkoposti"
+                    Text=""
+                    Grid.Row="6"
+                    Grid.ColumnSpan="2" 
+                    HorizontalOptions="FillAndExpand"/>
+
+                    <Label
+                 Text="Mökin nimi"
+                 Margin="0,5,0,0"
+                 Grid.ColumnSpan="2"
+                 Grid.Row="7"/>
+
+                    <Entry
+                  x:Name="mokin_nimi"
+                  Text=""
+                  Grid.Row="7"
+                  Grid.ColumnSpan="2" 
+                  HorizontalOptions="FillAndExpand"/>
+
+                    <Label
+                  Text="Postinumero"
+                  Margin="0,5,0,0"
+                  Grid.Row="8"
+                  Grid.Column="0"/>
+
+                    <Entry
+                  x:Name="postinumero"
+                  Text=""
+                  Grid.Row="8"
+                  Grid.Column="0"/>
+
+                    <Label
+                 Text="paikkakunta"
+                 Grid.Column="1"
+                 Grid.Row="8"
+                 Margin="0,5,0,0"/>
+
+                    <Entry
+                 x:Name="paikkakunta"
+                 Text=""
+                 Grid.Column="1"
+                 Grid.Row="8"
+                 IsEnabled="False"/>
+
+                    <Label
+                    Text="Alku pvm:"
+                    Grid.Column="0"
+                    Grid.Row="9"
+                    Margin="0,5,0,0"/>
+
+                    <DatePicker
+                    Grid.Row="10"
+                    Grid.Column="0"
+                    x:Name="alkupvm"
+                    DateSelected="alkupvm_DateSelected"/>
+
+                    <Label
+                    Text="Loppu pvm:"
+                    Grid.Column="1"
+                    Grid.Row="9"
+                    Margin="0,5,0,0"/>
+
+                    <DatePicker
+                    Grid.Row="10"
+                    Grid.Column="1"
+                    x:Name="loppupvm"
+                    DateSelected="loppupvm_DateSelected"/>
+
+                    <Label
+                    Text="Vahvistus pvm:"
+                    Grid.Column="0"
+                    Grid.Row="11"
+                    Margin="0,5,0,0"/>
+
+                    <DatePicker
+                    Grid.Row="12"
+                    Grid.Column="0"
+                    x:Name="vahvistuspvm"
+                    DateSelected="vahvistuspvm_DateSelected"/>
+
+                    <Label
+                    Text="Varaus pvm:"
+                    Grid.Column="1"
+                    Grid.Row="11"
+                    Margin="0,5,0,0"/>
+
+                    <DatePicker
+                    Grid.Row="12"
+                    Grid.Column="1"
+                    x:Name="varauspvm"
+                    DateSelected="varauspvm_DateSelected"/>
+
+
+
+
+
+
+
+
+                    <Button
+             x:Name="tallenna"
+             Text="Tallenna"
+             Margin="0,5,0,0"
+             Grid.Row="16"
+             Clicked="tallenna_Clicked"/>
+
+                    <Button
+             x:Name="tyhjenna"
+             Text="Tyhjennä"
+             Margin="0,5,0,0"
+             Grid.Column="1"
+             Grid.Row="16"
+             Clicked="tyhjenna_Clicked"/>
+
+                    <Button
+             x:Name="poista"
+             Text="Poista"
+             Margin="0,5,0,0"
+             Grid.Row="17"
+             Clicked="poista_Clicked"/>
+                </Grid>
+
+                <Grid
+             Grid.Column="1"
+             Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Label
+                 Text="Hae päivämäärällä"
+                 HorizontalTextAlignment="Center"
+                 VerticalTextAlignment="Center"/>
+
+                    <DatePicker
+                    x:Name="hae_varaukset"
+                    DateSelected="hae_varaukset_DateSelected"
+                    Grid.Column="1"/>
+
+                    <Frame
+                 BorderColor="Black"
+                 CornerRadius="2"
+                 Padding="5"
+                 Margin="0,10,0,0"
+                 Grid.Row="1"
+                 Grid.ColumnSpan="2" 
+                 HorizontalOptions="FillAndExpand">
+
+                        <ListView
+                 x:Name="lista"
+                 BackgroundColor="Grey">
+                            <ListView.ItemsSource>
+                                <x:String></x:String>
+                            </ListView.ItemsSource>
+                        </ListView>
+                    </Frame>
+
+                </Grid>
+
+
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
