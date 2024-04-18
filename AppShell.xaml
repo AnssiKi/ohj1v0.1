@@ -6,9 +6,33 @@
     xmlns:local="clr-namespace:ohj1v0._1"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <FlyoutItem>
+        <ShellContent 
+        Title="Alueet"
+        ContentTemplate="{DataTemplate local:Alueet}" />
+        <ShellContent 
+        Title="Mökit"
+        ContentTemplate="{DataTemplate local:Mokit}" />
+        <ShellContent 
+        Title="Palvelut"
+        ContentTemplate="{DataTemplate local:Palvelut}" />
+        <ShellContent 
+        Title="Asiakkaat"
+        ContentTemplate="{DataTemplate local:Asiakkaat}" />
+        <ShellContent 
+        Title="Varaukset"
+        ContentTemplate="{DataTemplate local:Varaukset}" />
+        <ShellContent 
+        Title="Laskut"
+        ContentTemplate="{DataTemplate local:Laskut}" />
+        <ShellContent 
+        Title="Raportit"
+        ContentTemplate="{DataTemplate local:Raportit}" />
+        <ShellContent 
+        Title="Tee uusi varaus"
+        ContentTemplate="{DataTemplate local:TeeUusiVaraus}" />
+
+
+    </FlyoutItem>
 
 </Shell>
