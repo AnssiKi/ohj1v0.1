@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ohj1v0._1.Uusi_asiakas"
+             Title="Uusi_asiakas">
+    <ScrollView>
+        <VerticalStackLayout>
+            <!--Uusi asiakas, joka liitetään myöhemmin uusi varaus sivulle.-->
+            <Grid Padding="10">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+
+                <Label
+             Text="Uusi asiakas: "
+             Margin="0,5,0,0"
+             Grid.Row="0"/>
+
+                <Label
+             Text="Etunimi"
+             Margin="0,5,0,0"
+             Grid.Row="1"
+             Grid.Column="0"/>
+
+                <Entry
+             x:Name="etunimi"
+             Text=""
+             Grid.Row="2"
+             Grid.ColumnSpan="2" 
+             HorizontalOptions="FillAndExpand"
+             TextChanged="etunimi_TextChanged"/>
+
+                <Label
+             Text="Sukunimi"
+             Margin="0,5,0,0"
+             Grid.Row="3"
+             Grid.Column="0"/>
+
+                <Entry
+             x:Name="sukunimi"
+             Text=""
+             Grid.Row="4"
+             Grid.ColumnSpan="2" 
+             HorizontalOptions="FillAndExpand"
+             TextChanged="sukunimi_TextChanged"/>
+
+                <Label
+             Text="Osoite"
+             Margin="0,5,0,0"
+             Grid.Row="5"
+             Grid.Column="0"/>
+
+                <Entry
+             x:Name="lahiosoite"
+             Text=""
+             Grid.Row="6"
+             Grid.ColumnSpan="2" 
+             HorizontalOptions="FillAndExpand"
+             TextChanged="lahiosoite_TextChanged"/>
+
+                <Label
+             Text="Postinumero"
+             Margin="0,5,0,0"
+             Grid.Column="0"
+             Grid.Row="7"/>
+
+                <Label
+             Text="Paikkakunta"
+             Margin="0,5,0,0"
+             Grid.Column="1"
+             Grid.Row="7"/>
+
+                <Entry
+             x:Name="postinumero"
+             Text=""
+             Grid.Row="8"
+             Grid.Column="0"
+             TextChanged="postinumero_TextChanged"/>
+
+                <Entry
+             x:Name="paikkakunta"
+             Text=""
+             Grid.Column="1"
+             Grid.Row="8"
+             IsEnabled="False"/>
+
+
+                <Label
+             Text="Puhelinnumero"
+             Margin="0,5,0,0"
+             Grid.Row="10"/>
+
+                <Entry
+              x:Name="puhelinnumero"
+              Text=""
+              Grid.Row="11"
+              TextChanged="puhelinnumero_TextChanged"
+              Grid.ColumnSpan="2" 
+              HorizontalOptions="FillAndExpand"/>
+
+                <Label
+             Text="Sähköposti"
+             Margin="0,5,0,0"
+             Grid.Row="12"/>
+
+                <Entry
+             x:Name="email"
+             Text=""
+             Grid.Row="13"
+             TextChanged="email_TextChanged"
+             Grid.ColumnSpan="2" 
+             HorizontalOptions="FillAndExpand"/>
+
+                <Button
+             x:Name="tallenna"
+             Text="Tallenna"
+             Margin="0,5,0,0"
+             Grid.Row="14"
+             Clicked="tallenna_Clicked"/>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
