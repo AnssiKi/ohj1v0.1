@@ -78,6 +78,9 @@
 	  <MauiXaml Update="Pages\Uusi_asiakas.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\Vanha_asiakas.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\Varaukset.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

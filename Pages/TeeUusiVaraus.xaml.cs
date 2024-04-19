@@ -1,3 +1,5 @@
+using ohj1v0._1;
+
 namespace ohj1v0._1;
 
 public partial class TeeUusiVaraus : ContentPage
@@ -43,7 +45,9 @@ public partial class TeeUusiVaraus : ContentPage
     }
 
     private void vanha_asiakas_Clicked(object sender, EventArgs e)
-    {
+    { // Tässä pelkästään navigointi uudelle sivulle 
+        // muut toiminnallisuudet puuttuvat vielä siirtyykö tieto mukana?
+        Navigation.PushAsync(new Vanha_asiakas(this));
 
     }
 
