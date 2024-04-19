@@ -14,7 +14,7 @@ public partial class Vanha_asiakas : ContentPage
 
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
-        await DisplayAlert("Tallennettu!", "", "OK!");
+        await DisplayAlert("Tallennettu!", "", "OK!"); //tässä vaiheessa pelkkä alertti!! Tarvii toiminnallisuuden vielä
 
     }
 
