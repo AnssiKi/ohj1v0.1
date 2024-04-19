@@ -16,15 +16,35 @@ public partial class Alueet : ContentPage
 
     private async void tyhjenna_Clicked(object sender, EventArgs e)
     {
-        await DisplayAlert("Haluatko varmasti tyhjentää lomakkeen tiedot ?", "", "Kyllä!");// Tässä vaiheessa pelkkä alertti, toiminnallisuus puuttuu vielä !!
-        //Tarviiko tähän jonku eri alertin käyttöön et jos haluaa perua painamisen? 
+        bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti tyhjentää lomakkeen tiedot?", "Kyllä", "Ei");
+
+        // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
+        if (result)
+        {
+            //TYHJENNETÄÄN tiedot tähän
+        }
+        else
+        {
+            // Jos käyttäjä valitsee "Ei", peruutetaan toiminto
+            // Tähän ei oo pakko laittaa mitää kerta se ei haluakkaa.
+        }
 
     }
 
     private async void poista_Clicked(object sender, EventArgs e)
     {
-        await DisplayAlert("Haluatko varmasti poistaa tiedon ?", "", "Kyllä, haluan poistaa tiedon!");// Tässä vaiheessa pelkkä alertti, toiminnallisuus puuttuu vielä !!
-        //Tarviiko tähän jonku eri alertin käyttöön et jos haluaa perua painamisen? 
+        bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti poistaa tiedon?", "Kyllä", "Ei");
+
+        // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
+        if (result)
+        {
+            //poistetaan tiedot tähän
+        }
+        else
+        {
+            // Jos käyttäjä valitsee "Ei", peruutetaan toiminto
+            // Tähän ei oo pakko laittaa mitää kerta se ei haluakkaa poistaa.
+        }
     }
 
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
