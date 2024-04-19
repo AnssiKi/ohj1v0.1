@@ -13,32 +13,32 @@ public partial class Mokit : ContentPage
     }
 
     private void mokki_nimi_TextChanged(object sender, TextChangedEventArgs e)
-    {
+    {// entryn pituus rajoitettu xaml.cs max 45 merkkiin
 
     }
 
     private void mokki_katuosoite_TextChanged(object sender, TextChangedEventArgs e)
-    {
+    {// entryn pituus rajoitettu xaml.cs max 45 merkkiin
 
     }
 
     private void mokki_postinumero_TextChanged(object sender, TextChangedEventArgs e)
-    {
+    {// entryn pituus rajoitettu xaml.cs max 5 merkkiin
 
     }
 
     private void mokki_hinta_TextChanged(object sender, TextChangedEventArgs e)
-    {
+    {// entryn pituus rajoitettu xaml.cs max 8 merkkiin
 
     }
 
     private void mokki_kuvaus_TextChanged(object sender, TextChangedEventArgs e)
-    {
+    {// entryn pituus rajoitettu xaml.cs max 150 merkkiin
 
     }
 
     private void mokki_varustelu_TextChanged(object sender, TextChangedEventArgs e)
-    {
+    {// entryn pituus rajoitettu xaml.cs max 100 merkkiin
 
     }
 

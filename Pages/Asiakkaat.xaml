@@ -40,6 +40,8 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Label
@@ -73,12 +75,13 @@
                     Grid.Row="2"/>
 
                     <Entry
-                    x:Name="etunimi"
-                    Text=""
-                    Grid.Row="3"
-                    Grid.ColumnSpan="2" 
-                    HorizontalOptions="FillAndExpand"
-                    TextChanged="etunimi_TextChanged"/>
+                        x:Name="etunimi"
+                        Text=""
+                        MaxLength="20"
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2" 
+                        HorizontalOptions="FillAndExpand"
+                        TextChanged="etunimi_TextChanged"/>
 
                     <Label
                     Text="Sukunimi"
@@ -86,12 +89,13 @@
                     Grid.Row="4"/>
 
                     <Entry
-                    x:Name="sukunimi"
-                    Text=""
-                    Grid.Row="5"
-                    Grid.ColumnSpan="2" 
-                    HorizontalOptions="FillAndExpand"
-                    TextChanged="sukunimi_TextChanged"/>
+                        x:Name="sukunimi"
+                        Text=""
+                        MaxLength="40"
+                        Grid.Row="5"
+                        Grid.ColumnSpan="2" 
+                        HorizontalOptions="FillAndExpand"
+                        TextChanged="sukunimi_TextChanged"/>
 
                     <Label
                     Text="Osoite"
@@ -99,12 +103,13 @@
                     Grid.Row="6"/>
 
                     <Entry
-                    x:Name="lahiosoite"
-                    Text=""
-                    Grid.Row="7"
-                    Grid.ColumnSpan="2" 
-                    HorizontalOptions="FillAndExpand"
-                    TextChanged="lahiosoite_TextChanged"/>
+                        x:Name="lahiosoite"
+                        Text=""
+                        MaxLength="40"
+                        Grid.Row="7"
+                        Grid.ColumnSpan="2" 
+                        HorizontalOptions="FillAndExpand"
+                        TextChanged="lahiosoite_TextChanged"/>
 
                     <Label
                     Text="Postinumero"
@@ -118,36 +123,52 @@
                     Grid.Row="8"/>
 
                     <Entry
-                    x:Name="postinumero"
-                    Text=""
-                    Grid.Row="9"
-                    TextChanged="postinumero_TextChanged"/>
+                        x:Name="postinumero"
+                        Text=""
+                        MaxLength="5"
+                        Grid.Row="9"
+                        TextChanged="postinumero_TextChanged"/>
 
                     <Entry
-                    x:Name="paikkakunta"
-                    Text=""
-                    Grid.Column="1"
-                    Grid.Row="9"
-                    IsEnabled="False"/>
+                        x:Name="paikkakunta"
+                        Text=""
+                        Grid.Column="1"
+                        Grid.Row="9"
+                        IsEnabled="False"/>
 
                     <Label
-                    Text="Sähköposti"
-                    Margin="0,5,0,0"
-                    Grid.Row="10"/>
+                        Text="Sähköposti"
+                        Margin="0,5,0,0"
+                        Grid.Row="10"/>
 
                     <Entry
-                    x:Name="email"
-                    Text=""
-                    Grid.Row="11"
-                    TextChanged="email_TextChanged"
-                    Grid.ColumnSpan="2" 
-                    HorizontalOptions="FillAndExpand"/>
+                        x:Name="email"
+                        Text=""
+                        MaxLength="50"
+                        Grid.Row="11"
+                        TextChanged="email_TextChanged"
+                        Grid.ColumnSpan="2" 
+                        HorizontalOptions="FillAndExpand"/>
+
+                    <Label
+                        Text="Puhelinnumero"
+                        Margin="0,5,0,0"
+                        Grid.Row="12"/>
+
+                    <Entry
+                        x:Name="puhelinnumero"
+                        Text=""
+                        MaxLength="15"
+                        Grid.Row="13"
+                        TextChanged="puhelinnumero_TextChanged"
+                        Grid.ColumnSpan="2" 
+                        HorizontalOptions="FillAndExpand"/>
 
                     <Button
                     x:Name="tallenna"
                     Text="Tallenna"
                     Margin="0,5,0,0"
-                    Grid.Row="12"
+                    Grid.Row="14"
                     Clicked="tallenna_Clicked"/>
 
                     <Button
@@ -155,14 +176,14 @@
                     Text="Tyhjennä"
                     Margin="0,5,0,0"
                     Grid.Column="1"
-                    Grid.Row="12"
+                    Grid.Row="14"
                     Clicked="tyhjenna_Clicked"/>
 
                     <Button
                     x:Name="poista"
                     Text="Poista"
                     Margin="0,5,0,0"
-                    Grid.Row="13"
+                    Grid.Row="15"
                     Clicked="poista_Clicked"/>
                 </Grid>
 

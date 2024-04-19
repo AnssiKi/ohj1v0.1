@@ -12,27 +12,31 @@ public partial class Asiakkaat : ContentPage
     }
 
     private void etunimi_TextChanged(object sender, TextChangedEventArgs e)
-    {
+    {// entryn pituus rajoitettu xaml.cs max 20 merkkiin
 
     }
 
     private void sukunimi_TextChanged(object sender, TextChangedEventArgs e)
-    {
+    {// entryn pituus rajoitettu xaml.cs max 40 merkkiin
 
     }
 
     private void lahiosoite_TextChanged(object sender, TextChangedEventArgs e)
-    {
+    {// entryn pituus rajoitettu xaml.cs max 40 merkkiin
 
     }
 
     private void postinumero_TextChanged(object sender, TextChangedEventArgs e)
-    {
+    {// entryn pituus rajoitettu xaml.cs max 5 merkkiin
 
     }
 
     private void email_TextChanged(object sender, TextChangedEventArgs e)
-    {
+    {// entryn pituus rajoitettu xaml.cs max 50 merkkiin
+
+    }
+    private void puhelinnumero_TextChanged(object sender, TextChangedEventArgs e)
+    {// entryn pituus rajoitettu xaml.cs max 15 merkkiin
 
     }
 
@@ -62,4 +66,6 @@ public partial class Asiakkaat : ContentPage
     {
 
     }
+
+
 }

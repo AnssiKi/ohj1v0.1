@@ -75,12 +75,13 @@
                     Grid.Row="2"/>
 
                     <Entry
-                    x:Name="mokki_nimi"
-                    Text=""
-                    Grid.Row="3"
-                    Grid.ColumnSpan="2" 
-                    HorizontalOptions="FillAndExpand"
-                    TextChanged="mokki_nimi_TextChanged"/>
+                        x:Name="mokki_nimi"
+                        Text=""
+                        MaxLength="45"
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2" 
+                        HorizontalOptions="FillAndExpand"
+                        TextChanged="mokki_nimi_TextChanged"/>
 
                     <Label
                     Text="Osoite"
@@ -88,12 +89,13 @@
                     Grid.Row="4"/>
 
                     <Entry
-                    x:Name="mokki_katuosoite"
-                    Text=""
-                    Grid.Row="5"
-                    Grid.ColumnSpan="2" 
-                    HorizontalOptions="FillAndExpand"
-                    TextChanged="mokki_katuosoite_TextChanged"/>
+                        x:Name="mokki_katuosoite"
+                        Text=""
+                        MaxLength="45"
+                        Grid.Row="5"
+                        Grid.ColumnSpan="2" 
+                        HorizontalOptions="FillAndExpand"
+                        TextChanged="mokki_katuosoite_TextChanged"/>
 
                     <Label
                     Text="Postinumero"
@@ -107,10 +109,11 @@
                     Grid.Row="6"/>
 
                     <Entry
-                    x:Name="mokki_postinumero"
-                    Text=""
-                    Grid.Row="7"
-                    TextChanged="mokki_postinumero_TextChanged"/>
+                        x:Name="mokki_postinumero"
+                        Text=""
+                        MaxLength="5"
+                        Grid.Row="7"
+                        TextChanged="mokki_postinumero_TextChanged"/>
 
                     <Entry
                     x:Name="mokki_paikkakunta"
@@ -125,12 +128,14 @@
                     Grid.Row="8"/>
 
                     <Entry
-                    x:Name="mokki_hinta"
-                    Text=""
-                    Grid.Row="9"
-                    Grid.ColumnSpan="2" 
-                    HorizontalOptions="FillAndExpand"
-                    TextChanged="mokki_hinta_TextChanged"/>
+                        x:Name="mokki_hinta"
+                        Text=""
+                        MaxLength="8"
+                        Placeholder="0,00"
+                        Grid.Row="9"
+                        Grid.ColumnSpan="2" 
+                        HorizontalOptions="FillAndExpand"
+                        TextChanged="mokki_hinta_TextChanged"/>
 
                     <Label
                     Text="Kuvaus"
@@ -138,12 +143,13 @@
                     Grid.Row="10"/>
 
                     <Entry
-                    x:Name="mokki_kuvaus"
-                    Text=""
-                    Grid.Row="11"
-                    Grid.ColumnSpan="2" 
-                    HorizontalOptions="FillAndExpand"
-                    TextChanged="mokki_kuvaus_TextChanged"/>
+                        x:Name="mokki_kuvaus"
+                        Text=""
+                        MaxLength="150"
+                        Grid.Row="11"
+                        Grid.ColumnSpan="2" 
+                        HorizontalOptions="FillAndExpand"
+                        TextChanged="mokki_kuvaus_TextChanged"/>
 
                     <Label
                     Text="Varustelu"
@@ -151,12 +157,13 @@
                     Grid.Row="12"/>
 
                     <Entry
-                    x:Name="mokki_varustelu"
-                    Text=""
-                    Grid.Row="13"
-                    Grid.ColumnSpan="2" 
-                    HorizontalOptions="FillAndExpand"
-                    TextChanged="mokki_varustelu_TextChanged"/>
+                        x:Name="mokki_varustelu"
+                        Text=""
+                        Grid.Row="13"
+                        MaxLength="100"
+                        Grid.ColumnSpan="2" 
+                        HorizontalOptions="FillAndExpand"
+                        TextChanged="mokki_varustelu_TextChanged"/>
 
                     <Label
                     Text="Henkilomäärä"

@@ -13,17 +13,17 @@ public partial class Palvelut : ContentPage
     }
 
     private void palvelu_nimi_TextChanged(object sender, TextChangedEventArgs e)
-    {
+    {// entryn pituus rajoitettu xaml.cs max 40 merkkiin
 
     }
 
     private void palvelu_kuvaus_TextChanged(object sender, TextChangedEventArgs e)
-    {
+    {// entryn pituus rajoitettu xaml.cs max 255 merkkiin
 
     }
 
     private void palvelu_hinta_TextChanged(object sender, TextChangedEventArgs e)
-    {
+    {// entryn pituus rajoitettu xaml.cs max 8 merkkiin
 
     }
 

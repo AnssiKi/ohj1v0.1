@@ -31,11 +31,9 @@ public partial class Alueet : ContentPage
     {
 
     }
-
-
-
+    
     private void alue_nimi_TextChanged(object sender, TextChangedEventArgs e)
-    {
+    {// entryn pituus rajoitettu xaml.cs max 40 merkkiin
 
     }
 

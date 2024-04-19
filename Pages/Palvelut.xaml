@@ -54,7 +54,7 @@
                     <Picker 
                     x:Name="alue_nimi" 
                     Grid.Column="1"
-                    Grid.Row="1"
+                    Grid.Row="1"                        
                     SelectedIndexChanged="alue_nimi_SelectedIndexChanged">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
@@ -69,12 +69,13 @@
                     Grid.Row="2"/>
 
                     <Entry
-                    x:Name="palvelu_nimi"
-                    Text=""
-                    Grid.Row="3"
-                    Grid.ColumnSpan="2" 
-                    HorizontalOptions="FillAndExpand"
-                    TextChanged="palvelu_nimi_TextChanged"/>
+                        x:Name="palvelu_nimi"
+                        MaxLength="40"
+                        Text=""
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2" 
+                        HorizontalOptions="FillAndExpand"
+                        TextChanged="palvelu_nimi_TextChanged"/>
 
                     <Label
                     Text="Kuvaus"
@@ -82,12 +83,13 @@
                     Grid.Row="4"/>
 
                     <Entry
-                    x:Name="palvelu_kuvaus"
-                    Text=""
-                    Grid.Row="5"
-                    Grid.ColumnSpan="2" 
-                    HorizontalOptions="FillAndExpand"
-                    TextChanged="palvelu_kuvaus_TextChanged"/>
+                        x:Name="palvelu_kuvaus"
+                        MaxLength="255"
+                        Text=""
+                        Grid.Row="5"
+                        Grid.ColumnSpan="2" 
+                        HorizontalOptions="FillAndExpand"
+                        TextChanged="palvelu_kuvaus_TextChanged"/>
 
                     <Label
                     Text="Hinta"
@@ -95,12 +97,14 @@
                     Grid.Row="6"/>
 
                     <Entry
-                    x:Name="palvelu_hinta"
-                    Text=""
-                    Grid.Row="7"
-                    Grid.ColumnSpan="2" 
-                    HorizontalOptions="FillAndExpand"
-                    TextChanged="palvelu_hinta_TextChanged"/>
+                        x:Name="palvelu_hinta"
+                        MaxLength="8"
+                        Placeholder="0,00"
+                        Text=""
+                        Grid.Row="7"
+                        Grid.ColumnSpan="2" 
+                        HorizontalOptions="FillAndExpand"
+                        TextChanged="palvelu_hinta_TextChanged"/>
 
                     <Label
                     Text="Alv"
