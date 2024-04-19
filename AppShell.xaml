@@ -31,8 +31,6 @@
         <ShellContent 
         Title="Tee uusi varaus"
         ContentTemplate="{DataTemplate local:TeeUusiVaraus}" />
-
-
     </FlyoutItem>
 
 </Shell>
