@@ -22,7 +22,7 @@ public partial class Laskut : ContentPage
 
     }
 
-    private void hae_paivamaaralla_TextChanged(object sender, TextChangedEventArgs e)
+    private void hakupvm_DateSelected(object sender, DateChangedEventArgs e)
     {
 
     }
@@ -31,4 +31,5 @@ public partial class Laskut : ContentPage
     {
 
     }
+
 }

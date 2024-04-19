@@ -127,11 +127,10 @@
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"/>
 
-                    <Entry
-                    x:Name="hae_paivamaaralla"
-                    Text=""
-                    Grid.Column="1"
-                    TextChanged="hae_paivamaaralla_TextChanged"/>
+                    <DatePicker
+                        x:Name="hakupvm"
+                        Grid.Column="1"
+                        DateSelected="hakupvm_DateSelected"/>
 
                     <Frame
                     BorderColor="Black"
