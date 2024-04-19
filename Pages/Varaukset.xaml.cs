@@ -32,9 +32,10 @@ public partial class Varaukset : ContentPage
         await DisplayAlert("Tallennettu!", "", "OK!"); //tässä vaiheessa pelkkä alertti!! Tarvii toiminnallisuuden vielä
     }
 
-    private void tyhjenna_Clicked(object sender, EventArgs e)
+    private async void tyhjenna_Clicked(object sender, EventArgs e)
     {
-
+        await DisplayAlert("Haluatko varmasti tyhjentää lomakkeen tiedot ?", "", "Kyllä!");// Tässä vaiheessa pelkkä alertti, toiminnallisuus puuttuu vielä !!
+        //Tarviiko tähän jonku eri alertin käyttöön et jos haluaa perua painamisen? 
     }
 
     private async void poista_Clicked(object sender, EventArgs e)

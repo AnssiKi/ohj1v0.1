@@ -17,9 +17,10 @@ public partial class Laskut : ContentPage
 
     }
 
-    private void tyhjenna_Clicked(object sender, EventArgs e)
+    private async void tyhjenna_Clicked(object sender, EventArgs e)
     {
-
+        await DisplayAlert("Haluatko varmasti tyhjentää lomakkeen tiedot ?", "", "Kyllä!");// Tässä vaiheessa pelkkä alertti, toiminnallisuus puuttuu vielä !!
+        //Tarviiko tähän jonku eri alertin käyttöön et jos haluaa perua painamisen? 
     }
 
     private void hakupvm_DateSelected(object sender, DateChangedEventArgs e)
