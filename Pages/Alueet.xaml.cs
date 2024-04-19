@@ -7,10 +7,6 @@ public partial class Alueet : ContentPage
 		InitializeComponent();
 	}
 
-    private void alue_TextChanged(object sender, TextChangedEventArgs e)
-    {
-
-    }
 
     private void tallenna_Clicked(object sender, EventArgs e)
     {
@@ -32,7 +28,14 @@ public partial class Alueet : ContentPage
 
     }
 
-    private void Hae_alue_TextChanged(object sender, TextChangedEventArgs e)
+
+
+    private void alue_nimi_TextChanged(object sender, TextChangedEventArgs e)
+    {
+
+    }
+
+    private void Hae_alue_nimi_TextChanged(object sender, TextChangedEventArgs e)
     {
 
     }
