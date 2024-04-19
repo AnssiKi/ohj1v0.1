@@ -27,9 +27,9 @@ public partial class Varaukset : ContentPage
 
     }
 
-    private void tallenna_Clicked(object sender, EventArgs e)
+    private async void tallenna_Clicked(object sender, EventArgs e)
     {
-
+        await DisplayAlert("Tallennettu!", "", "OK!");
     }
 
     private void tyhjenna_Clicked(object sender, EventArgs e)

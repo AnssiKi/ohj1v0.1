@@ -43,8 +43,8 @@ public partial class Uusi_asiakas : ContentPage
 
     }
 
-    private void tallenna_Clicked(object sender, EventArgs e)
+    private async void tallenna_Clicked(object sender, EventArgs e)
     {
-
+        await DisplayAlert("Asiakas tallennettu tietokantaan", "", "OK!");
     }
 }

@@ -12,8 +12,9 @@ public partial class Vanha_asiakas : ContentPage
 
     }
 
-    private void tallenna_Clicked(object sender, EventArgs e)
+    private async void tallenna_Clicked(object sender, EventArgs e)
     {
+        await DisplayAlert("Tallennettu!", "", "OK!");
 
     }
 
