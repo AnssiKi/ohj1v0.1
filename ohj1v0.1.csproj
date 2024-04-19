@@ -54,31 +54,31 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Alueet.xaml">
+	  <MauiXaml Update="Pages\Alueet.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Asiakkaat.xaml">
+	  <MauiXaml Update="Pages\Asiakkaat.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Laskut.xaml">
+	  <MauiXaml Update="Pages\Laskut.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Mokit.xaml">
+	  <MauiXaml Update="Pages\Mokit.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Palvelut.xaml">
+	  <MauiXaml Update="Pages\Palvelut.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Raportit.xaml">
+	  <MauiXaml Update="Pages\Raportit.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="TeeUusiVaraus.xaml">
+	  <MauiXaml Update="Pages\TeeUusiVaraus.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Uusi_asiakas.xaml">
+	  <MauiXaml Update="Pages\Uusi_asiakas.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Varaukset.xaml">
+	  <MauiXaml Update="Pages\Varaukset.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
