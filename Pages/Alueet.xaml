@@ -76,13 +76,15 @@
                     <Label
                        Grid.Column="0"
                        Grid.Row="0"
-                      Text="Hae alueen nimellä"/>
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"                        
+                       Text="Hae alueen nimellä"/>
 
                     <Entry
-                      Grid.Column="1"
-                      Grid.Row="0"
-                      x:Name="Hae_alue_nimi"
-                      TextChanged="Hae_alue_nimi_TextChanged"/>
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        x:Name="Hae_alue_nimi"
+                        TextChanged="Hae_alue_nimi_TextChanged"/>
 
 
                     <Frame
