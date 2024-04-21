@@ -12,8 +12,13 @@ public partial class Asiakkaat : ContentPage
     }
 
     private void etunimi_TextChanged(object sender, TextChangedEventArgs e)
-    {// entryn pituus rajoitettu xaml.cs max 20 merkkiin
-
+    {// Rajoitus 20 merkki‰ ja tallentaminen estetty kun entryss‰ on 20 tai enemm‰n merkki‰
+        tallenna.IsEnabled = true;
+        if (etunimi.Text.Length >= 20)
+        {
+            DisplayAlert("Virhe", "Etunimi voi olla enint‰‰n 20 merkki‰ pitk‰.", "OK");
+            tallenna.IsEnabled = false;
+        }
     }
 
     private void sukunimi_TextChanged(object sender, TextChangedEventArgs e)
