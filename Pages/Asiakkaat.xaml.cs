@@ -26,7 +26,7 @@ public partial class Asiakkaat : ContentPage
         tallenna.IsEnabled = true;
         if (sukunimi.Text.Length >= 40)
         {
-            DisplayAlert("Virhe", "Sukunimi voi olla enint‰‰n 20 merkki‰ pitk‰.", "OK");
+            DisplayAlert("Virhe", "Sukunimi voi olla enint‰‰n 40 merkki‰ pitk‰.", "OK");
             tallenna.IsEnabled = false;
         }
     }
