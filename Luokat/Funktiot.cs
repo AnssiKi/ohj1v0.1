@@ -34,7 +34,18 @@ namespace ohj1v0._1.Luokat
             return double.TryParse(input, out _);
         }
 
+        public async void CheckEntryInteger(Entry entry, ContentPage currentPage)
+        {
+            if (!string.IsNullOrWhiteSpace(entry.Text) && !IsInteger(entry.Text))
+            {
+                DisplayAlertOnPage(currentPage, "Virhe", $"Syöteessä ei voi olla tekstiä.", "OK");
+            }
+        }
 
+        private bool IsInteger(string input)
+        {
+            return int.TryParse(input, out _);
+        }
 
     }
 }

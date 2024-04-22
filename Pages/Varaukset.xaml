@@ -76,6 +76,8 @@
                     <Entry
                          x:Name="etunimi"
                          Text=""
+                        MaxLength="20"
+                        TextChanged="etunimi_TextChanged"
                          Grid.Row="3"
                          Grid.Column="0" 
                          HorizontalOptions="FillAndExpand"/>
@@ -89,6 +91,8 @@
                     <Entry
                          x:Name="sukunimi"
                          Text=""
+                        MaxLength="40"
+                        TextChanged="sukunimi_TextChanged"
                          Grid.Row="3"
                          Grid.Column="1" 
                          HorizontalOptions="FillAndExpand"/>
@@ -101,7 +105,9 @@
                     <Entry
                          x:Name="puhelinnumero"
                          Text=""
+                        MaxLength="15"
                          Grid.Row="5"
+                        TextChanged="puhelinnumero_TextChanged"
                          Grid.ColumnSpan="2" 
                          HorizontalOptions="FillAndExpand"/>
 
@@ -113,6 +119,8 @@
                     <Entry
                         x:Name="sahkoposti"
                         Text=""
+                        MaxLength="50"
+                        TextChanged="sahkoposti_TextChanged"
                         Grid.Row="7"
                         Grid.ColumnSpan="2" 
                         HorizontalOptions="FillAndExpand"/>
@@ -126,6 +134,8 @@
                     <Entry
                           x:Name="mokin_nimi"
                           Text=""
+                        MaxLength="45"
+                        TextChanged="mokin_nimi_TextChanged"
                           Grid.Row="9"
                           Grid.ColumnSpan="2" 
                           HorizontalOptions="FillAndExpand"/>
@@ -139,6 +149,8 @@
                     <Entry
                           x:Name="postinumero"
                           Text=""
+                        MaxLength="5"
+                        TextChanged="postinumero_TextChanged"
                           Grid.Row="11"
                           Grid.Column="0"/>
 
@@ -151,6 +163,7 @@
                     <Entry
                          x:Name="paikkakunta"
                          Text=""
+                        TextChanged="paikkakunta_TextChanged"
                          Grid.Column="1"
                          Grid.Row="11"
                          IsEnabled="False"/>

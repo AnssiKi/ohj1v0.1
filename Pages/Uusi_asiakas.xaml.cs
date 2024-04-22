@@ -36,14 +36,15 @@ public partial class Uusi_asiakas : ContentPage
 
     private void postinumero_TextChanged(object sender, TextChangedEventArgs e)
     {
-
+        Entry entry = (Entry)sender;
+        funktiot.CheckEntryInteger(entry, this); // funktiossa tarkistetaan ettei syote sisalla tekstia
     }
 
     private void puhelinnumero_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 15 merkkiin
         Entry entry = (Entry)sender;
         funktiot.CheckEntryPituus(entry, 15, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
-
+        funktiot.CheckEntryInteger(entry, this); // funktiossa tarkistetaan ettei syote sisalla tekstia
     }
 
     private void email_TextChanged(object sender, TextChangedEventArgs e)

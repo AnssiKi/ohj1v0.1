@@ -30,6 +30,7 @@ public partial class Mokit : ContentPage
     private void mokki_postinumero_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 5 merkkiin
         Entry entry = (Entry)sender;
+        funktiot.CheckEntryInteger(entry, this); // funktiossa tarkistetaan ettei syote sisalla tekstia
     }
 
     private void mokki_hinta_TextChanged(object sender, TextChangedEventArgs e)

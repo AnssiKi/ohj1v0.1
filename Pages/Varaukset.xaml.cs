@@ -1,3 +1,5 @@
+using ohj1v0._1.Luokat;
+
 namespace ohj1v0._1;
 
 public partial class Varaukset : ContentPage
@@ -6,6 +8,53 @@ public partial class Varaukset : ContentPage
 	{
 		InitializeComponent();
 	}
+    Funktiot funktiot = new Funktiot();
+
+    private void etunimi_TextChanged(object sender, TextChangedEventArgs e)
+    {// entryn pituus rajoitettu xaml.cs max 20 merkkiin
+        Entry entry = (Entry)sender;
+        funktiot.CheckEntryPituus(entry, 20, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
+
+    }
+
+    private void sukunimi_TextChanged(object sender, TextChangedEventArgs e)
+    {// entryn pituus rajoitettu xaml.cs max 40 merkkiin
+        Entry entry = (Entry)sender;
+        funktiot.CheckEntryPituus(entry, 40, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
+
+    }
+    private void puhelinnumero_TextChanged(object sender, TextChangedEventArgs e)
+    {// entryn pituus rajoitettu xaml.cs max 15 merkkiin
+        Entry entry = (Entry)sender;
+        funktiot.CheckEntryPituus(entry, 15, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
+        funktiot.CheckEntryInteger(entry, this); // funktiossa tarkistetaan ettei syote sisalla tekstia
+    }
+
+    private void sahkoposti_TextChanged(object sender, TextChangedEventArgs e)
+    {// entryn pituus rajoitettu xaml.cs max 50 merkkiin
+        Entry entry = (Entry)sender;
+        funktiot.CheckEntryPituus(entry, 50, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
+    }
+
+
+    private void mokin_nimi_TextChanged(object sender, TextChangedEventArgs e)
+    {// entryn pituus rajoitettu xaml.cs max 45 merkkiin
+        Entry entry = (Entry)sender;
+        funktiot.CheckEntryPituus(entry, 45, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
+
+    }
+
+    private void postinumero_TextChanged(object sender, TextChangedEventArgs e)
+    {// entryn pituus rajoitettu xaml.cs max 5 merkkiin
+        Entry entry = (Entry)sender;
+        funktiot.CheckEntryInteger(entry, this); // funktiossa tarkistetaan ettei syote sisalla tekstia
+
+    }
+
+    private void paikkakunta_TextChanged(object sender, TextChangedEventArgs e)
+    {
+
+    }
 
     private void alkupvm_DateSelected(object sender, DateChangedEventArgs e)
     {
@@ -68,4 +117,5 @@ public partial class Varaukset : ContentPage
     {
 
     }
+
 }
