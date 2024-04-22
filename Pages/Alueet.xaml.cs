@@ -1,3 +1,5 @@
+using ohj1v0._1.Luokat;
+
 namespace ohj1v0._1;
 
 public partial class Alueet : ContentPage
@@ -6,6 +8,7 @@ public partial class Alueet : ContentPage
 	{
 		InitializeComponent();
 	}
+    Funktiot funktiot = new Funktiot();
 
 
     private async void tallenna_Clicked(object sender, EventArgs e)
@@ -54,6 +57,8 @@ public partial class Alueet : ContentPage
     
     private void alue_nimi_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 40 merkkiin
+        Entry entry = (Entry)sender; 
+        funktiot.CheckEntryPituus(entry, 40, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
 
     }
 

@@ -1,3 +1,5 @@
+using ohj1v0._1.Luokat;
+
 namespace ohj1v0._1;
 
 public partial class Palvelut : ContentPage
@@ -6,6 +8,7 @@ public partial class Palvelut : ContentPage
 	{
 		InitializeComponent();
 	}
+    Funktiot funktiot = new Funktiot();
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -14,17 +17,21 @@ public partial class Palvelut : ContentPage
 
     private void palvelu_nimi_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 40 merkkiin
+        Entry entry = (Entry)sender;
+        funktiot.CheckEntryPituus(entry, 40, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
 
     }
 
     private void palvelu_kuvaus_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 255 merkkiin
-
+        Entry entry = (Entry)sender;
+        funktiot.CheckEntryPituus(entry, 255, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
     }
 
     private void palvelu_hinta_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 8 merkkiin
-
+        Entry entry = (Entry)sender;
+        funktiot.CheckEntryPituus(entry, 8, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
     }
 
     private void palvelu_alv_SelectedIndexChanged(object sender, EventArgs e)

@@ -1,3 +1,5 @@
+using ohj1v0._1.Luokat;
+
 namespace ohj1v0._1;
 
 public partial class Mokit : ContentPage
@@ -6,6 +8,7 @@ public partial class Mokit : ContentPage
 	{
 		InitializeComponent();
 	}
+    Funktiot funktiot = new Funktiot();
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -14,12 +17,14 @@ public partial class Mokit : ContentPage
 
     private void mokki_nimi_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 45 merkkiin
-
+        Entry entry = (Entry)sender;
+        funktiot.CheckEntryPituus(entry, 45, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
     }
 
     private void mokki_katuosoite_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 45 merkkiin
-
+        Entry entry = (Entry)sender;
+        funktiot.CheckEntryPituus(entry, 45, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
     }
 
     private void mokki_postinumero_TextChanged(object sender, TextChangedEventArgs e)
@@ -29,17 +34,20 @@ public partial class Mokit : ContentPage
 
     private void mokki_hinta_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 8 merkkiin
-
+        Entry entry = (Entry)sender;
+        funktiot.CheckEntryPituus(entry, 8, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
     }
 
     private void mokki_kuvaus_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 150 merkkiin
-
+        Entry entry = (Entry)sender;
+        funktiot.CheckEntryPituus(entry, 150, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
     }
 
     private void mokki_varustelu_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 100 merkkiin
-
+        Entry entry = (Entry)sender;
+        funktiot.CheckEntryPituus(entry, 100, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
     }
 
     private void mokki_henkilomaara_TextChanged(object sender, TextChangedEventArgs e)
