@@ -120,4 +120,22 @@ public partial class Varaukset : ContentPage
 
     }
 
+    private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
+    {
+
+        // T‰h‰n tulee jotain jolla vied‰‰n valitut tiedot entryihin
+
+        // Muuttaa entry valinnan j‰lkeen isreadonly=false
+        foreach (var child in VerticalStack.Children) {
+
+            if (child is Entry entry)
+            {
+                entry.IsReadOnly = false;
+            }
+
+            
+        }
+
+
+    }
 }

@@ -7,7 +7,8 @@
         <VerticalStackLayout
          Spacing="25"
          Padding="30,0"
-         VerticalOptions="Center">
+         VerticalOptions="Center"
+            x:Name="VerticalStack">
 
             <Grid>
 
@@ -80,7 +81,8 @@
                         TextChanged="etunimi_TextChanged"
                          Grid.Row="3"
                          Grid.Column="0" 
-                         HorizontalOptions="FillAndExpand"/>
+                         HorizontalOptions="FillAndExpand"
+                         IsReadOnly="True"/>
 
                     <Label
                          Text="Sukunimi"
@@ -95,7 +97,8 @@
                         TextChanged="sukunimi_TextChanged"
                          Grid.Row="3"
                          Grid.Column="1" 
-                         HorizontalOptions="FillAndExpand"/>
+                         HorizontalOptions="FillAndExpand"
+                         IsReadOnly="True"/>
 
                     <Label
                          Text="Puhelinnumero"
@@ -109,7 +112,8 @@
                          Grid.Row="5"
                         TextChanged="puhelinnumero_TextChanged"
                          Grid.ColumnSpan="2" 
-                         HorizontalOptions="FillAndExpand"/>
+                         HorizontalOptions="FillAndExpand"
+                         IsReadOnly="True"/>
 
                     <Label
                          Text="Sähköposti"
@@ -123,7 +127,8 @@
                         TextChanged="sahkoposti_TextChanged"
                         Grid.Row="7"
                         Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"/>
+                        HorizontalOptions="FillAndExpand"
+                        IsReadOnly="True"/>
 
                     <Label
                          Text="Mökin nimi"
@@ -138,7 +143,8 @@
                         TextChanged="mokin_nimi_TextChanged"
                           Grid.Row="9"
                           Grid.ColumnSpan="2" 
-                          HorizontalOptions="FillAndExpand"/>
+                          HorizontalOptions="FillAndExpand"
+                         IsReadOnly="True"/>
 
                     <Label
                           Text="Postinumero"
@@ -152,7 +158,8 @@
                         MaxLength="5"
                         TextChanged="postinumero_TextChanged"
                           Grid.Row="11"
-                          Grid.Column="0"/>
+                          Grid.Column="0" 
+                         IsReadOnly="True"/>
 
                     <Label
                          Text="paikkakunta"
@@ -166,7 +173,8 @@
                         TextChanged="paikkakunta_TextChanged"
                          Grid.Column="1"
                          Grid.Row="11"
-                         IsEnabled="False"/>
+                         IsEnabled="False"
+                        IsReadOnly="True"/>
 
                     <Label
                         Text="Alku pvm:"
@@ -272,7 +280,8 @@
 
                         <ListView
                              x:Name="lista"
-                             BackgroundColor="Grey">
+                             BackgroundColor="Grey"
+                            ItemTapped="lista_ItemTapped">
                             <ListView.ItemsSource>
                                 <x:String></x:String>
                             </ListView.ItemsSource>
