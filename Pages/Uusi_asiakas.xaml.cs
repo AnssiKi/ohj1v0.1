@@ -20,12 +20,14 @@ public partial class Uusi_asiakas : ContentPage
     { // entryn pituus rajoitettu xaml.cs max 20 merkkiin
         Entry entry = (Entry)sender;
         funktiot.CheckEntryPituus(entry, 20, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
+        funktiot.CheckEntryText(entry, this); // tarkistetaan ettei syottessa ole numeroita
     }
 
     private void sukunimi_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 40 merkkiin
         Entry entry = (Entry)sender;
         funktiot.CheckEntryPituus(entry, 40, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
+        funktiot.CheckEntryText(entry, this); // tarkistetaan ettei syottessa ole numeroita
     }
 
     private void lahiosoite_TextChanged(object sender, TextChangedEventArgs e)

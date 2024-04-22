@@ -14,7 +14,7 @@ namespace ohj1v0._1.Luokat
         }
 
         public void CheckEntryPituus(Entry entry, int maxLength, ContentPage currentPage)
-        {
+        { // tarkistetaan ettei entryn syote ole liian pitka
 
             if (entry.Text.Length >= maxLength)
             {
@@ -24,13 +24,23 @@ namespace ohj1v0._1.Luokat
         }
 
         public void CheckEntryDouble(Entry entry, ContentPage currentPage)
-        {
+        { // Tarkistetaan, että entryn syöte on double-muotoista ja vahintaan 0
 
-            if (!string.IsNullOrWhiteSpace(entry.Text) && !IsDouble(entry.Text))
+            if (!string.IsNullOrWhiteSpace(entry.Text))
             {
-                DisplayAlertOnPage(currentPage, "Virhe", $"Syöteessä ei voi olla tekstiä.", "OK");
+                if (!IsDouble(entry.Text))
+                {
+                    DisplayAlertOnPage(currentPage, "Virhe", "Syöteessä ei voi olla tekstiä.", "OK");
+                }
+                else
+                {
+                    double value = Convert.ToDouble(entry.Text);
+                    if (value < 0)
+                    {
+                        DisplayAlertOnPage(currentPage, "Virhe", "Syötteen on oltava ei-negatiivinen.", "OK");
+                    }
+                }
             }
-
         }
 
         private bool IsDouble(string input)
@@ -38,12 +48,24 @@ namespace ohj1v0._1.Luokat
             return double.TryParse(input, out _);
         }
 
-        public void CheckEntryInteger(Entry entry, ContentPage currentPage)
-        {
 
-            if (!string.IsNullOrWhiteSpace(entry.Text) && !IsInteger(entry.Text))
+        public void CheckEntryInteger(Entry entry, ContentPage currentPage)
+        { // Tarkistetaan, että entryn syöte on int-muotoista ja vahintaan 0
+
+            if (!string.IsNullOrWhiteSpace(entry.Text))
             {
-                DisplayAlertOnPage(currentPage, "Virhe", $"Syöteessä ei voi olla tekstiä.", "OK");
+                if (!IsInteger(entry.Text))
+                {
+                    DisplayAlertOnPage(currentPage, "Virhe", "Syöteessä ei voi olla tekstiä.", "OK");
+                }
+                else
+                {
+                    int value = Convert.ToInt32(entry.Text);
+                    if (value < 0)
+                    {
+                        DisplayAlertOnPage(currentPage, "Virhe", "Syötteen on oltava ei-negatiivinen.", "OK");
+                    }
+                }
             }
         }
 
@@ -52,5 +74,17 @@ namespace ohj1v0._1.Luokat
             return int.TryParse(input, out _);
         }
 
+        public void CheckEntryText(Entry entry, ContentPage currentPage)
+        { // tarkistetaan etta syotteessa ei ole numeroita
+            if (ContainsNumbers(entry.Text))
+            {
+                DisplayAlertOnPage(currentPage, "Virhe", $"Syötteessä ei voi olla numeroita.", "OK");
+            }
+        }
+
+        private bool ContainsNumbers(string input)
+        {
+            return input.Any(char.IsDigit);
+        }
     }
 }
