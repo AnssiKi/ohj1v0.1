@@ -15,18 +15,22 @@ namespace ohj1v0._1.Luokat
 
         public void CheckEntryPituus(Entry entry, int maxLength, ContentPage currentPage)
         {
+
             if (entry.Text.Length >= maxLength)
             {
                 DisplayAlertOnPage(currentPage, "Virhe", $"Syöte voi olla enintään {maxLength} merkkiä pitkä.", "OK");
+
             }
         }
 
-        public async void CheckEntryDouble(Entry entry, ContentPage currentPage)
+        public void CheckEntryDouble(Entry entry, ContentPage currentPage)
         {
+
             if (!string.IsNullOrWhiteSpace(entry.Text) && !IsDouble(entry.Text))
             {
                 DisplayAlertOnPage(currentPage, "Virhe", $"Syöteessä ei voi olla tekstiä.", "OK");
             }
+
         }
 
         private bool IsDouble(string input)
@@ -34,8 +38,9 @@ namespace ohj1v0._1.Luokat
             return double.TryParse(input, out _);
         }
 
-        public async void CheckEntryInteger(Entry entry, ContentPage currentPage)
+        public void CheckEntryInteger(Entry entry, ContentPage currentPage)
         {
+
             if (!string.IsNullOrWhiteSpace(entry.Text) && !IsInteger(entry.Text))
             {
                 DisplayAlertOnPage(currentPage, "Virhe", $"Syöteessä ei voi olla tekstiä.", "OK");

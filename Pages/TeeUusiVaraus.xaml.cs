@@ -44,13 +44,13 @@ public partial class TeeUusiVaraus : ContentPage
     private void uusi_asiakas_Clicked(object sender, EventArgs e)
     { // Tässä pelkästään navigointi uudelle sivulle 
         // muut toiminnallisuudet puuttuvat vielä siirtyykö tieto mukana?
-        Navigation.PushAsync(new Uusi_asiakas(this));
+        Navigation.PushAsync(new Uusi_asiakas(this)); // tarvitsee tarkistukset tietojen oikeellisuudelle
     }
 
     private void vanha_asiakas_Clicked(object sender, EventArgs e)
     { // Tässä pelkästään navigointi uudelle sivulle 
         // muut toiminnallisuudet puuttuvat vielä siirtyykö tieto mukana?
-        Navigation.PushAsync(new Vanha_asiakas(this));
+        Navigation.PushAsync(new Vanha_asiakas(this)); // tarvitsee tarkistukset tietojen oikeellisuudelle
 
     }
 

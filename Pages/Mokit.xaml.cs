@@ -52,14 +52,15 @@ public partial class Mokit : ContentPage
         funktiot.CheckEntryPituus(entry, 100, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
     }
 
-    private void mokki_henkilomaara_TextChanged(object sender, TextChangedEventArgs e)
-    {
-
-    }
-
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
         await DisplayAlert("Tallennettu!", "", "OK!"); //tässä vaiheessa pelkkä alertti!! Tarvii toiminnallisuuden vielä
+ 
+    }
+
+    private void mokki_henkilomaara_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
     }
 
     private async void tyhjenna_Clicked(object sender, EventArgs e)
@@ -105,4 +106,6 @@ public partial class Mokit : ContentPage
     {
 
     }
+
+
 }

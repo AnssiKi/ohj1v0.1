@@ -57,5 +57,6 @@ public partial class Uusi_asiakas : ContentPage
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
         await DisplayAlert("Asiakas tallennettu tietokantaan", "", "OK!"); //tässä vaiheessa pelkkä alertti!! Tarvii toiminnallisuuden vielä
+        
     }
 }

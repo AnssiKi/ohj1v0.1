@@ -9,7 +9,6 @@ public partial class Asiakkaat : ContentPage
 		InitializeComponent();
 	}
     Funktiot funktiot = new Funktiot();
-
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
 
@@ -55,6 +54,7 @@ public partial class Asiakkaat : ContentPage
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
         await DisplayAlert("Tallennettu!", "", "OK!"); //tässä vaiheessa pelkkä alertti!! Tarvii toiminnallisuuden vielä
+         
     }
 
     private async void tyhjenna_Clicked(object sender, EventArgs e)

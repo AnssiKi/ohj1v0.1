@@ -8,7 +8,7 @@ public partial class Varaukset : ContentPage
 	{
 		InitializeComponent();
 	}
-    Funktiot funktiot = new Funktiot();
+    Funktiot funktiot = new Funktiot(); 
 
     private void etunimi_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 20 merkkiin
@@ -78,7 +78,9 @@ public partial class Varaukset : ContentPage
 
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
-        await DisplayAlert("Tallennettu!", "", "OK!"); //tässä vaiheessa pelkkä alertti!! Tarvii toiminnallisuuden vielä
+        
+        await DisplayAlert("Tallennettu!", "", "OK!"); //tässä vaiheessa pelkkä alertti!! Tarvii toiminnallisuuden vielä        
+     
     }
 
     private async void tyhjenna_Clicked(object sender, EventArgs e)

@@ -166,17 +166,39 @@
                         TextChanged="mokki_varustelu_TextChanged"/>
 
                     <Label
-                    Text="Henkilomäärä"
+                    Text="Henkilömäärä"
                     Margin="0,5,0,0"
                     Grid.Row="14"/>
 
-                    <Entry
-                    x:Name="mokki_henkilomaara"
-                    Text=""
+                    <Picker 
+                    x:Name="mokki_henkilomaara" 
                     Grid.Row="15"
-                    Grid.ColumnSpan="2" 
-                    HorizontalOptions="FillAndExpand"
-                    TextChanged="mokki_henkilomaara_TextChanged"/>
+                        Grid.ColumnSpan="2"
+                    SelectedIndexChanged="mokki_henkilomaara_SelectedIndexChanged">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>1</x:String>
+                                <x:String>2</x:String>
+                                <x:String>3</x:String>
+                                <x:String>4</x:String>
+                                <x:String>5</x:String>
+                                <x:String>6</x:String>
+                                <x:String>7</x:String>
+                                <x:String>8</x:String>
+                                <x:String>9</x:String>
+                                <x:String>10</x:String>
+                                <x:String>11</x:String>
+                                <x:String>12</x:String>
+                                <x:String>13</x:String>
+                                <x:String>14</x:String>
+                                <x:String>16</x:String>
+                                <x:String>17</x:String>
+                                <x:String>18</x:String>
+                                <x:String>19</x:String>
+                                <x:String>20</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
 
                     <Button
                     x:Name="tallenna"

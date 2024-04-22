@@ -14,7 +14,7 @@ public partial class Alueet : ContentPage
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
         await DisplayAlert("Tallennettu!", "", "OK!"); //tässä vaiheessa pelkkä alertti!! Tarvii toiminnallisuuden vielä
-
+        
     }
 
     private async void tyhjenna_Clicked(object sender, EventArgs e)
@@ -59,7 +59,7 @@ public partial class Alueet : ContentPage
     {// entryn pituus rajoitettu xaml.cs max 40 merkkiin
         Entry entry = (Entry)sender; 
         funktiot.CheckEntryPituus(entry, 40, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
-
+        
     }
 
     private void Hae_alue_nimi_TextChanged(object sender, TextChangedEventArgs e)
