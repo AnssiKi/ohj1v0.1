@@ -57,6 +57,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Include="Luokat\Funktiot.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
 		  <PrivateAssets>all</PrivateAssets>
@@ -107,10 +111,6 @@
 
 	<ItemGroup>
 	  <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.20" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Luokat\" />
 	</ItemGroup>
 
 </Project>
