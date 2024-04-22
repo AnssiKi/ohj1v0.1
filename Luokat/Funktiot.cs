@@ -21,6 +21,19 @@ namespace ohj1v0._1.Luokat
             }
         }
 
+        public async void CheckEntryDouble(Entry entry, ContentPage currentPage)
+        {
+            if (!string.IsNullOrWhiteSpace(entry.Text) && !IsDouble(entry.Text))
+            {
+                DisplayAlertOnPage(currentPage, "Virhe", $"Syöteessä ei voi olla tekstiä.", "OK");
+            }
+        }
+
+        private bool IsDouble(string input)
+        {
+            return double.TryParse(input, out _);
+        }
+
 
 
     }

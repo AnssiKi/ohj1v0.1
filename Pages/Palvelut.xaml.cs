@@ -32,6 +32,7 @@ public partial class Palvelut : ContentPage
     {// entryn pituus rajoitettu xaml.cs max 8 merkkiin
         Entry entry = (Entry)sender;
         funktiot.CheckEntryPituus(entry, 8, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
+        funktiot.CheckEntryDouble(entry, this); // tarkistetaan että syote on double
     }
 
     private void palvelu_alv_SelectedIndexChanged(object sender, EventArgs e)
