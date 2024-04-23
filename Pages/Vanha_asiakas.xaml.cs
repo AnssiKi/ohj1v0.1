@@ -1,3 +1,5 @@
+using ohj1v0._1.Luokat;
+
 namespace ohj1v0._1;
 
 public partial class Vanha_asiakas : ContentPage
@@ -6,6 +8,7 @@ public partial class Vanha_asiakas : ContentPage
 	{
 		InitializeComponent();
 	}
+    Funktiot funktiot = new Funktiot();
 
     private void hae_sukunimella_TextChanged(object sender, TextChangedEventArgs e)
     {
@@ -14,8 +17,8 @@ public partial class Vanha_asiakas : ContentPage
 
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
-        await DisplayAlert("Tallennettu!", "", "OK!"); //tässä vaiheessa pelkkä alertti!! Tarvii toiminnallisuuden vielä
-
+        Grid grid = (Grid)entry_grid;
+        funktiot.Tallenna(this, grid);
     }
 
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)

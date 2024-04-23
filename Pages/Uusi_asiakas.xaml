@@ -5,7 +5,8 @@
              Title="Uusi asiakas">
     <ScrollView>
         <VerticalStackLayout>
-            <Grid Padding="10">
+            <Grid Padding="10"
+                  x:Name="entry_grid">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

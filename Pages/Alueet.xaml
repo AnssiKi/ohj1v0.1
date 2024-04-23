@@ -16,7 +16,9 @@
                 </Grid.ColumnDefinitions>
 
 
-                <Grid Padding="10">
+                <Grid 
+                    Padding="10"
+                    x:Name="entry_grid">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />

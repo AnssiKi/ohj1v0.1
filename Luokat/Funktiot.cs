@@ -86,5 +86,37 @@ namespace ohj1v0._1.Luokat
         {
             return input.Any(char.IsDigit);
         }
+
+        public void Tallenna(ContentPage currentPage, Grid grid)
+        {
+            if (!CheckInput(grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
+            {
+                DisplayAlertOnPage(currentPage, "Virhe", "Kaikki kentät eivät ole täytetty!", "OK");
+            }
+
+            else // Tarkistukset lapi:  Kaikki entryt ovat taytetty, pickerit valittu
+            {
+                // TAHAN CRUD - TOIMINTO try catch
+                DisplayAlertOnPage(currentPage, "Tallennettu", "", "OK");
+            }
+        }
+
+        private static bool CheckInput(Grid grid)
+        {
+            foreach (var child in grid.Children)
+            {
+                if (child is Entry entry && string.IsNullOrWhiteSpace(entry.Text))
+                {
+                    return false; // Palautetaan false, jos löytyy tyhja entry               
+                }
+
+                if (child is Picker picker && picker.SelectedIndex == -1)
+                {
+                    return false; // Palautetaan false, jos Pickerissä ei ole valittu mitaan
+                }
+
+            }
+            return true; // Palautetaan true, jos kaikki entryt ovat taytettyja
+        }
     }
 }

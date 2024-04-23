@@ -16,7 +16,8 @@
             </Grid.ColumnDefinitions>
 
             <Grid
-                Grid.Column="1">
+                Grid.Column="1"
+                x:Name="entry_grid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />

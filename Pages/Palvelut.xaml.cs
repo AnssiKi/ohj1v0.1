@@ -41,8 +41,8 @@ public partial class Palvelut : ContentPage
     }
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
-        await DisplayAlert("Tallennettu!", "", "OK!"); //tässä vaiheessa pelkkä alertti!! Tarvii toiminnallisuuden vielä
-        
+        Grid grid = (Grid)entry_grid;
+        funktiot.Tallenna(this, grid);        
     }
 
     private async void tyhjenna_Clicked(object sender, EventArgs e)

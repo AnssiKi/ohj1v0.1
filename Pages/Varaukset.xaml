@@ -18,7 +18,8 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid
-                    Padding="10">
+                    Padding="10"
+                    x:Name="entry_grid">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
