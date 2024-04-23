@@ -138,5 +138,16 @@ namespace ohj1v0._1.Luokat
 
             return true; // Palautetaan true, jos testit lapi
         }
+
+        public void TyhjennaEntryt(Grid grid)
+        {
+            foreach (View view in grid.Children)
+            {
+                if (view is Entry entry)
+                {
+                    entry.Text = ""; // Tyhjentää entryn
+                }
+            }
+        }
     }
 }

@@ -71,10 +71,7 @@ public partial class Varaukset : ContentPage
 
     }
 
-    private void varauspvm_DateSelected(object sender, DateChangedEventArgs e)
-    {
-
-    }
+    
 
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
@@ -89,7 +86,8 @@ public partial class Varaukset : ContentPage
         // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
         if (result)
         {
-            //TYHJENNETÄÄN tiedot tähän
+            Grid grid = (Grid)entry_grid;
+            funktiot.TyhjennaEntryt(grid);
         }
         else
         {

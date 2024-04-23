@@ -219,11 +219,11 @@
                         Grid.Row="14"
                         Margin="0,5,0,0"/>
 
-                    <DatePicker
+                    <Entry
+                        Text="" 
                         Grid.Row="15"
                         Grid.Column="1"
-                        x:Name="varauspvm"
-                        DateSelected="varauspvm_DateSelected"/>
+                        IsReadOnly="True"/>
 
                     <Button
                          x:Name="tallenna"
