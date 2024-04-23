@@ -103,13 +103,22 @@
                           VerticalOptions="FillAndExpand">
 
                         <ListView                            
-                            x:Name="lista"
-                            BackgroundColor="Grey"
-                            ItemTapped="lista_ItemTapped">
-                            <ListView.ItemsSource>
-                                <x:String></x:String>
-                            </ListView.ItemsSource>
+                           x:Name="lista"
+                           BackgroundColor="Grey"
+                           ItemTapped="lista_ItemTapped"
+                           ItemsSource="{Binding Alues}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal" Padding="10">
+                                            <Label Text="{Binding AlueId}" WidthRequest="100"/>
+                                            <Label Text="{Binding Nimi}"/>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
                         </ListView>
+                        
                     </Frame>
                 </Grid>
             </Grid>
