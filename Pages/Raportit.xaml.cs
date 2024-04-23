@@ -20,4 +20,9 @@ public partial class Raportit : ContentPage
     {
 
     }
+
+    private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+    }
 }

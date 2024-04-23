@@ -44,6 +44,22 @@
                             </x:Array>
                         </Picker.ItemsSource>
                     </Picker>
+                    
+                    <Label
+                        Text="Valitse alue"
+                        Grid.Column="1"/>
+
+                    <Picker 
+                     x:Name="alue_nimi" 
+                     Grid.Column="1"
+                     Grid.Row="1"
+                     SelectedIndexChanged="alue_nimi_SelectedIndexChanged">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String></x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
 
                     <Label
                         Text="Alku päivämäärä"
