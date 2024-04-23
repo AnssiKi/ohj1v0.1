@@ -86,7 +86,8 @@ public partial class Varaukset : ContentPage
         // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
         if (result)
         {
-            //TYHJENNETÄÄN tiedot tähän
+            Grid grid = (Grid)entry_grid;
+            funktiot.TyhjennaEntryt(grid);
         }
         else
         {
