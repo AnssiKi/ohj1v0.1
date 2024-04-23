@@ -103,6 +103,9 @@ namespace ohj1v0._1.Luokat
 
         private static bool CheckInput(Grid grid)
         {
+            DateTime alkuPvm = DateTime.MinValue;
+            DateTime loppuPvm = DateTime.MinValue;
+
             foreach (var child in grid.Children)
             {
                 if (child is Entry entry && string.IsNullOrWhiteSpace(entry.Text))
@@ -115,8 +118,25 @@ namespace ohj1v0._1.Luokat
                     return false; // Palautetaan false, jos Pickerissä ei ole valittu mitaan
                 }
 
+                if (child is DatePicker datePicker)
+                {
+                    if (datePicker.FindByName("alkupvm") != null)
+                    {
+                        alkuPvm = datePicker.Date;
+                    }
+                    if (datePicker.FindByName("loppupvm") != null)
+                    {
+                        loppuPvm = datePicker.Date;
+                    }
+                }
             }
-            return true; // Palautetaan true, jos kaikki entryt ovat taytettyja
+
+            if (alkuPvm > loppuPvm)
+            {
+                return false; // Palautetaan false, jos alkuPvm on suurempi kuin loppuPvm
+            }
+
+            return true; // Palautetaan true, jos testit lapi
         }
     }
 }
