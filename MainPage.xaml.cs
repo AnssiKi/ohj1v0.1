@@ -27,7 +27,7 @@ namespace ohj1v0._1
         //testaus että tietokantayhteys aukeaa MH
         private async void OnDatabaseClicked(object sender, EventArgs e)
         {
-            DatabaseConnector dbc = new DatabaseConnector();
+            /*DatabaseConnector dbc = new DatabaseConnector();
             try
             {
                 var conn = dbc._getConnection();
@@ -37,7 +37,7 @@ namespace ohj1v0._1
             catch (MySqlException ex)
             {
                 await DisplayAlert("Failure", ex.Message, "OK");
-            }
+            }*/
         }
     }
 
