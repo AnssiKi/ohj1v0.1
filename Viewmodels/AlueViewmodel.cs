@@ -2,7 +2,7 @@
 using ohj1v0._1.Models;
 using System.ComponentModel;
 
-/*Luotu viewmodel alueluokalle 23042024 KA
+/*Luotu viewmodel alueluokalle 23042024 KA 
  * 
  * 
  */
