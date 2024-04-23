@@ -71,10 +71,7 @@ public partial class Varaukset : ContentPage
 
     }
 
-    private void varauspvm_DateSelected(object sender, DateChangedEventArgs e)
-    {
-
-    }
+    
 
     private async void tallenna_Clicked(object sender, EventArgs e)
     {

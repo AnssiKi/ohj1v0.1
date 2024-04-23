@@ -109,6 +109,16 @@
                         </x:Array>
                     </Picker.ItemsSource>
                 </Picker>
+                    <Label
+                        Text="Varaus pvm:"
+                        Margin="0,5,0,0"
+                        Grid.Row="5"
+                        Grid.Column="1"/>
+                    <Entry
+                        Text="" 
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        IsReadOnly="True"/>
 
                 <Label                    
                     Text="Valitse mökki"
