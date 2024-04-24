@@ -15,8 +15,40 @@ public partial class Alueet : ContentPage
 
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
+        Type luokka = typeof(ohj1v0._1.Models.Alue);
+        string selite = "alue";
+        Entry entry = alue_nimi;        
         Grid grid = (Grid)entry_grid;
-        funktiot.Tallenna(this, grid);        
+
+        if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
+        {
+            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        }
+
+        else if(!funktiot.CheckEntryText(entry, this)) // tarkistetaan onko alueen nimessa numeroita
+        {
+            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        }
+
+        else if (!funktiot.CheckTupla(this, entry, lista, luokka, selite)) // varmistetaan ettei ole samannimista aluetta
+        {
+            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        }
+
+        else // Tarkistukset lapi voidaan tallentaa
+        {
+            try
+            {
+                // CRUD - toiminnot
+                await DisplayAlert("Tallennettu", "", "OK");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
+            }
+
+        }
+
     }
 
     private async void tyhjenna_Clicked(object sender, EventArgs e)

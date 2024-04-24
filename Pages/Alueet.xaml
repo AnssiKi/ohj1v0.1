@@ -104,7 +104,6 @@
 
                         <ListView                            
                            x:Name="lista"
-                           BackgroundColor="Grey"
                            ItemTapped="lista_ItemTapped"
                            ItemsSource="{Binding Alues}">
                             <ListView.ItemTemplate>

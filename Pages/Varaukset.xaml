@@ -281,7 +281,6 @@
 
                         <ListView
                              x:Name="lista"
-                             BackgroundColor="Grey"
                             ItemTapped="lista_ItemTapped">
                             <ListView.ItemsSource>
                                 <x:String></x:String>

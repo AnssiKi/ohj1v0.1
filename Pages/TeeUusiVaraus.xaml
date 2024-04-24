@@ -135,7 +135,6 @@
 
                     <ListView     
                         x:Name="mokki_lista"
-                        BackgroundColor="Grey"
                         ItemTapped="mokki_lista_ItemTapped">
                         <ListView.ItemsSource>
                             <x:String></x:String>

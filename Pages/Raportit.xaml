@@ -102,8 +102,7 @@
                     HorizontalOptions="FillAndExpand">
 
                     <ListView     
-                        x:Name="lista"
-                        BackgroundColor="Grey">
+                        x:Name="lista">
                         <ListView.ItemsSource>
                             <x:String></x:String>
                         </ListView.ItemsSource>

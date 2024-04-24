@@ -76,7 +76,25 @@ public partial class Varaukset : ContentPage
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
         Grid grid = (Grid)entry_grid;
-        funktiot.Tallenna(this, grid);        
+
+        if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
+        {
+            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        }
+
+        else // Tarkistukset lapi voidaan tallentaa
+        {
+            try
+            {
+                // CRUD - toiminnot
+                await DisplayAlert("Tallennettu", "", "OK");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
+            }
+
+        }
     }
 
     private async void tyhjenna_Clicked(object sender, EventArgs e)

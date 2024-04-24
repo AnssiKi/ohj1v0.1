@@ -21,6 +21,15 @@ public partial class Mokit : ContentPage
         funktiot.CheckEntryPituus(entry, 45, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
     }
 
+    private void mokki_nimi_Unfocused(object sender, FocusEventArgs e)
+    {   // Tarkistetaan jo tassa onko samanniminen mokki olemassa ja ilmoitetaan kayttajalle
+        // viela kommenttina vain koska ei voi testata
+        /*Type luokka = typeof(ohj1v0._1.Models.Mokki);
+        String selite = "mökki";
+        Entry entry = mokki_nimi;*/
+
+    }
+
     private void mokki_katuosoite_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 45 merkkiin
         Entry entry = (Entry)sender;
@@ -54,8 +63,47 @@ public partial class Mokit : ContentPage
 
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
+        Type luokka = typeof(ohj1v0._1.Models.Mokki);
+        string selite = "mökki";
+        Entry nimi = mokki_nimi;
+        Entry hinta = mokki_hinta;
+        Entry postinumero = mokki_postinumero;
         Grid grid = (Grid)entry_grid;
-        funktiot.Tallenna(this, grid);
+
+        if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
+        {
+            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        }
+
+        else if (!funktiot.CheckTupla(this, nimi, lista, luokka, selite)) // varmistetaan ettei ole samannimista mokkia
+        {
+            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        }
+
+        else if (!funktiot.CheckEntryDouble(hinta, this)) // tarkistetaan onko hinta double
+        {
+            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        }
+
+        else if (!funktiot.CheckEntryInteger(postinumero, this)) // tarkistetaan onko postinumero int
+        {
+            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        }
+
+        else // Tarkistukset lapi voidaan tallentaa
+        {
+            try
+            {
+                // CRUD - toiminnot
+                await DisplayAlert("Tallennettu", "", "OK");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
+            }
+
+        }
+
     }
 
     private void mokki_henkilomaara_SelectedIndexChanged(object sender, EventArgs e)

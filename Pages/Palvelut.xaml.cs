@@ -41,8 +41,40 @@ public partial class Palvelut : ContentPage
     }
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
+        Type luokka = typeof(ohj1v0._1.Models.Palvelu);
+        string selite = "palvelu";
+        Entry nimi = palvelu_nimi;
+        Entry hinta = palvelu_hinta;
         Grid grid = (Grid)entry_grid;
-        funktiot.Tallenna(this, grid);        
+
+        if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
+        {
+            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        }
+
+        else if (!funktiot.CheckTupla(this, nimi, lista, luokka, selite)) // varmistetaan ettei ole samannimista palvelua
+        {
+            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        }
+
+        else if (!funktiot.CheckEntryDouble(hinta, this)) // tarkistetaan hinta double
+        {
+            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        }
+
+        else // Tarkistukset lapi voidaan tallentaa
+        {
+            try
+            {
+                // CRUD - toiminnot
+                await DisplayAlert("Tallennettu", "", "OK");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
+            }
+
+        }         
     }
 
     private async void tyhjenna_Clicked(object sender, EventArgs e)

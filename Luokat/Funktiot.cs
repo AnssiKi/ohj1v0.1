@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ohj1v0._1.Luokat
 {
@@ -23,7 +25,7 @@ namespace ohj1v0._1.Luokat
             }
         }
 
-        public void CheckEntryDouble(Entry entry, ContentPage currentPage)
+        public bool CheckEntryDouble(Entry entry, ContentPage currentPage)
         { // Tarkistetaan, että entryn syöte on double-muotoista ja vahintaan 0
 
             if (!string.IsNullOrWhiteSpace(entry.Text))
@@ -31,6 +33,7 @@ namespace ohj1v0._1.Luokat
                 if (!IsDouble(entry.Text))
                 {
                     DisplayAlertOnPage(currentPage, "Virhe", "Syöteessä ei voi olla tekstiä.", "OK");
+                    return false; // syote ei ole double
                 }
                 else
                 {
@@ -38,9 +41,12 @@ namespace ohj1v0._1.Luokat
                     if (value < 0)
                     {
                         DisplayAlertOnPage(currentPage, "Virhe", "Syötteen on oltava ei-negatiivinen.", "OK");
+                        return false; // syote negatiivinen luku
                     }
                 }
+                return true; // kaikki oikein
             }
+            return false; // syote tyhja
         }
 
         private bool IsDouble(string input)
@@ -49,7 +55,7 @@ namespace ohj1v0._1.Luokat
         }
 
 
-        public void CheckEntryInteger(Entry entry, ContentPage currentPage)
+        public bool CheckEntryInteger(Entry entry, ContentPage currentPage)
         { // Tarkistetaan, että entryn syöte on int-muotoista ja vahintaan 0
 
             if (!string.IsNullOrWhiteSpace(entry.Text))
@@ -57,6 +63,7 @@ namespace ohj1v0._1.Luokat
                 if (!IsInteger(entry.Text))
                 {
                     DisplayAlertOnPage(currentPage, "Virhe", "Syöteessä ei voi olla tekstiä.", "OK");
+                    return false; // syote ei ole int
                 }
                 else
                 {
@@ -64,9 +71,12 @@ namespace ohj1v0._1.Luokat
                     if (value < 0)
                     {
                         DisplayAlertOnPage(currentPage, "Virhe", "Syötteen on oltava ei-negatiivinen.", "OK");
+                        return false; // syote on negatiivinen
                     }
+                    return true; // kaikki oikein
                 }
             }
+            return false; // syote tyhja
         }
 
         private bool IsInteger(string input)
@@ -74,12 +84,14 @@ namespace ohj1v0._1.Luokat
             return int.TryParse(input, out _);
         }
 
-        public void CheckEntryText(Entry entry, ContentPage currentPage)
+        public bool CheckEntryText(Entry entry, ContentPage currentPage)
         { // tarkistetaan etta syotteessa ei ole numeroita
             if (ContainsNumbers(entry.Text))
             {
                 DisplayAlertOnPage(currentPage, "Virhe", $"Syötteessä ei voi olla numeroita.", "OK");
+                return false;
             }
+            return true;
         }
 
         private bool ContainsNumbers(string input)
@@ -87,21 +99,25 @@ namespace ohj1v0._1.Luokat
             return input.Any(char.IsDigit);
         }
 
-        public void Tallenna(ContentPage currentPage, Grid grid)
-        {
-            if (!CheckInput(grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
-            {
-                DisplayAlertOnPage(currentPage, "Virhe", "Kaikki kentät eivät ole täytetty!", "OK");
-            }
+        public bool CheckTupla(ContentPage currentPage, Entry entry, ListView lista, Type luokka, string selite)
+        { // tarkistetaan onko saman nimisia tietoja jo tietokannassa esim samanniminen alue
 
-            else // Tarkistukset lapi:  Kaikki entryt ovat taytetty, pickerit valittu
+            foreach (var item in lista.ItemsSource)
             {
-                // TAHAN CRUD - TOIMINTO try catch
-                DisplayAlertOnPage(currentPage, "Tallennettu", "", "OK");
+                if (item.GetType() == luokka)
+                {
+                    var vertailu = (dynamic)item;
+                    if (vertailu.Nimi == entry.Text)
+                    {
+                        DisplayAlertOnPage(currentPage, "Virhe", string.Format("Saman niminen {0} jo olemassa", selite), "OK");
+                        return false;                        
+                    }
+                }
             }
+            return true;
         }
 
-        private static bool CheckInput(Grid grid)
+        public bool CheckInput(ContentPage currentPage, Grid grid)
         {
             DateTime alkuPvm = DateTime.MinValue;
             DateTime loppuPvm = DateTime.MinValue;
@@ -110,11 +126,13 @@ namespace ohj1v0._1.Luokat
             {
                 if (child is Entry entry && string.IsNullOrWhiteSpace(entry.Text))
                 {
-                    return false; // Palautetaan false, jos löytyy tyhja entry               
+                    DisplayAlertOnPage(currentPage, "Virhe", "Kaikki kentät eivät ole täytetty", "OK");
+                    return false; // Palautetaan false, jos löytyy tyhja entry                            
                 }
 
                 if (child is Picker picker && picker.SelectedIndex == -1)
                 {
+                    DisplayAlertOnPage(currentPage, "Virhe", "Kaikkiin valitsimiin täytyy valita", "OK");
                     return false; // Palautetaan false, jos Pickerissä ei ole valittu mitaan
                 }
 
@@ -133,6 +151,7 @@ namespace ohj1v0._1.Luokat
 
             if (alkuPvm > loppuPvm)
             {
+                DisplayAlertOnPage(currentPage, "Virhe", "Aloituspäivämäärä ei voi olla lopetuspäivämäärän jälkeen", "OK");
                 return false; // Palautetaan false, jos alkuPvm on suurempi kuin loppuPvm
             }
 
