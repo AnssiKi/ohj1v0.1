@@ -1,7 +1,8 @@
 using ohj1v0._1.Luokat;
 using ohj1v0._1.Viewmodels;
 using ohj1v0._1.Models;
-
+using Pomelo.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace ohj1v0._1;
 
@@ -41,8 +42,16 @@ public partial class Alueet : ContentPage
         {
             try
             {
-                // CRUD - toiminnot
-                await DisplayAlert("Tallennettu", "", "OK");
+                using (var dbContext = new VnContext()) 
+                {
+                    var alue = new Alue()
+                    {
+                        Nimi = alue_nimi.Text
+                        // AlueId t‰ss‰ pit‰‰ hakea isoin alue ja lis‰‰ +1
+                    };
+                }
+                    // CRUD - toiminno
+                    await DisplayAlert("Tallennettu", "", "OK");
             }
             catch (Exception ex)
             {
