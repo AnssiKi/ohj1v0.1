@@ -1,5 +1,7 @@
 using ohj1v0._1.Luokat;
 using ohj1v0._1.Viewmodels;
+using ohj1v0._1.Models;
+
 
 namespace ohj1v0._1;
 
@@ -87,6 +89,13 @@ public partial class Alueet : ContentPage
 
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
+        if (e.Item == null)
+        {
+            return;
+        }
+
+        var selectedAlue = (Alue)e.Item;
+        alue_nimi.Text = selectedAlue.Nimi;
 
     }
     
