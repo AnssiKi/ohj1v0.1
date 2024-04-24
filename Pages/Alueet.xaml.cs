@@ -3,12 +3,14 @@ using ohj1v0._1.Viewmodels;
 using ohj1v0._1.Models;
 using Pomelo.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
+using Microsoft.Maui.Controls;
 
 namespace ohj1v0._1;
 
 public partial class Alueet : ContentPage
 {
-	public Alueet()
+    public Alueet()
 	{
 		InitializeComponent();
         BindingContext = new AlueViewmodel();
@@ -42,15 +44,20 @@ public partial class Alueet : ContentPage
         {
             try
             {
+                // Lis‰t‰‰n alue tietokantaan ja p‰ivitet‰‰n listan‰kym‰
                 using (var dbContext = new VnContext()) 
                 {
                     var alue = new Alue()
                     {
                         Nimi = alue_nimi.Text
-                        // AlueId t‰ss‰ pit‰‰ hakea isoin alue ja lis‰‰ +1
+                        // AlueId p‰ivittyy automaattisesti tietokannassa
                     };
+
+                    dbContext.Alues.Add(alue);  
+                    dbContext.SaveChanges();
+                    AlueLoad loader = new AlueLoad();
+                    BindingContext = new AlueViewmodel();
                 }
-                    // CRUD - toiminno
                     await DisplayAlert("Tallennettu", "", "OK");
             }
             catch (Exception ex)
@@ -83,11 +90,15 @@ public partial class Alueet : ContentPage
     private async void poista_Clicked(object sender, EventArgs e)
     {
         bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti poistaa tiedon?", "Kyll‰", "Ei");
-
         // Jos k‰ytt‰j‰ valitsee "Kyll‰", toteutetaan peruutustoimet
         if (result)
         {
-            //poistetaan tiedot t‰h‰n
+            /*TODO
+             *  1) paikanna poistettava tieto
+             *  2) poista tieto listviewiin sidotusta kokoelmasta, Alues?
+             *  3) poista tieto tietokannasta
+             *  4) p‰ivit‰ listview
+             */
         }
         else
         {
