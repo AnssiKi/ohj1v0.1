@@ -46,13 +46,14 @@ public partial class Palvelut : ContentPage
         Entry nimi = palvelu_nimi;
         Entry hinta = palvelu_hinta;
         Grid grid = (Grid)entry_grid;
+        string vertailu = "Nimi";
 
         if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
         {
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
         }
 
-        else if (!funktiot.CheckTupla(this, nimi, lista, luokka, selite)) // varmistetaan ettei ole samannimista palvelua
+        else if (!funktiot.CheckTupla(this, nimi, lista, luokka, selite, vertailu)) // varmistetaan ettei ole samannimista palvelua
         {
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
         }
@@ -85,7 +86,8 @@ public partial class Palvelut : ContentPage
         if (result)
         {
             Grid grid = (Grid)entry_grid;
-            funktiot.TyhjennaEntryt(grid);
+            ListView list = (ListView)lista;
+            funktiot.TyhjennaEntryt(grid, list);
         }
         else
         {

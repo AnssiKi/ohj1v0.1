@@ -62,13 +62,10 @@
                     x:Name="alue_nimi" 
                     Grid.Column="1"
                     Grid.Row="1"
-                    SelectedIndexChanged="alue_nimi_SelectedIndexChanged">
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String></x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
-                    </Picker>
+                    SelectedIndexChanged="alue_nimi_SelectedIndexChanged"
+                    ItemsSource="{Binding Alues}"
+                    ItemDisplayBinding="{Binding Nimi}">                        
+                    </Picker> 
 
                     <Label
                     Text="Mökin nimi"
@@ -259,10 +256,18 @@
 
                         <ListView
                         x:Name="lista"
-                        ItemTapped="lista_ItemTapped">
-                            <ListView.ItemsSource>
-                                <x:String></x:String>
-                            </ListView.ItemsSource>
+                        ItemTapped="lista_ItemTapped"
+                        ItemsSource="{Binding Mokkis}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal" Padding="10">
+                                            <Label Text="{Binding MokkiId}" WidthRequest="100"/>
+                                            <Label Text="{Binding Mokkinimi}"/>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
                         </ListView>
                     </Frame>
 

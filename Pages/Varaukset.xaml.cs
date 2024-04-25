@@ -105,7 +105,8 @@ public partial class Varaukset : ContentPage
         if (result)
         {
             Grid grid = (Grid)entry_grid;
-            funktiot.TyhjennaEntryt(grid);
+            ListView list = (ListView)lista;
+            funktiot.TyhjennaEntryt(grid, list);
         }
         else
         {

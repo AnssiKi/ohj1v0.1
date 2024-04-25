@@ -1,4 +1,6 @@
 using ohj1v0._1.Luokat;
+using ohj1v0._1.Viewmodels;
+using ohj1v0._1.Models;
 
 namespace ohj1v0._1;
 
@@ -7,8 +9,9 @@ public partial class Mokit : ContentPage
 	public Mokit()
 	{
 		InitializeComponent();
-	}
-    Funktiot funktiot = new Funktiot();
+        BindingContext = new MokkiViewmodel();
+    }
+    Funktiot funktiot = new Funktiot();    
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -22,11 +25,15 @@ public partial class Mokit : ContentPage
     }
 
     private void mokki_nimi_Unfocused(object sender, FocusEventArgs e)
-    {   // Tarkistetaan jo tassa onko samanniminen mokki olemassa ja ilmoitetaan kayttajalle
-        // viela kommenttina vain koska ei voi testata
-        /*Type luokka = typeof(ohj1v0._1.Models.Mokki);
+    {   Type luokka = typeof(Mokki);
         String selite = "mökki";
-        Entry entry = mokki_nimi;*/
+        Entry entry = mokki_nimi;
+        string vertailu = "Mokkinimi";
+
+        if (!funktiot.CheckTupla(this, entry, lista, luokka, selite, vertailu)) // varmistetaan ettei ole samannimista aluetta
+        {
+            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        }
 
     }
 
@@ -63,19 +70,20 @@ public partial class Mokit : ContentPage
 
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
-        Type luokka = typeof(ohj1v0._1.Models.Mokki);
+        Type luokka = typeof(Mokki);
         string selite = "mökki";
         Entry nimi = mokki_nimi;
         Entry hinta = mokki_hinta;
         Entry postinumero = mokki_postinumero;
         Grid grid = (Grid)entry_grid;
+        string vertailu = "Mokkinimi";
 
         if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
         {
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
         }
 
-        else if (!funktiot.CheckTupla(this, nimi, lista, luokka, selite)) // varmistetaan ettei ole samannimista mokkia
+        else if (!funktiot.CheckTupla(this, nimi, lista, luokka, selite, vertailu)) // varmistetaan ettei ole samannimista mokkia
         {
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
         }
@@ -119,7 +127,9 @@ public partial class Mokit : ContentPage
         if (result)
         {
             Grid grid = (Grid)entry_grid;
-            funktiot.TyhjennaEntryt(grid);
+            ListView list = (ListView)lista;
+            funktiot.TyhjennaEntryt(grid, list);           
+
         }
         else
         {
@@ -153,8 +163,25 @@ public partial class Mokit : ContentPage
 
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
+        if (e.Item == null)
+        {
+            return;
+        }
+
+        var selectedMokki = (Mokki)e.Item;
+        mokki_id.Text = selectedMokki.MokkiId.ToString();
+        mokki_nimi.Text = selectedMokki.Mokkinimi;
+        mokki_katuosoite.Text = selectedMokki.Katuosoite;
+        mokki_postinumero.Text = selectedMokki.Postinro;
+        mokki_hinta.Text = selectedMokki.Hinta.ToString();
+        mokki_kuvaus.Text = selectedMokki.Kuvaus;
+        mokki_varustelu.Text = selectedMokki.Varustelu;    
+        
+        string henkilomaaraString = selectedMokki.Henkilomaara.ToString();
+        if (mokki_henkilomaara.Items.Contains(henkilomaaraString))
+        {
+            mokki_henkilomaara.SelectedItem = henkilomaaraString;
+        }
 
     }
-
-
 }

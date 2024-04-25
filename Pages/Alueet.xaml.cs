@@ -17,10 +17,11 @@ public partial class Alueet : ContentPage
 
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
-        Type luokka = typeof(ohj1v0._1.Models.Alue);
+        Type luokka = typeof(Alue);
         string selite = "alue";
         Entry entry = alue_nimi;        
         Grid grid = (Grid)entry_grid;
+        string vertailu = "Nimi";
 
         if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
         {
@@ -32,7 +33,7 @@ public partial class Alueet : ContentPage
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
         }
 
-        else if (!funktiot.CheckTupla(this, entry, lista, luokka, selite)) // varmistetaan ettei ole samannimista aluetta
+        else if (!funktiot.CheckTupla(this, entry, lista, luokka, selite, vertailu)) // varmistetaan ettei ole samannimista aluetta
         {
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
         }
@@ -61,7 +62,8 @@ public partial class Alueet : ContentPage
         if (result)
         {
             Grid grid = (Grid)entry_grid;
-            funktiot.TyhjennaEntryt(grid);
+            ListView list = (ListView)lista;
+            funktiot.TyhjennaEntryt(grid, list);
         }
         else
         {

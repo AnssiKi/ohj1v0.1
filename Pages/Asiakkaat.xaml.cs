@@ -61,6 +61,8 @@ public partial class Asiakkaat : ContentPage
         Entry puhelin = puhelinnumero;
         Entry sahkoposti = email;
         Grid grid = (Grid)entry_grid;
+        string vertailu = "Puhelinnro";
+        string vertailu2 = "Email";
 
         if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
         {
@@ -77,12 +79,12 @@ public partial class Asiakkaat : ContentPage
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
         }
 
-        else if (!funktiot.CheckTupla(this, puhelin, lista, luokka, selite)) // varmistetaan ettei ole samaa puhelinnumeroa
+        else if (!funktiot.CheckTupla(this, puhelin, lista, luokka, selite, vertailu)) // varmistetaan ettei ole samaa puhelinnumeroa
         {
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
         }
 
-        else if (!funktiot.CheckTupla(this, sahkoposti, lista, luokka, selite)) // varmistetaan ettei ole samaa sahkopostia
+        else if (!funktiot.CheckTupla(this, sahkoposti, lista, luokka, selite, vertailu2)) // varmistetaan ettei ole samaa sahkopostia
         {
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
         }
@@ -111,7 +113,8 @@ public partial class Asiakkaat : ContentPage
         if (result)
         {
             Grid grid = (Grid)entry_grid;
-            funktiot.TyhjennaEntryt(grid);
+            ListView list = (ListView)lista;
+            funktiot.TyhjennaEntryt(grid, list);
         }
         else
         {
