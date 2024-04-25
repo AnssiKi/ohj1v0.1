@@ -1,4 +1,6 @@
 using ohj1v0._1.Luokat;
+using ohj1v0._1.Viewmodels;
+using ohj1v0._1.Models;
 
 namespace ohj1v0._1;
 
@@ -7,8 +9,11 @@ public partial class Palvelut : ContentPage
 	public Palvelut()
 	{
 		InitializeComponent();
+        lista.BindingContext = palveluViewmodel;
 	}
+
     Funktiot funktiot = new Funktiot();
+    PalveluViewmodel palveluViewmodel = new PalveluViewmodel();
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {

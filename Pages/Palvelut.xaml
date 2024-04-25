@@ -179,13 +179,25 @@
                     Grid.ColumnSpan="2" 
                     HorizontalOptions="FillAndExpand">
 
-                        <ListView
-                        x:Name="lista"
-                        ItemTapped="lista_ItemTapped">
-                            <ListView.ItemsSource>
-                                <x:String></x:String>
-                            </ListView.ItemsSource>
+                        <ListView                            
+                            x:Name="lista"
+                            ItemTapped="lista_ItemTapped"
+                            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                            ItemsSource="{Binding Palvelus}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal" Padding="10">
+                                            <Label Text="{Binding PalveluId}" WidthRequest="100"/>
+                                            <Label Text="{Binding Nimi}"/>
+                                            <Label Text="{Binding Hinta}"/>
+                                            <Label Text="{Binding Alv}"/>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
                         </ListView>
+                        
                     </Frame>
 
                 </Grid>
