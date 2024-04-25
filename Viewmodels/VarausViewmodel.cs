@@ -42,7 +42,7 @@ namespace ohj1v0._1.Viewmodels
         public async Task<List<Varau>> LoadVarauksetAsync()
         {
             using var context = new VnContext();
-            var varaus = await context.Varaus.OrderBy(a => a.VarausId).ToListAsync(); //lajitellaan taulun tiedot alueID mukaisesti
+            var varaus = await context.Varaus.Include(v => v.Asiakas).Include(v => v.Mokki).ThenInclude(m => m.PostinroNavigation).Include(v => v.Mokki).ThenInclude(m => m.Alue).OrderBy(v => v.VarausId).ToListAsync();
             return varaus;
         }
     }

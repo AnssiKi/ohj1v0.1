@@ -150,18 +150,25 @@ public partial class Varaukset : ContentPage
         }
 
         var selectedVaraus = (Varau)e.Item;
+
         varaus_id.Text = selectedVaraus.VarausId.ToString();
 
-        //tiedot eivat kulje luokasta toiseen kunnolla
+        if (selectedVaraus.Mokki.Alue != null)
+        {
+            alue_nimi.SelectedIndex = (int)selectedVaraus.Mokki.Alue.AlueId - 1;
+        }
+        else
+        {
+            alue_nimi.SelectedItem = null;
+        }
 
-        /*tahan alue pickeriin tieto
         etunimi.Text = selectedVaraus.Asiakas.Etunimi;
         sukunimi.Text = selectedVaraus.Asiakas.Sukunimi;
         puhelinnumero.Text = selectedVaraus.Asiakas.Puhelinnro;
         sahkoposti.Text = selectedVaraus.Asiakas.Email;
         mokin_nimi.Text = selectedVaraus.Mokki.Mokkinimi;
-        postinumero.Text= selectedVaraus.Asiakas.Postinro;
-        paikkakunta.Text*/
+        postinumero.Text = selectedVaraus.Mokki.Postinro;
+        paikkakunta.Text = selectedVaraus.Mokki.PostinroNavigation.Toimipaikka;
 
         if (selectedVaraus.VarattuAlkupvm != null)
         {

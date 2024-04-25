@@ -186,11 +186,11 @@ public partial class Mokit : ContentPage
 
         var selectedMokki = (Mokki)e.Item;
 
-        //alueen haku ei toimi kunnolla CRUD haku?
+        //alueen haku ei toimi kunnolla 
 
         if (selectedMokki.Alue != null)
         {
-            alue_nimi.SelectedItem = selectedMokki.Alue.Nimi;
+            alue_nimi.SelectedIndex = (int)selectedMokki.Alue.AlueId -1;
         }
         else
         {
@@ -201,18 +201,7 @@ public partial class Mokit : ContentPage
         mokki_nimi.Text = selectedMokki.Mokkinimi;
         mokki_katuosoite.Text = selectedMokki.Katuosoite;
         mokki_postinumero.Text = selectedMokki.Postinro;
-
-        // postitoimipaikka ei toimi kunnolla CRUD haku?
-
-
-        if (selectedMokki.PostinroNavigation != null)
-        {
-            mokki_paikkakunta.Text = selectedMokki.PostinroNavigation.Toimipaikka;
-        }
-        else
-        {
-            mokki_paikkakunta.Text = "Toimipaikka ei saatavilla";
-        }
+        mokki_paikkakunta.Text = selectedMokki.PostinroNavigation.Toimipaikka;
 
         mokki_hinta.Text = selectedMokki.Hinta.ToString();
         mokki_kuvaus.Text = selectedMokki.Kuvaus;

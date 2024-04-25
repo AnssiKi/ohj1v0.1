@@ -48,7 +48,7 @@ namespace ohj1v0._1.Viewmodels
         public async Task<List<Mokki>> LoadMokkisAsync()
         {
             using var context = new VnContext();
-            var mokkis = await context.Mokkis.OrderBy(a => a.MokkiId).ToListAsync(); //lajitellaan taulun tiedot alueID mukaisesti
+            var mokkis = await context.Mokkis.Include(m => m.PostinroNavigation).Include(m => m.Alue).OrderBy(a => a.MokkiId).ToListAsync(); //lajitellaan taulun tiedot mokkiID mukaisesti
             return mokkis;
         }
     }

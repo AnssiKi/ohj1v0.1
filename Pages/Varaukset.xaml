@@ -288,11 +288,10 @@
                                 <DataTemplate>
                                     <ViewCell>
                                         <StackLayout Orientation="Horizontal" Padding="10">
-                                            <Label Text="{Binding VarausId}" WidthRequest="100"/>
-                                            <Label Text="{Binding Asiakas.Etunimi}"/>
-                                            <Label Text="{Binding Asiakas.Sukunimi}"/>
-                                            <Label Text="{Binding VarattuAlkupvm, StringFormat='{0:dd.MM.yyyy}'}"/>
-                                            <Label Text="{Binding Mokki.Mokkinimi}"/>
+                                            <Label Text="{Binding VarausId}" WidthRequest="50"/>
+                                            <Label Text="{Binding Asiakas.Sukunimi}" WidthRequest="100"/>
+                                            <Label Text="{Binding VarattuAlkupvm, StringFormat='{0:dd.MM.yyyy}'}" WidthRequest="100"/>
+                                            <Label Text="{Binding Mokki.Mokkinimi}" WidthRequest="100"/>
                                         </StackLayout>
                                     </ViewCell>
                                 </DataTemplate>
