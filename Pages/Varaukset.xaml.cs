@@ -1,14 +1,16 @@
 using ohj1v0._1.Luokat;
-
+using ohj1v0._1.Viewmodels;
+using ohj1v0._1.Models;
 namespace ohj1v0._1;
 
 public partial class Varaukset : ContentPage
 {
-	public Varaukset()
-	{
-		InitializeComponent();
-	}
-    Funktiot funktiot = new Funktiot(); 
+    public Varaukset()
+    {
+        InitializeComponent();
+        BindingContext = new VarausViewmodel();
+    }
+    Funktiot funktiot = new Funktiot();
 
     private void etunimi_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 20 merkkiin
@@ -71,7 +73,7 @@ public partial class Varaukset : ContentPage
 
     }
 
-    
+
 
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
@@ -138,18 +140,49 @@ public partial class Varaukset : ContentPage
 
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
+        if (e.Item == null)
+        {
+            return;
+        }
 
-        // T‰h‰n tulee jotain jolla vied‰‰n valitut tiedot entryihin
+        var selectedVaraus = (Varau)e.Item;
+        varaus_id.Text = selectedVaraus.VarausId.ToString();
 
-        // Muuttaa entry valinnan j‰lkeen isreadonly=false
-        foreach (var child in VerticalStack.Children) {
+        //tiedot eivat kulje luokasta toiseen kunnolla
+
+        /*tahan alue pickeriin tieto
+        etunimi.Text = selectedVaraus.Asiakas.Etunimi;
+        sukunimi.Text = selectedVaraus.Asiakas.Sukunimi;
+        puhelinnumero.Text = selectedVaraus.Asiakas.Puhelinnro;
+        sahkoposti.Text = selectedVaraus.Asiakas.Email;
+        mokin_nimi.Text = selectedVaraus.Mokki.Mokkinimi;
+        postinumero.Text= selectedVaraus.Asiakas.Postinro;
+        paikkakunta.Text*/
+
+        if (selectedVaraus.VarattuAlkupvm != null)
+        {
+            alkupvm.Date = selectedVaraus.VarattuPvm.Value;
+        }
+        if (selectedVaraus.VarattuLoppupvm != null)
+        {
+            loppupvm.Date = selectedVaraus.VarattuLoppupvm.Value;
+        }
+        if (selectedVaraus.VahvistusPvm != null)
+        {
+            vahvistuspvm.Date = selectedVaraus.VahvistusPvm.Value;
+        }
+
+        varauspvm.Text = selectedVaraus.VarattuPvm.ToString();
+
+        foreach (var child in VerticalStack.Children)
+        { // Muuttaa entry valinnan j‰lkeen isreadonly=false
 
             if (child is Entry entry)
             {
                 entry.IsReadOnly = false;
             }
 
-            
+
         }
 
 

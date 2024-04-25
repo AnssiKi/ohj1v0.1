@@ -173,6 +173,17 @@ public partial class Mokit : ContentPage
         mokki_nimi.Text = selectedMokki.Mokkinimi;
         mokki_katuosoite.Text = selectedMokki.Katuosoite;
         mokki_postinumero.Text = selectedMokki.Postinro;
+
+        // postitoimipaikka ei toimi kunnolla CRUD haku?
+        if (selectedMokki.PostinroNavigation != null)
+        {
+            mokki_paikkakunta.Text = selectedMokki.PostinroNavigation.Toimipaikka;
+        }
+        else
+        {
+            mokki_paikkakunta.Text = "Toimipaikka ei saatavilla";
+        }
+
         mokki_hinta.Text = selectedMokki.Hinta.ToString();
         mokki_kuvaus.Text = selectedMokki.Kuvaus;
         mokki_varustelu.Text = selectedMokki.Varustelu;    

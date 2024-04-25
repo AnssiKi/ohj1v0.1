@@ -48,7 +48,9 @@
 
                     <Label
                         Text="ID"/>
+                    
                     <Entry
+                        x:Name="varaus_id"
                         Text=""
                         IsEnabled="False"
                         Grid.Column="0"
@@ -221,6 +223,7 @@
 
                     <Entry
                         Text="" 
+                        x:Name="varauspvm"
                         Grid.Row="15"
                         Grid.Column="1"
                         IsReadOnly="True"/>
@@ -280,11 +283,24 @@
                          HorizontalOptions="FillAndExpand">
 
                         <ListView
-                             x:Name="lista"
-                            ItemTapped="lista_ItemTapped">
-                            <ListView.ItemsSource>
-                                <x:String></x:String>
-                            </ListView.ItemsSource>
+                            
+                            x:Name="lista"
+                            ItemTapped="lista_ItemTapped"
+                            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                            ItemsSource="{Binding Varaukset}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal" Padding="10">
+                                            <Label Text="{Binding VarausId}" WidthRequest="100"/>
+                                            <Label Text="{Binding Asiakas}"/>
+                                            <Label Text="{Binding MokkiId}"/>
+                                            <Label Text="{Binding VarattuAlkupvm}"/>
+                                            <Label Text="{Binding VarattuLoppupvm}"/>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
                         </ListView>
                     </Frame>
 
