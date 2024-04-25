@@ -180,8 +180,6 @@ namespace ohj1v0._1.Luokat
             {
                 lista.SelectedItem = null; // poistaa listview valinnan
             }
-
-
-        }
+        }       
     }
 }

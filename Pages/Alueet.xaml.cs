@@ -13,9 +13,11 @@ public partial class Alueet : ContentPage
     public Alueet()
 	{
 		InitializeComponent();
-        BindingContext = new AlueViewmodel();
+        //BindingContext = new AlueViewmodel();
+        lista.BindingContext = alueViewmodel;
     }
     Funktiot funktiot = new Funktiot();
+    AlueViewmodel alueViewmodel = new AlueViewmodel();
 
 
     private async void tallenna_Clicked(object sender, EventArgs e)
@@ -130,6 +132,17 @@ public partial class Alueet : ContentPage
 
     private void Hae_alue_nimi_TextChanged(object sender, TextChangedEventArgs e)
     {
+        string searchText = e.NewTextValue;
 
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            lista.ItemsSource = alueViewmodel.Alues; // naytetaan kaikki alueet jos ei mitaan hakukentassa
+        }
+        else
+        {
+            // filtteroidaan listview sisalto hakukentan mukaan
+            var filteredAlues = alueViewmodel.Alues.Where(m => m.Nimi.ToLower().Contains(searchText.ToLower())).ToList();
+            lista.ItemsSource = filteredAlues;
+        }
     }
 }

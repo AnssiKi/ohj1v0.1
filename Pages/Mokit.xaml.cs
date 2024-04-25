@@ -6,12 +6,15 @@ namespace ohj1v0._1;
 
 public partial class Mokit : ContentPage
 {
-	public Mokit()
-	{
-		InitializeComponent();
-        BindingContext = new MokkiViewmodel();
+    public Mokit()
+    {
+        InitializeComponent();
+        lista.BindingContext = mokkiViewmodel;
+        alue_nimi.BindingContext = alueViewmodel;
     }
-    Funktiot funktiot = new Funktiot();    
+    Funktiot funktiot = new Funktiot();
+    MokkiViewmodel mokkiViewmodel = new MokkiViewmodel();
+    AlueViewmodel alueViewmodel = new AlueViewmodel();
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -25,7 +28,8 @@ public partial class Mokit : ContentPage
     }
 
     private void mokki_nimi_Unfocused(object sender, FocusEventArgs e)
-    {   Type luokka = typeof(Mokki);
+    {
+        Type luokka = typeof(Mokki);
         String selite = "mökki";
         Entry entry = mokki_nimi;
         string vertailu = "Mokkinimi";
@@ -128,7 +132,7 @@ public partial class Mokit : ContentPage
         {
             Grid grid = (Grid)entry_grid;
             ListView list = (ListView)lista;
-            funktiot.TyhjennaEntryt(grid, list);           
+            funktiot.TyhjennaEntryt(grid, list);
 
         }
         else
@@ -158,8 +162,20 @@ public partial class Mokit : ContentPage
 
     private void hae_nimella_TextChanged(object sender, TextChangedEventArgs e)
     {
+        string searchText = e.NewTextValue;
 
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            lista.ItemsSource = mokkiViewmodel.Mokkis; // naytetaan kaikki mokit jos ei mitaan hakukentassa
+        }
+        else
+        {
+            // filtteroidaan listview sisalto hakukentan mukaan
+            var filteredMokkis = mokkiViewmodel.Mokkis.Where(m => m.Mokkinimi.ToLower().Contains(searchText.ToLower())).ToList();
+            lista.ItemsSource = filteredMokkis;
+        }
     }
+
 
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
@@ -169,12 +185,26 @@ public partial class Mokit : ContentPage
         }
 
         var selectedMokki = (Mokki)e.Item;
+
+        //alueen haku ei toimi kunnolla CRUD haku?
+
+        if (selectedMokki.Alue != null)
+        {
+            alue_nimi.SelectedItem = selectedMokki.Alue.Nimi;
+        }
+        else
+        {
+            alue_nimi.SelectedItem = null;
+        }
+
         mokki_id.Text = selectedMokki.MokkiId.ToString();
         mokki_nimi.Text = selectedMokki.Mokkinimi;
         mokki_katuosoite.Text = selectedMokki.Katuosoite;
         mokki_postinumero.Text = selectedMokki.Postinro;
 
         // postitoimipaikka ei toimi kunnolla CRUD haku?
+
+
         if (selectedMokki.PostinroNavigation != null)
         {
             mokki_paikkakunta.Text = selectedMokki.PostinroNavigation.Toimipaikka;
@@ -186,8 +216,8 @@ public partial class Mokit : ContentPage
 
         mokki_hinta.Text = selectedMokki.Hinta.ToString();
         mokki_kuvaus.Text = selectedMokki.Kuvaus;
-        mokki_varustelu.Text = selectedMokki.Varustelu;    
-        
+        mokki_varustelu.Text = selectedMokki.Varustelu;
+
         string henkilomaaraString = selectedMokki.Henkilomaara.ToString();
         if (mokki_henkilomaara.Items.Contains(henkilomaaraString))
         {

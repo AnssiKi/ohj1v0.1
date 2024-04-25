@@ -62,14 +62,11 @@
                         Grid.Row="0"/>
 
                     <Picker 
-                        x:Name="alue"
+                        x:Name="alue_nimi"
                         Grid.Column="1"
-                        Grid.Row="1">
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String></x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
+                        Grid.Row="1"
+                        ItemsSource="{Binding Alues}"
+                        ItemDisplayBinding="{Binding Nimi}">
                     </Picker>
 
                     <Label
@@ -282,8 +279,7 @@
                          Grid.ColumnSpan="2" 
                          HorizontalOptions="FillAndExpand">
 
-                        <ListView
-                            
+                        <ListView                            
                             x:Name="lista"
                             ItemTapped="lista_ItemTapped"
                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
@@ -293,17 +289,16 @@
                                     <ViewCell>
                                         <StackLayout Orientation="Horizontal" Padding="10">
                                             <Label Text="{Binding VarausId}" WidthRequest="100"/>
-                                            <Label Text="{Binding Asiakas}"/>
-                                            <Label Text="{Binding MokkiId}"/>
-                                            <Label Text="{Binding VarattuAlkupvm}"/>
-                                            <Label Text="{Binding VarattuLoppupvm}"/>
+                                            <Label Text="{Binding Asiakas.Etunimi}"/>
+                                            <Label Text="{Binding Asiakas.Sukunimi}"/>
+                                            <Label Text="{Binding VarattuAlkupvm, StringFormat='{0:dd.MM.yyyy}'}"/>
+                                            <Label Text="{Binding Mokki.Mokkinimi}"/>
                                         </StackLayout>
                                     </ViewCell>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
                     </Frame>
-
                 </Grid>
 
 

@@ -8,9 +8,13 @@ public partial class Varaukset : ContentPage
     public Varaukset()
     {
         InitializeComponent();
-        BindingContext = new VarausViewmodel();
+        lista.BindingContext = varausViewmodel;
+        alue_nimi.BindingContext = alueViewmodel;
+
     }
     Funktiot funktiot = new Funktiot();
+    AlueViewmodel alueViewmodel = new AlueViewmodel();
+    VarausViewmodel varausViewmodel = new VarausViewmodel();
 
     private void etunimi_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 20 merkkiin
@@ -172,7 +176,10 @@ public partial class Varaukset : ContentPage
             vahvistuspvm.Date = selectedVaraus.VahvistusPvm.Value;
         }
 
-        varauspvm.Text = selectedVaraus.VarattuPvm.ToString();
+        if (selectedVaraus.VarattuPvm.HasValue)
+        {
+            varauspvm.Text = selectedVaraus.VarattuPvm.Value.ToString("dd.MM.yyyy");
+        }
 
         foreach (var child in VerticalStack.Children)
         { // Muuttaa entry valinnan jälkeen isreadonly=false
