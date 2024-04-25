@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,8 @@ namespace ohj1v0._1.Luokat
             if (entry.Text.Length >= maxLength)
             {
                 DisplayAlertOnPage(currentPage, "Virhe", $"Syöte voi olla enintään {maxLength} merkkiä pitkä.", "OK");
-
             }
+
         }
 
         public bool CheckEntryDouble(Entry entry, ContentPage currentPage)
@@ -99,7 +100,7 @@ namespace ohj1v0._1.Luokat
             return input.Any(char.IsDigit);
         }
 
-        public bool CheckTupla(ContentPage currentPage, Entry entry, ListView lista, Type luokka, string selite)
+        public bool CheckTupla(ContentPage currentPage, Entry entry, ListView lista, Type luokka, string selite, string propertyName)
         { // tarkistetaan onko saman nimisia tietoja jo tietokannassa esim samanniminen alue
 
             foreach (var item in lista.ItemsSource)
@@ -107,10 +108,11 @@ namespace ohj1v0._1.Luokat
                 if (item.GetType() == luokka)
                 {
                     var vertailu = (dynamic)item;
-                    if (vertailu.Nimi == entry.Text)
+                    var vertailtavaArvo = vertailu.GetType().GetProperty(propertyName).GetValue(vertailu, null);
+                    if (vertailtavaArvo.ToString() == entry.Text)
                     {
                         DisplayAlertOnPage(currentPage, "Virhe", string.Format("Saman niminen {0} jo olemassa", selite), "OK");
-                        return false;                        
+                        return false;
                     }
                 }
             }
@@ -158,15 +160,28 @@ namespace ohj1v0._1.Luokat
             return true; // Palautetaan true, jos testit lapi
         }
 
-        public void TyhjennaEntryt(Grid grid)
+        public void TyhjennaEntryt(Grid grid, ListView lista)
         {
-            foreach (View view in grid.Children)
+            foreach (var child in grid.Children)
             {
-                if (view is Entry entry)
+                if (child is Entry entry)
                 {
                     entry.Text = ""; // Tyhjentää entryn
                 }
+
+                else if (child is Picker picker)
+                {
+                    picker.SelectedIndex = -1; // Tyhjentää pickerin valinnan
+                }
+
             }
+
+            if (lista.SelectedItem != null)
+            {
+                lista.SelectedItem = null; // poistaa listview valinnan
+            }
+
+
         }
     }
 }
