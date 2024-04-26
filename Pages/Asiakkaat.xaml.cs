@@ -1,4 +1,6 @@
 using ohj1v0._1.Luokat;
+using ohj1v0._1.Viewmodels;
+using ohj1v0._1.Models;
 
 namespace ohj1v0._1;
 
@@ -7,9 +9,12 @@ public partial class Asiakkaat : ContentPage
 	public Asiakkaat()
 	{
 		InitializeComponent();
+    
+        BindingContext = asiakasviewmodel;
 	}
     Funktiot funktiot = new Funktiot();
-    private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
+    AsiakasViewmodel asiakasviewmodel = new AsiakasViewmodel();
+private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
 
     }
@@ -146,7 +151,23 @@ public partial class Asiakkaat : ContentPage
 
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
+        if (e.Item == null)
+        {
+            return;
+        }
 
+        var selectedAsiakas = (Asiaka)e.Item;
+
+
+
+        asiakas_id.Text = selectedAsiakas.AsiakasId.ToString();
+        etunimi.Text = selectedAsiakas.Etunimi;
+        sukunimi.Text = selectedAsiakas.Sukunimi;
+        puhelinnumero.Text = selectedAsiakas.Puhelinnro.ToString();
+        lahiosoite.Text = selectedAsiakas.Lahiosoite;
+        postinumero.Text = selectedAsiakas.Postinro;
+        paikkakunta.Text = selectedAsiakas.PostinroNavigation.Toimipaikka;
+        email.Text = selectedAsiakas.Email;
     }
 
 
