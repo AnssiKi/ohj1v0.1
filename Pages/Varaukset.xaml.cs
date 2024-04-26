@@ -1,4 +1,4 @@
-using ohj1v0._1.Luokat;
+ using ohj1v0._1.Luokat;
 using ohj1v0._1.Viewmodels;
 using ohj1v0._1.Models;
 namespace ohj1v0._1;
@@ -113,6 +113,8 @@ public partial class Varaukset : ContentPage
             Grid grid = (Grid)entry_grid;
             ListView list = (ListView)lista;
             funktiot.TyhjennaEntryt(grid, list);
+            hae_varaukset.Date = DateTime.Today; 
+            lista.ItemsSource = varausViewmodel.Varaukset; 
         }
         else
         {
@@ -139,6 +141,15 @@ public partial class Varaukset : ContentPage
 
     private void hae_varaukset_DateSelected(object sender, DateChangedEventArgs e)
     {
+        DateTime? selectedDateNullable = e.NewDate;
+
+        if (selectedDateNullable.HasValue)
+        {
+            DateTime selectedDate = selectedDateNullable.Value;
+
+            var filteredVaraukset = varausViewmodel.Varaukset.Where(v => v.VarattuAlkupvm == selectedDate.Date).ToList();
+            lista.ItemsSource = filteredVaraukset;
+        }
 
     }
 
@@ -172,7 +183,7 @@ public partial class Varaukset : ContentPage
 
         if (selectedVaraus.VarattuAlkupvm != null)
         {
-            alkupvm.Date = selectedVaraus.VarattuPvm.Value;
+            alkupvm.Date = selectedVaraus.VarattuAlkupvm.Value;
         }
         if (selectedVaraus.VarattuLoppupvm != null)
         {
