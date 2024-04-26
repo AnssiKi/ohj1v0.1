@@ -133,12 +133,13 @@ public partial class Asiakkaat : ContentPage
         // Jos k‰ytt‰j‰ valitsee "Kyll‰", toteutetaan peruutustoimet
         if (result)
         {
-            //poistetaan tiedot t‰h‰n
+            int asiakasId = int.Parse(asiakas_id.Text);
+
+            await asiakasviewmodel.PoistaAsiakasAsync(asiakasId);
         }
         else
         {
-            // Jos k‰ytt‰j‰ valitsee "Ei", peruutetaan toiminto
-            // T‰h‰n ei oo pakko laittaa mit‰‰ kerta se ei haluakkaa poistaa.
+
         }
     }
 

@@ -44,6 +44,17 @@ namespace ohj1v0._1.Viewmodels
                 _asiakkaat.Add(asiakas);
             }
         }
+        public async Task PoistaAsiakasAsync(int asiakasId)
+        {
+            var asiakas = _asiakkaat.FirstOrDefault(a => a.AsiakasId == asiakasId);
+            if (asiakas != null)
+            {
+                _asiakkaat.Remove(asiakas);
+                using var context = new VnContext();
+                context.Asiakas.Remove(asiakas);
+                await context.SaveChangesAsync();
+            }
+        }
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -61,6 +72,8 @@ namespace ohj1v0._1.Viewmodels
             return asiakas;
         }
     }
+
+
 }
 
 
