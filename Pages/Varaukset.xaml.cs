@@ -5,6 +5,10 @@ namespace ohj1v0._1;
 
 public partial class Varaukset : ContentPage
 {
+    Funktiot funktiot = new Funktiot();
+    AlueViewmodel alueViewmodel = new AlueViewmodel();
+    VarausViewmodel varausViewmodel = new VarausViewmodel();
+
     public Varaukset()
     {
         InitializeComponent();
@@ -12,9 +16,7 @@ public partial class Varaukset : ContentPage
         alue_nimi.BindingContext = alueViewmodel;
 
     }
-    Funktiot funktiot = new Funktiot();
-    AlueViewmodel alueViewmodel = new AlueViewmodel();
-    VarausViewmodel varausViewmodel = new VarausViewmodel();
+    
 
     private void etunimi_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 20 merkkiin

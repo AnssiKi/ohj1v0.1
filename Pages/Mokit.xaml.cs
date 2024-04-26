@@ -6,15 +6,17 @@ namespace ohj1v0._1;
 
 public partial class Mokit : ContentPage
 {
+    Funktiot funktiot = new Funktiot();
+    MokkiViewmodel mokkiViewmodel = new MokkiViewmodel();
+    AlueViewmodel alueViewmodel = new AlueViewmodel();
+
     public Mokit()
     {
         InitializeComponent();
         lista.BindingContext = mokkiViewmodel;
         alue_nimi.BindingContext = alueViewmodel;
     }
-    Funktiot funktiot = new Funktiot();
-    MokkiViewmodel mokkiViewmodel = new MokkiViewmodel();
-    AlueViewmodel alueViewmodel = new AlueViewmodel();
+  
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {

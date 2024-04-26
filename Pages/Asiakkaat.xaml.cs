@@ -6,14 +6,16 @@ namespace ohj1v0._1;
 
 public partial class Asiakkaat : ContentPage
 {
-	public Asiakkaat()
+    Funktiot funktiot = new Funktiot();
+    AsiakasViewmodel asiakasviewmodel = new AsiakasViewmodel();
+
+    public Asiakkaat()
 	{
 		InitializeComponent();
     
         BindingContext = asiakasviewmodel;
 	}
-    Funktiot funktiot = new Funktiot();
-    AsiakasViewmodel asiakasviewmodel = new AsiakasViewmodel();
+  
 private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
 
