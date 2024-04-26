@@ -16,10 +16,7 @@ public partial class Asiakkaat : ContentPage
         BindingContext = asiakasviewmodel;
 	}
   
-private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
-    {
 
-    }
 
     private void etunimi_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 20 merkkiin
@@ -148,6 +145,19 @@ private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
 
     private void hae_sukunimella_TextChanged(object sender, TextChangedEventArgs e)
     {
+        string searchText = e.NewTextValue;
+
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            lista.ItemsSource = asiakasviewmodel.Asiakas; // näytetään kaikki asiakkaat, jos ei mitään hakukentässä
+        }
+        else
+        {
+            // filtteröidään ListView sisältö hakukentän mukaan
+            var filteredAsiakkaat = asiakasviewmodel.Asiakas.Where(a => a.Sukunimi.ToLower().Contains(searchText.ToLower())).ToList();
+            lista.ItemsSource = filteredAsiakkaat;
+        }
+
 
     }
 
