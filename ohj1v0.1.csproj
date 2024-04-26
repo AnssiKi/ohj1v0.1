@@ -58,6 +58,7 @@
 
 	<ItemGroup>
 	  <Compile Include="Luokat\Funktiot.cs" />
+	  <Compile Include="Luokat\Raportti.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

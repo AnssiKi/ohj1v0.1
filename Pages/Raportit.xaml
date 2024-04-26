@@ -35,7 +35,7 @@
                         Text="Valitse raportti"/>
 
                     <Picker 
-                        x:Name="raportti" 
+                        x:Name="raportti_valinta" 
                         Grid.Row="1">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
@@ -53,12 +53,9 @@
                      x:Name="alue_nimi" 
                      Grid.Column="1"
                      Grid.Row="1"
-                     SelectedIndexChanged="alue_nimi_SelectedIndexChanged">
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String></x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
+                     SelectedIndexChanged="alue_nimi_SelectedIndexChanged"
+                     ItemsSource="{Binding Alues}"
+                     ItemDisplayBinding="{Binding Nimi}">
                     </Picker>
 
                     <Label
@@ -101,11 +98,20 @@
                     Grid.Column="1"
                     HorizontalOptions="FillAndExpand">
 
-                    <ListView     
-                        x:Name="lista">
-                        <ListView.ItemsSource>
-                            <x:String></x:String>
-                        </ListView.ItemsSource>
+                    <ListView x:Name="lista">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Orientation="Horizontal" Padding="10">
+                                            <Label Text="{Binding Raporttityyppi}" WidthRequest="100" />
+                                            <Label Text="{Binding Alue}" WidthRequest="100" />
+                                            <Label Text="{Binding Alkupvm, StringFormat='{0:dd.MM.yyyy}'}" WidthRequest="100" />
+                                            <Label Text="{Binding Loppupvm, StringFormat='{0:dd.MM.yyyy}'}" WidthRequest="100" />
+                                            <Label Text="{Binding Yhteensa}" WidthRequest="100" />
+                                        </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
                     </ListView>
                 </Frame>
             </Grid>
