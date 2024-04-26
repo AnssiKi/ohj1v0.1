@@ -218,7 +218,7 @@
                                         <StackLayout Orientation="Horizontal" Padding="10">
                                             <Label Text="{Binding AsiakasId}" WidthRequest="20"/>
                                             <Label Text="{Binding Sukunimi}" WidthRequest="100"/>
-                                            <Label Text="{Binding Etunimi}" WidthRequest="50"/>
+                                            <Label Text="{Binding Etunimi}" WidthRequest="80"/>
                                             <Label Text="{Binding Lahiosoite}" WidthRequest="150"/>
                                             <Label Text="{Binding Puhelinnro}" WidthRequest="100"/>
                                         </StackLayout>

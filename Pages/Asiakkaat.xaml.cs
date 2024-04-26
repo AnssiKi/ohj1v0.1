@@ -67,12 +67,12 @@ public partial class Asiakkaat : ContentPage
         string vertailu = "Puhelinnro";
         string vertailu2 = "Email";
 
-        if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
-        {
-            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-        }
-
-        else if (!funktiot.CheckEntryInteger(posti, this)) // tarkistetaan onko postinumero int
+        // if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
+        // {
+        // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        // }
+        
+        if (!funktiot.CheckEntryInteger(posti, this)) // tarkistetaan onko postinumero int
         {
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
         }
@@ -96,8 +96,30 @@ public partial class Asiakkaat : ContentPage
         {
             try
             {
-                // CRUD - toiminnot
+                using (var dbContext = new VnContext())
+                {
+                    var asiakas = new Asiaka()
+                    {
+                        Etunimi = etunimi.Text,
+                        Sukunimi = sukunimi.Text,
+                        Lahiosoite = lahiosoite.Text,
+                        Postinro = postinumero.Text,
+                        Email = email.Text,
+                        Puhelinnro = puhelinnumero.Text
+
+
+                        // AlueId päivittyy automaattisesti tietokannassa
+                    };
+
+                    dbContext.Asiakas.Add(asiakas);
+                    dbContext.SaveChanges();
+                    BindingContext = new AsiakasViewmodel();
+                    await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
+                }
                 await DisplayAlert("Tallennettu", "", "OK");
+                grid = (Grid)entry_grid;
+                ListView list = (ListView)lista;
+                funktiot.TyhjennaEntryt(grid, list);
             }
             catch (Exception ex)
             {
@@ -136,10 +158,14 @@ public partial class Asiakkaat : ContentPage
             int asiakasId = int.Parse(asiakas_id.Text);
 
             await asiakasviewmodel.PoistaAsiakasAsync(asiakasId);
+            await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
+            Grid grid = (Grid)entry_grid;
+            ListView list = (ListView)lista;
+            funktiot.TyhjennaEntryt(grid, list);
         }
         else
         {
-
+            await DisplayAlert("Poistaminen peruttu","","OK");
         }
     }
 
