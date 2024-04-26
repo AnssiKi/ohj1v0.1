@@ -11,7 +11,7 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
@@ -60,11 +60,22 @@
                     VerticalOptions="FillAndExpand">
 
                     <ListView
-                            x:Name="lista"
-                            ItemTapped="lista_ItemTapped">
-                        <ListView.ItemsSource>
-                            <x:String></x:String>
-                        </ListView.ItemsSource>
+                        x:Name="lista"
+                        ItemTapped="lista_ItemTapped"
+                         ItemsSource="{Binding Asiakas}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Orientation="Horizontal" Padding="10">
+                                        <Label Text="{Binding AsiakasId}" WidthRequest="20"/>
+                                        <Label Text="{Binding Sukunimi}" WidthRequest="100"/>
+                                        <Label Text="{Binding Etunimi}" WidthRequest="100"/>
+                                        <Label Text="{Binding Lahiosoite}" WidthRequest="150"/>
+                                        <Label Text="{Binding Puhelinnro}" WidthRequest="100"/>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
                     </ListView>
                 </Frame>
 

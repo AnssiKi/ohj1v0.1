@@ -12,7 +12,6 @@ public partial class Asiakkaat : ContentPage
     public Asiakkaat()
 	{
 		InitializeComponent();
-    
         BindingContext = asiakasviewmodel;
 	}
   

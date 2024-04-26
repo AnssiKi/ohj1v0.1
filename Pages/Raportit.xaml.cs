@@ -38,7 +38,7 @@ public partial class Raportit : ContentPage
 
         if (selectedAlue == null)
         {
-            return; // ei tehda mitaan jos raportin tyyppia ei ole valittu
+            return; // ei tehda mitaan jos aluetta ei ole valittu
         }
 
         Raportti newRaportti = new Raportti
@@ -47,7 +47,7 @@ public partial class Raportit : ContentPage
             Alue = selectedAlue.Nimi,
             Alkupvm = startDate,
             Loppupvm = endDate
-            // Yhteensa = CRUD haku tietokannasta valituilla rajauksilla
+            // Yhteensa = CRUD haku tietokannasta valituilla rajauksilla            
         };
 
         raportti.Add(newRaportti);

@@ -46,12 +46,9 @@
                     <Picker 
                     x:Name="alue_nimi" 
                     Grid.Row="1"
-                    SelectedIndexChanged="alue_nimi_SelectedIndexChanged">
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String></x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
+                    SelectedIndexChanged="alue_nimi_SelectedIndexChanged"
+                    ItemsSource="{Binding Alues}"
+                    ItemDisplayBinding="{Binding Nimi}">
                     </Picker>
 
                     <Label
@@ -114,8 +111,10 @@
                         Margin="0,5,0,0"
                         Grid.Row="5"
                         Grid.Column="1"/>
+                    
                     <Entry
                         Text="" 
+                        x:Name="varauspvm"
                         Grid.Row="6"
                         Grid.Column="1"
                         IsReadOnly="True"/>
@@ -135,11 +134,19 @@
 
                     <ListView     
                         x:Name="mokki_lista"
-                        ItemTapped="mokki_lista_ItemTapped">
-                        <ListView.ItemsSource>
-                            <x:String></x:String>
-                        </ListView.ItemsSource>
-                    </ListView>
+                        ItemTapped="mokki_lista_ItemTapped"
+                        ItemsSource="{Binding Mokkis}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal" Padding="10">
+                                            <Label Text="{Binding MokkiId}" WidthRequest="100"/>
+                                            <Label Text="{Binding Mokkinimi}"/>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                 </Frame>
 
                 <Label                    

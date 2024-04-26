@@ -1,5 +1,7 @@
 using ohj1v0._1;
 using ohj1v0._1.Luokat;
+using ohj1v0._1.Viewmodels;
+using ohj1v0._1.Models;
 
 namespace ohj1v0._1;
 
@@ -8,11 +10,25 @@ public partial class TeeUusiVaraus : ContentPage
 	public TeeUusiVaraus()
 	{
 		InitializeComponent();
-	}
+        alue_nimi.BindingContext = alueViewmodel;
+        varauspvm.Text = DateTime.Now.ToString("dd.MM.yyyy");
+        mokki_lista.BindingContext = mokkiViewmodel;
+        mokki_lista.ItemsSource = null;
+        
+    }
     Funktiot funktiot = new Funktiot();
+    AlueViewmodel alueViewmodel = new AlueViewmodel();
+    MokkiViewmodel mokkiViewmodel = new MokkiViewmodel();
+    Alue selectedAlue;
+
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
-    {
+    {       
+
+        if ((Alue)alue_nimi.SelectedItem != null)
+        {
+            selectedAlue = (Alue)alue_nimi.SelectedItem;
+        }
 
     }
 
@@ -28,6 +44,12 @@ public partial class TeeUusiVaraus : ContentPage
 
     private void henkilomaara_SelectedIndexChanged(object sender, EventArgs e)
     {
+        if ((Alue)alue_nimi.SelectedItem != null)
+        {            
+            int henkilo = henkilomaara.SelectedIndex + 1;
+            var filteredMokit = mokkiViewmodel.Mokkis.Where(v => v.Henkilomaara == henkilo && v.Alue.AlueId == selectedAlue.AlueId).ToList();
+            mokki_lista.ItemsSource = filteredMokit;
+        }
 
     }
 

@@ -3,7 +3,7 @@ using ohj1v0._1.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-/*Luotu viewmodel alueluokalle 25042024 VH 
+/*Luotu viewmodel varauksille 25042024 VH 
  * 
  * 
  */
