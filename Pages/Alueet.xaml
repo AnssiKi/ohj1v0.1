@@ -105,7 +105,7 @@
                         <ListView                            
                            x:Name="lista"
                            ItemTapped="lista_ItemTapped"
-                           SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                           ItemSelected="lista_ItemSelected"
                            ItemsSource="{Binding Alues}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>

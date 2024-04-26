@@ -18,6 +18,7 @@ public partial class Alueet : ContentPage
     }
     Funktiot funktiot = new Funktiot();
     AlueViewmodel alueViewmodel = new AlueViewmodel();
+    Alue SelectedAlue;
 
 
     private async void tallenna_Clicked(object sender, EventArgs e)
@@ -58,18 +59,16 @@ public partial class Alueet : ContentPage
 
                     dbContext.Alues.Add(alue);  
                     dbContext.SaveChanges();
-                    AlueLoad loader = new AlueLoad();
-                    BindingContext = new AlueViewmodel();
+                    await alueViewmodel.LoadAluesFromDatabaseAsync();
+
                 }
-                    await DisplayAlert("Tallennettu", "", "OK");
+                    await DisplayAlert("", "Tallennettu", "OK");
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
             }
-
         }
-
     }
 
     private async void tyhjenna_Clicked(object sender, EventArgs e)
@@ -90,19 +89,32 @@ public partial class Alueet : ContentPage
         }
 
     }
-
+    void lista_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        SelectedAlue = (Alue)e.SelectedItem;
+    }
     private async void poista_Clicked(object sender, EventArgs e)
     {
         bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti poistaa tiedon?", "Kyll‰", "Ei");
         // Jos k‰ytt‰j‰ valitsee "Kyll‰", toteutetaan peruutustoimet
         if (result)
         {
-            /*TODO
-             *  1) paikanna poistettava tieto
-             *  2) poista tieto listviewiin sidotusta kokoelmasta, Alues?
-             *  3) poista tieto tietokannasta
-             *  4) p‰ivit‰ listview
-             */
+            try
+            {
+                // Poistetaan alue tietokannasta ja p‰ivitet‰‰n listan‰kym‰
+                using (var dbContext = new VnContext())
+                {
+                    dbContext.Alues.Remove(SelectedAlue);
+                    dbContext.SaveChanges();
+                    await alueViewmodel.LoadAluesFromDatabaseAsync();
+                }
+                await DisplayAlert("", "Poisto onnistui", "OK");
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Virhe", $"Poistossa tapahtui virhe: {ex.Message}", "OK");
+            }
+
         }
         else
         {
@@ -145,4 +157,6 @@ public partial class Alueet : ContentPage
             lista.ItemsSource = filteredAlues;
         }
     }
+
+ 
 }
