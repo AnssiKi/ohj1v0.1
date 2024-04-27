@@ -46,24 +46,46 @@ public partial class Alueet : ContentPage
 
         else // Tarkistukset lapi voidaan tallentaa
         {
+            //Tarkistetaan onko alue valittu alue
             try
             {
-                // Lis‰t‰‰n alue tietokantaan ja p‰ivitet‰‰n listan‰kym‰
-                using (var dbContext = new VnContext()) 
-                {
-                    var alue = new Alue()
+                using (var dbContext = new VnContext())
+                    if (SelectedAlue == null) 
                     {
-                        Nimi = alue_nimi.Text
-                        // AlueId p‰ivittyy automaattisesti tietokannassa
-                    };
+                        var alue = new Alue()
+                        {
+                            Nimi = alue_nimi.Text
+                            // AlueId p‰ivittyy automaattisesti tietokannassa
+                        };
 
-                    dbContext.Alues.Add(alue);  
-                    dbContext.SaveChanges();
-                    await alueViewmodel.LoadAluesFromDatabaseAsync();
+                        dbContext.Alues.Add(alue);
+                        dbContext.SaveChanges();
+                        await alueViewmodel.LoadAluesFromDatabaseAsync();
+                        await DisplayAlert("", "Tallennettu", "OK");
+                    }
+                 
+                    else 
+                    {
+                        bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti muokata alueen tietoja?", "Kyll‰", "Ei");
 
-                }
-                    await DisplayAlert("", "Tallennettu", "OK");
+                        // Jos k‰ytt‰j‰ valitsee "Kyll‰", toteutetaan peruutustoimet
+                        if (result)
+                        {
+                            SelectedAlue.Nimi = alue_nimi.Text;
+                            dbContext.Alues.Update(SelectedAlue);
+                            dbContext.SaveChanges();
+                            await alueViewmodel.LoadAluesFromDatabaseAsync();
+                            await DisplayAlert("", "Muutokset tallennettu", "OK");
+                        }
+                        else //jos ei haluakaan tallentaa, tyhjennet‰‰n entry
+                        {
+                            await DisplayAlert("Muutoksia ei tallennettu", "Valitse alue listalta jos haluat muokata aluetta", "OK");
+                            ListView list = (ListView)lista;
+                            funktiot.TyhjennaEntryt(grid, list);
+                        }
+                    }
             }
+       
             catch (Exception ex)
             {
                 await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
@@ -89,6 +111,7 @@ public partial class Alueet : ContentPage
         }
 
     }
+    //Valittu kohde listviewist‰ tallentuu SelectedAlue-olioon
     void lista_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         SelectedAlue = (Alue)e.SelectedItem;

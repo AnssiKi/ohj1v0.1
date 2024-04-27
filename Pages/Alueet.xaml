@@ -64,7 +64,7 @@
                          x:Name="poista"
                          Text="Poista"
                          Clicked="poista_Clicked"/>
-                    
+         
                 </Grid>
                 <Grid 
                     Grid.Column="1"
