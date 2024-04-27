@@ -18,11 +18,17 @@ namespace ohj1v0._1.Luokat
 
         public void CheckEntryPituus(Entry entry, int maxLength, ContentPage currentPage)
         { // tarkistetaan ettei entryn syote ole liian pitka
-
-            if (entry.Text.Length >= maxLength)
+            try 
             {
-                DisplayAlertOnPage(currentPage, "Virhe", $"Syöte voi olla enintään {maxLength} merkkiä pitkä.", "OK");
+                if (entry.Text.Length >= maxLength)
+                {
+                    DisplayAlertOnPage(currentPage, "Virhe", $"Syöte voi olla enintään {maxLength} merkkiä pitkä.", "OK");
+                }
+            } catch (Exception e)
+            {
+                return;
             }
+            
 
         }
 
