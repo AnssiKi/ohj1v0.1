@@ -28,8 +28,6 @@ namespace ohj1v0._1.Luokat
             {
                 return;
             }
-            
-
         }
 
         public bool CheckEntryDouble(Entry entry, ContentPage currentPage)

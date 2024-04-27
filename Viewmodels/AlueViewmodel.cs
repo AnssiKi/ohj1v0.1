@@ -50,7 +50,6 @@ namespace ohj1v0._1.Viewmodels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
     public class AlueLoad
     {
         public async Task<List<Alue>> LoadAluesAsync()
