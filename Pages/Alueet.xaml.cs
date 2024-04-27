@@ -101,12 +101,16 @@ public partial class Alueet : ContentPage
         {
             try
             {
-                // Poistetaan alue tietokannasta ja p‰ivitet‰‰n listan‰kym‰
+                // Poistetaan alue tietokannasta, p‰ivitet‰‰n listan‰kym‰ sek‰ tyhjennet‰‰n kent‰t
                 using (var dbContext = new VnContext())
                 {
                     dbContext.Alues.Remove(SelectedAlue);
                     dbContext.SaveChanges();
                     await alueViewmodel.LoadAluesFromDatabaseAsync();
+                    Grid grid = (Grid)entry_grid;
+                    ListView list = (ListView)lista;
+                    funktiot.TyhjennaEntryt(grid, list);
+
                 }
                 await DisplayAlert("", "Poisto onnistui", "OK");
             }
