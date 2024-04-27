@@ -120,6 +120,7 @@
                             <x:Array Type="{x:Type x:String}">
                                 <x:String>10%</x:String>
                                 <x:String>14%</x:String>
+                                <x:String>24%</x:String>
                             </x:Array>
                         </Picker.ItemsSource>
                     </Picker>
@@ -160,7 +161,7 @@
                     </Grid.RowDefinitions>
 
                     <Label
-                    Text="Hae nimellä"
+                    Text="Hae alueella"
                     HorizontalTextAlignment="Center"
                     VerticalTextAlignment="Center"/>
 
@@ -188,10 +189,11 @@
                                 <DataTemplate>
                                     <ViewCell>
                                         <StackLayout Orientation="Horizontal" Padding="10">
-                                            <Label Text="{Binding PalveluId}" WidthRequest="100"/>
-                                            <Label Text="{Binding Nimi}"/>
-                                            <Label Text="{Binding Hinta}"/>
-                                            <Label Text="{Binding Alv}"/>
+                                            <Label Text="{Binding PalveluId}" WidthRequest="50"/>
+                                            <Label Text="{Binding Alue.Nimi}" WidthRequest="100"/>
+                                            <Label Text="{Binding Nimi}" WidthRequest="150"/>
+                                            <Label Text="{Binding Hinta}" WidthRequest="50"/>
+                                            <Label Text="{Binding Alv}" WidthRequest="50"/>
                                         </StackLayout>
                                     </ViewCell>
                                 </DataTemplate>
