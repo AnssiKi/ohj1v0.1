@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 /*Luotu viewmodel alueluokalle 23042024 KA 
- * 
+ *Päivitetty LoadAluesFromDatabaseAsync-funktiota Villen toimesta jossain vaiheessa viikkoa 28042024 KA
  * 
  */
 

@@ -6,19 +6,28 @@ namespace ohj1v0._1;
 
 public partial class Palvelut : ContentPage
 {
-	public Palvelut()
+	Funktiot funktiot = new Funktiot();
+    PalveluViewmodel pVm = new PalveluViewmodel();
+    AlueViewmodel aVm = new AlueViewmodel();
+   
+   
+    public Palvelut()
 	{
 		InitializeComponent();
-        lista.BindingContext = palveluViewmodel;
+        lista.BindingContext = pVm;
+        alue_nimi.BindingContext = aVm;
+        hae_alueella.BindingContext = aVm; 
+
+        
 	}
 
-    Funktiot funktiot = new Funktiot();
-    PalveluViewmodel palveluViewmodel = new PalveluViewmodel();
-
+    
+    
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
 
     }
+    
 
     private void palvelu_nimi_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 40 merkkiin
@@ -118,13 +127,73 @@ public partial class Palvelut : ContentPage
 
     }
 
-    private void hae_nimella_TextChanged(object sender, TextChangedEventArgs e)
+    //Eventhandler, joka noutaa tiedot listviewist‰ entrykenttiin.
+    private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
+        if (e.Item == null)
+        {
+            return;
+        }
+
+        var selectedPalvelu = (Palvelu)e.Item;
+
+        if (selectedPalvelu.Alue != null)
+        {
+            alue_nimi.SelectedIndex = (int)selectedPalvelu.Alue.AlueId - 1;
+        }
+        else
+        {
+            alue_nimi.SelectedItem = null;
+        }
+
+        palvelu_id.Text = selectedPalvelu.PalveluId.ToString();
+        palvelu_nimi.Text = selectedPalvelu.Nimi;
+        palvelu_kuvaus.Text = selectedPalvelu.Kuvaus;
+        palvelu_hinta.Text = selectedPalvelu.Hinta.ToString();
+
+        if (selectedPalvelu.Alv == 10 || selectedPalvelu.Alv == 14 || selectedPalvelu.Alv == 24)
+        {
+            switch (selectedPalvelu.Alv)
+            {
+                case 10:
+                    palvelu_alv.SelectedIndex = 0; // Indeksi 10 % arvolle
+                    break;
+                case 14:
+                    palvelu_alv.SelectedIndex = 1; // Indeksi 14 % arvolle
+                    break;
+                case 24:
+                    palvelu_alv.SelectedIndex = 2; // Indeksi 24 % arvolle
+                    break;
+            }
+        }
+        else
+        {
+            palvelu_alv.SelectedIndex = -1; // Ei valittu mit‰‰n
+        }
 
     }
 
-    private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
+
+    //Eventhandler, joka valitsee n‰ytett‰v‰t tiedot Picker-elementin valinnan mukaan.
+    private void hae_alueella_SelectedIndexChanged(object sender, EventArgs e)
     {
+        var picker = (Picker)sender;
+        var selectedAlue = (Alue)picker.SelectedItem;
+
+        if (selectedAlue != null) 
+        {
+            var filteredPalvelut = pVm.Palvelus.Where(p => p.Alue.AlueId == selectedAlue.AlueId).ToList();
+            lista.ItemsSource = filteredPalvelut;   
+        
+        }
+
+    }
+
+    //Painike, jolla tyhjennet‰‰n aluevalint ja p‰ivitet‰‰n lista vastaamaan tietokantaa
+    private void hae_alueella_tyhjennaClicked(object sender, EventArgs e)
+    {
+        hae_alueella.SelectedIndex = -1;
+        lista.ItemsSource = pVm.Palvelus;
 
     }
 }

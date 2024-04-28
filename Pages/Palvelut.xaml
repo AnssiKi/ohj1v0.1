@@ -3,25 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ohj1v0._1.Palvelut"
              Title="Palvelut">
+    
+    <!-- muokattu näkymää 28042024 KA -->
     <ScrollView>
         <VerticalStackLayout
         Spacing="25"
         Padding="30,0"
-        VerticalOptions="Center">
+        VerticalOptions="Start">
 
-            <Grid>
+            <Grid ColumnSpacing="10">
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="600" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <Grid
                     Padding="10"
-                    x:Name="entry_grid">
+                    x:Name="entry_grid"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="300" />
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
@@ -50,18 +54,19 @@
                     x:Name="palvelu_id"
                     Text=""
                     IsEnabled="False"
-                    Grid.Row="1"/>
+                    Grid.Row="1"
+                    WidthRequest="100"
+                    HorizontalOptions="Start"/>
 
                     <Picker 
                     x:Name="alue_nimi" 
                     Grid.Column="1"
                     Grid.Row="1"                        
-                    SelectedIndexChanged="alue_nimi_SelectedIndexChanged">
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String></x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
+                    SelectedIndexChanged="alue_nimi_SelectedIndexChanged"
+                    WidthRequest="200"
+                    HorizontalOptions="Start"
+                    ItemsSource="{Binding Alues}"
+                    ItemDisplayBinding="{Binding Nimi}">
                     </Picker>
 
                     <Label
@@ -118,9 +123,9 @@
                     SelectedIndexChanged="palvelu_alv_SelectedIndexChanged">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
-                                <x:String>10%</x:String>
-                                <x:String>14%</x:String>
-                                <x:String>24%</x:String>
+                                <x:String>10</x:String>
+                                <x:String>14</x:String>
+                                <x:String>24</x:String>
                             </x:Array>
                         </Picker.ItemsSource>
                     </Picker>
@@ -150,7 +155,9 @@
 
                 <Grid
                 Grid.Column="1"
-                Padding="10">
+                Padding="10"
+                VerticalOptions="Start"
+                HorizontalOptions="Start">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -160,17 +167,48 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Label
-                    Text="Hae alueella"
-                    HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"/>
 
-                    <Entry
-                    x:Name="hae_nimella"
-                    Text=""
-                    Grid.Column="1"
-                    TextChanged="hae_nimella_TextChanged"/>
+                    <Grid Grid.Column="0" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="400"/>
+                        </Grid.ColumnDefinitions>    
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
+                        <Label
+                            Text="Hae alueella"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            HorizontalOptions="Center">
+                        </Label>
+
+                        <Picker
+                             x:Name="hae_alueella"
+                             SelectedIndexChanged="hae_alueella_SelectedIndexChanged"
+                             Grid.Column="1"
+                             Grid.Row="0"
+                             ItemsSource="{Binding Alues}"
+                             ItemDisplayBinding="{Binding Nimi}"
+                             HorizontalOptions="Start"
+                             WidthRequest="200"
+                             MinimumWidthRequest="200"
+                             MaximumWidthRequest="200">
+                        </Picker>
+                        <Button
+                            x:Name="Hae_alueella_tyhjenna"
+                            Text="tyhjennä"
+                            Clicked="hae_alueella_tyhjennaClicked"
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            HorizontalOptions="End">
+                        
+                        </Button>
+                        
+                    </Grid>
                     <Frame
                     BorderColor="Black"
                     CornerRadius="2"
@@ -185,15 +223,26 @@
                             ItemTapped="lista_ItemTapped"
                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                             ItemsSource="{Binding Palvelus}">
+                            <ListView.Header>
+                                <StackLayout Orientation="Horizontal" Padding="10">
+                                    <Label Text="Id" WidthRequest="50" FontAttributes="Bold"/>
+                                    <Label Text="Alue" WidthRequest="125" FontAttributes="Bold"/>
+                                    <Label Text="Nimi" WidthRequest="200" FontAttributes="Bold"/>
+                                    <Label Text="Hinta ALV 0%" WidthRequest="125" FontAttributes="Bold"/>
+                                    <Label Text="ALV" WidthRequest="125" FontAttributes="Bold"/>
+                                    <Label Text="Hinta sis. ALV" WidthRequest="125" FontAttributes="Bold"/>
+                                </StackLayout>
+                            </ListView.Header>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
                                         <StackLayout Orientation="Horizontal" Padding="10">
                                             <Label Text="{Binding PalveluId}" WidthRequest="50"/>
-                                            <Label Text="{Binding Alue.Nimi}" WidthRequest="100"/>
-                                            <Label Text="{Binding Nimi}" WidthRequest="150"/>
-                                            <Label Text="{Binding Hinta}" WidthRequest="50"/>
-                                            <Label Text="{Binding Alv}" WidthRequest="50"/>
+                                            <Label Text="{Binding Alue.Nimi}" WidthRequest="125"/>
+                                            <Label Text="{Binding Nimi}" WidthRequest="200"/>
+                                            <Label Text="{Binding Hinta, StringFormat='{0} €'}" WidthRequest="125"/>
+                                            <Label Text="{Binding Alv, StringFormat='{0} %'}" WidthRequest="125"/>
+                                            <Label Text="{Binding HintaAlv, StringFormat='{0} €'}" WidthRequest="125"/>
                                         </StackLayout>
                                     </ViewCell>
                                 </DataTemplate>
