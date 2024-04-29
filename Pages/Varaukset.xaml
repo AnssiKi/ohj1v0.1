@@ -162,7 +162,7 @@
                          IsReadOnly="True"/>
 
                     <Label
-                         Text="paikkakunta"
+                         Text="Paikkakunta"
                          Grid.Column="1"
                          Grid.Row="10"
                          Margin="0,5,0,0"/>

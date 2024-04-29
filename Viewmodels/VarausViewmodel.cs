@@ -44,6 +44,19 @@ namespace ohj1v0._1.Viewmodels
             }
         }
 
+        public async Task PoistaVarausAsync(int varausId)
+        {
+            var varaus = _varaukset.FirstOrDefault(a => a.VarausId == varausId);
+
+            if (varaus != null)
+            {
+                _varaukset.Remove(varaus);
+                using var context = new VnContext();
+                context.Varaus.Remove(varaus);
+                await context.SaveChangesAsync();
+            }
+        }
+
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -1,6 +1,7 @@
- using ohj1v0._1.Luokat;
+using ohj1v0._1.Luokat;
 using ohj1v0._1.Viewmodels;
 using ohj1v0._1.Models;
+using System.Globalization;
 namespace ohj1v0._1;
 
 public partial class Varaukset : ContentPage
@@ -8,6 +9,7 @@ public partial class Varaukset : ContentPage
     Funktiot funktiot = new Funktiot();
     AlueViewmodel alueViewmodel = new AlueViewmodel();
     VarausViewmodel varausViewmodel = new VarausViewmodel();
+    Varau selectedVaraus;
 
     public Varaukset()
     {
@@ -16,7 +18,7 @@ public partial class Varaukset : ContentPage
         alue_nimi.BindingContext = alueViewmodel;
 
     }
-    
+
 
     private void etunimi_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 20 merkkiin
@@ -94,16 +96,80 @@ public partial class Varaukset : ContentPage
         {
             try
             {
-                // CRUD - toiminnot
-                await DisplayAlert("Tallennettu", "", "OK");
+                using (var dbContext = new VnContext())
+
+                    if (selectedVaraus != null) // voidaan vain korjata tietoja 
+                    {
+                        bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti muokata varauksen tietoja?", "Kyllä", "Ei");
+
+                        // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
+                        if (result)
+                        {
+                            // VarausId päivittyy automaattisesti tietokannassa
+                            selectedVaraus.Mokki.Alue.AlueId = (uint)alue_nimi.SelectedIndex + 1;
+                            selectedVaraus.Asiakas.Etunimi = etunimi.Text;
+                            selectedVaraus.Asiakas.Sukunimi = sukunimi.Text;
+                            selectedVaraus.Asiakas.Puhelinnro = puhelinnumero.Text;
+                            selectedVaraus.Asiakas.Email = sahkoposti.Text;
+                            selectedVaraus.Mokki.Mokkinimi = mokin_nimi.Text;
+                            selectedVaraus.Mokki.Postinro = postinumero.Text;
+                            // CRUD paikkakunta haku postinumeron perusteella
+
+                            if (DateTime.TryParseExact(varauspvm.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate))
+                            {
+                                selectedVaraus.VarattuPvm = parsedDate;
+                            }
+                            
+                            if (alkupvm != null)
+                            {
+                                selectedVaraus.VarattuAlkupvm = alkupvm.Date;
+                            }
+                            if (loppupvm != null)
+                            {
+                                selectedVaraus.VarattuLoppupvm = loppupvm.Date;
+                            }
+
+                            if (vahvistuspvm != null)
+                            {
+                                selectedVaraus.VahvistusPvm = vahvistuspvm.Date;
+                            }
+
+                            dbContext.Varaus.Update(selectedVaraus);
+                            dbContext.SaveChanges();
+                            await varausViewmodel.LoadVarausFromDatabaseAsync();
+                            await DisplayAlert("", "Muutokset tallennettu", "OK");
+                            grid = (Grid)entry_grid;
+                            ListView list = (ListView)lista;
+                            funktiot.TyhjennaEntryt(grid, list);
+                            //tarvitseeko jotain N/A
+                        }
+                        else
+                        {
+                            await DisplayAlert("Muutoksia ei tallennettu", "Valitse varaus listalta jos haluat muokata mökkiä", "OK");
+                            ListView list = (ListView)lista;
+                            funktiot.TyhjennaEntryt(grid, list);
+                            //tarvitseeko jotain N/A
+                        }
+
+                        foreach (var child in grid)
+                        { // Muuttaa entryt tallennuksen jälkeen vain lukumuotoon
+
+                            if (child is Entry entry)
+                            {
+                                entry.IsReadOnly = true;
+                            }
+                        }
+                    }               
+
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
             }
-
         }
+
     }
+
 
     private async void tyhjenna_Clicked(object sender, EventArgs e)
     {
@@ -115,8 +181,17 @@ public partial class Varaukset : ContentPage
             Grid grid = (Grid)entry_grid;
             ListView list = (ListView)lista;
             funktiot.TyhjennaEntryt(grid, list);
-            hae_varaukset.Date = DateTime.Today; 
-            lista.ItemsSource = varausViewmodel.Varaukset; 
+            hae_varaukset.Date = DateTime.Today;
+            lista.ItemsSource = varausViewmodel.Varaukset;
+
+            foreach (var child in grid)
+            { // Muuttaa entryt tyhjennyksen jälkeen vain lukumuotoon
+
+                if (child is Entry entry)
+                {
+                    entry.IsReadOnly = true;
+                }
+            }
         }
         else
         {
@@ -127,17 +202,37 @@ public partial class Varaukset : ContentPage
 
     private async void poista_Clicked(object sender, EventArgs e)
     {
-        bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti poistaa tiedon?", "Kyllä", "Ei");
-
-        // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
-        if (result)
+        Grid grid = (Grid)entry_grid;
+        if (selectedVaraus != null)
         {
-            //poistetaan tiedot tähän
+            bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti poistaa tiedon?", "Kyllä", "Ei");
+
+            // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
+            if (result)
+            {
+                int varausId = int.Parse(varaus_id.Text);
+                await varausViewmodel.PoistaVarausAsync(varausId);
+                await varausViewmodel.LoadVarausFromDatabaseAsync();
+                ListView list = (ListView)lista;
+                funktiot.TyhjennaEntryt(grid, list);
+            }
+            else
+            {
+                await DisplayAlert("Poistaminen peruttu", "", "OK");
+            }
+
+            foreach (var child in grid)
+            { // Muuttaa entryt tyhjennyksen jälkeen vain lukumuotoon
+
+                if (child is Entry entry)
+                {
+                    entry.IsReadOnly = true;
+                }
+            }
         }
         else
         {
-            // Jos käyttäjä valitsee "Ei", peruutetaan toiminto
-            // Tähän ei oo pakko laittaa mitää kerta se ei haluakkaa poistaa.
+            await DisplayAlert("Valitse listalta poistettava mökki", "", "OK");
         }
     }
 
@@ -157,12 +252,14 @@ public partial class Varaukset : ContentPage
 
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
+        Grid grid = (Grid)entry_grid;
+
         if (e.Item == null)
         {
             return;
         }
 
-        var selectedVaraus = (Varau)e.Item;
+        selectedVaraus = (Varau)e.Item;
 
         varaus_id.Text = selectedVaraus.VarausId.ToString();
 
@@ -195,23 +292,18 @@ public partial class Varaukset : ContentPage
         {
             vahvistuspvm.Date = selectedVaraus.VahvistusPvm.Value;
         }
-
         if (selectedVaraus.VarattuPvm.HasValue)
         {
             varauspvm.Text = selectedVaraus.VarattuPvm.Value.ToString("dd.MM.yyyy");
         }
 
-        foreach (var child in VerticalStack.Children)
+        foreach (var child in grid)
         { // Muuttaa entry valinnan jälkeen isreadonly=false
 
             if (child is Entry entry)
             {
                 entry.IsReadOnly = false;
             }
-
-
         }
-
-
     }
 }

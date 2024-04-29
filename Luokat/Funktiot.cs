@@ -177,6 +177,10 @@ namespace ohj1v0._1.Luokat
                 {
                     picker.SelectedIndex = -1; // Tyhjentää pickerin valinnan
                 }
+                else if (child is DatePicker datePicker)
+                {
+                    datePicker.Date = DateTime.Today; // Asettaa datepickerin valinnan kuluvaksi paivaksi
+                }
 
             }
 
