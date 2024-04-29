@@ -86,7 +86,7 @@ public partial class TeeUusiVaraus : ContentPage
             VarattuAlkupvm = alkupvm.Date,
             VarattuLoppupvm = loppupvm.Date,
             Varattupvm = DateTime.Now,
-            Vahvistuspvm = alkupvm.Date // TÄHÄN PITÄÄ VIELÄ SE LASKUKAAVA SAAHA
+            Vahvistuspvm = DateTime.MaxValue // TÄHÄN PITÄÄ VIELÄ SE LASKUKAAVA SAAHA kuha laitoin nyt jonku
         };
 
         Navigation.PushAsync(new Uusi_asiakas(this,varauksenTiedot)); // tarvitsee tarkistukset tietojen oikeellisuudelle

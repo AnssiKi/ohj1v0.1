@@ -15,6 +15,7 @@ public partial class Uusi_asiakas : ContentPage
     }
     Funktiot funktiot = new Funktiot();
     AsiakasViewmodel asiakasviewmodel = new AsiakasViewmodel();
+    VarausViewmodel varausViewmodel = new VarausViewmodel();
 
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
@@ -129,15 +130,17 @@ public partial class Uusi_asiakas : ContentPage
                     VahvistusPvm = varauksenTiedot.Vahvistuspvm,
                     VarattuAlkupvm = varauksenTiedot.VarattuAlkupvm,
                     VarattuLoppupvm = varauksenTiedot.VarattuLoppupvm,
-                    Asiakas = asiakas,
-                    Mokki = varauksenTiedot.ValittuMokki,
-                    VarauksenPalveluts = varauksenTiedot.VarauksenPalveluts
+                   // Asiakas = asiakas,
+                   // Mokki = varauksenTiedot.ValittuMokki,
+                    //VarauksenPalveluts = varauksenTiedot.VarauksenPalveluts
 
                 };
 
+                await varausViewmodel.LoadVarausFromDatabaseAsync();
                 dbContext.Varaus.Add(varaus);
                 dbContext.SaveChanges();
                 BindingContext = new VarausViewmodel();
+                await varausViewmodel.LoadVarausFromDatabaseAsync();
             }
         
             await DisplayAlert("Asiakkaan ja varauksen tallennus onnistui!", "", "OK");
