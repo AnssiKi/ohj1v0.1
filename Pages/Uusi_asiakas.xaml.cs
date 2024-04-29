@@ -127,11 +127,11 @@ public partial class Uusi_asiakas : ContentPage
                     AsiakasId = asiakas.AsiakasId,
                     MokkiId = varauksenTiedot.ValittuMokki.MokkiId,
                     VarattuPvm = varauksenTiedot.Varattupvm,
-                    VahvistusPvm = varauksenTiedot.Vahvistuspvm,
+                    VahvistusPvm = varauksenTiedot.VarattuAlkupvm - TimeSpan.FromDays(7),
                     VarattuAlkupvm = varauksenTiedot.VarattuAlkupvm,
-                    VarattuLoppupvm = varauksenTiedot.VarattuLoppupvm,
-                   // Asiakas = asiakas,
-                   // Mokki = varauksenTiedot.ValittuMokki,
+                    VarattuLoppupvm = varauksenTiedot.VarattuLoppupvm
+                   
+                    //varauksen palvelut pit‰‰ viel‰ saaha kuntoon
                     //VarauksenPalveluts = varauksenTiedot.VarauksenPalveluts
 
                 };
