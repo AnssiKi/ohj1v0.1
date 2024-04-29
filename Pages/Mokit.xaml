@@ -112,7 +112,8 @@
                         Text=""
                         MaxLength="5"
                         Grid.Row="7"
-                        TextChanged="mokki_postinumero_TextChanged"/>
+                        TextChanged="mokki_postinumero_TextChanged"
+                        Unfocused="mokki_postinumero_Unfocused"/>
 
                     <Entry
                     x:Name="mokki_paikkakunta"

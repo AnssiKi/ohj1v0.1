@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 /*Luotu viewmodel mokkiluokalle 24042024 VH 
- * 
+ * Lisatty poista funktio 29042024 VH
  * 
  */
 
@@ -44,6 +44,20 @@ namespace ohj1v0._1.Viewmodels
                 _mokkis.Add(mokki);
             }
         }
+
+        public async Task PoistaMokkisAsync(int mokkiId)
+        {
+            var mokki = _mokkis.FirstOrDefault(a => a.MokkiId == mokkiId);
+
+            if (mokki != null)
+            {
+                _mokkis.Remove(mokki);
+                using var context = new VnContext();
+                context.Mokkis.Remove(mokki);
+                await context.SaveChangesAsync();
+            }
+        }
+
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

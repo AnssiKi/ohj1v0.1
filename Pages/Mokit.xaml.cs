@@ -2,6 +2,7 @@ using ohj1v0._1.Luokat;
 using ohj1v0._1.Viewmodels;
 using ohj1v0._1.Models;
 
+
 namespace ohj1v0._1;
 
 public partial class Mokit : ContentPage
@@ -9,6 +10,7 @@ public partial class Mokit : ContentPage
     Funktiot funktiot = new Funktiot();
     MokkiViewmodel mokkiViewmodel = new MokkiViewmodel();
     AlueViewmodel alueViewmodel = new AlueViewmodel();
+    Mokki selectedMokki;
 
     public Mokit()
     {
@@ -16,7 +18,7 @@ public partial class Mokit : ContentPage
         lista.BindingContext = mokkiViewmodel;
         alue_nimi.BindingContext = alueViewmodel;
     }
-  
+
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -36,7 +38,7 @@ public partial class Mokit : ContentPage
         Entry entry = mokki_nimi;
         string vertailu = "Mokkinimi";
 
-        if (!funktiot.CheckTupla(this, entry, lista, luokka, selite, vertailu)) // varmistetaan ettei ole samannimista aluetta
+        if (!funktiot.CheckTupla(this, entry, lista, luokka, selite, vertailu)) // varmistetaan ettei ole samannimista mokkia
         {
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
         }
@@ -53,6 +55,11 @@ public partial class Mokit : ContentPage
     {// entryn pituus rajoitettu xaml.cs max 5 merkkiin
         Entry entry = (Entry)sender;
         funktiot.CheckEntryInteger(entry, this); // funktiossa tarkistetaan ettei syote sisalla tekstia
+    }
+
+    private void mokki_postinumero_Unfocused(object sender, FocusEventArgs e)
+    {
+
     }
 
     private void mokki_hinta_TextChanged(object sender, TextChangedEventArgs e)
@@ -84,12 +91,12 @@ public partial class Mokit : ContentPage
         Grid grid = (Grid)entry_grid;
         string vertailu = "Mokkinimi";
 
-        if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
+        /*if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
         {
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-        }
+        }*/
 
-        else if (!funktiot.CheckTupla(this, nimi, lista, luokka, selite, vertailu)) // varmistetaan ettei ole samannimista mokkia
+        if (!funktiot.CheckTupla(this, nimi, lista, luokka, selite, vertailu)) // varmistetaan ettei ole samannimista mokkia
         {
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
         }
@@ -108,8 +115,64 @@ public partial class Mokit : ContentPage
         {
             try
             {
-                // CRUD - toiminnot
-                await DisplayAlert("Tallennettu", "", "OK");
+                using (var dbContext = new VnContext())
+
+                    if (selectedMokki == null) // tallennetaan uusi mokki
+                    {
+                        var mokki = new Mokki()
+                        {
+                            // MokkiId päivittyy automaattisesti tietokannassa
+                            AlueId = (uint)alue_nimi.SelectedIndex + 1,
+                            Mokkinimi = mokki_nimi.Text,
+                            Katuosoite = mokki_katuosoite.Text,
+                            Postinro = mokki_postinumero.Text,
+                            Hinta = double.Parse(mokki_hinta.Text),
+                            Kuvaus = mokki_kuvaus.Text,
+                            Varustelu = mokki_kuvaus.Text,
+                            Henkilomaara = int.Parse(mokki_henkilomaara.SelectedItem.ToString()),
+
+                        };
+
+                        dbContext.Mokkis.Add(mokki);
+                        dbContext.SaveChanges();
+                        BindingContext = new MokkiViewmodel();
+                        await mokkiViewmodel.LoadMokkisFromDatabaseAsync();
+                        await DisplayAlert("Tallennettu", "", "OK");
+                        grid = (Grid)entry_grid;
+                        ListView list = (ListView)lista;
+                        funktiot.TyhjennaEntryt(grid, list);
+                    }
+                    else // paivitetaan jo olemassa olevan mokin tietoja
+                    {
+                        bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti muokata mökin tietoja?", "Kyllä", "Ei");
+
+                        // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
+                        if (result)
+                        {
+                            selectedMokki.AlueId = (uint)alue_nimi.SelectedIndex + 1;
+                            selectedMokki.Mokkinimi = mokki_nimi.Text;
+                            selectedMokki.Katuosoite = mokki_katuosoite.Text;
+                            selectedMokki.Postinro = mokki_postinumero.Text;
+                            selectedMokki.Hinta = double.Parse(mokki_hinta.Text);
+                            selectedMokki.Kuvaus = mokki_kuvaus.Text;
+                            selectedMokki.Varustelu = mokki_kuvaus.Text;
+                            selectedMokki.Henkilomaara = int.Parse(mokki_henkilomaara.SelectedItem.ToString());
+                            dbContext.Mokkis.Update(selectedMokki);
+                            dbContext.SaveChanges();
+                            await mokkiViewmodel.LoadMokkisFromDatabaseAsync();
+                            await DisplayAlert("", "Muutokset tallennettu", "OK");
+                            grid = (Grid)entry_grid;
+                            ListView list = (ListView)lista;
+                            funktiot.TyhjennaEntryt(grid, list);
+                        }
+                        else //jos ei haluakaan tallentaa, tyhjennetään tiedot
+                        {
+                            await DisplayAlert("Muutoksia ei tallennettu", "Valitse mökki listalta jos haluat muokata mökkiä", "OK");
+                            ListView list = (ListView)lista;
+                            funktiot.TyhjennaEntryt(grid, list);
+                        }
+                    }
+
             }
             catch (Exception ex)
             {
@@ -135,6 +198,7 @@ public partial class Mokit : ContentPage
             Grid grid = (Grid)entry_grid;
             ListView list = (ListView)lista;
             funktiot.TyhjennaEntryt(grid, list);
+            selectedMokki = null;
 
         }
         else
@@ -152,12 +216,16 @@ public partial class Mokit : ContentPage
         // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
         if (result)
         {
-            //poistetaan tiedot tähän
+            int mokkiId = int.Parse(mokki_id.Text);
+            await mokkiViewmodel.PoistaMokkisAsync(mokkiId);
+            await mokkiViewmodel.LoadMokkisFromDatabaseAsync();
+            Grid grid = (Grid)entry_grid;
+            ListView list = (ListView)lista;
+            funktiot.TyhjennaEntryt(grid, list);
         }
         else
         {
-            // Jos käyttäjä valitsee "Ei", peruutetaan toiminto
-            // Tähän ei oo pakko laittaa mitää kerta se ei haluakkaa poistaa.
+            await DisplayAlert("Poistaminen peruttu", "", "OK");
         }
 
     }
@@ -186,13 +254,11 @@ public partial class Mokit : ContentPage
             return;
         }
 
-        var selectedMokki = (Mokki)e.Item;
-
-        //alueen haku ei toimi kunnolla 
+        selectedMokki = (Mokki)e.Item;
 
         if (selectedMokki.Alue != null)
         {
-            alue_nimi.SelectedIndex = (int)selectedMokki.Alue.AlueId -1;
+            alue_nimi.SelectedIndex = (int)selectedMokki.Alue.AlueId - 1;
         }
         else
         {
@@ -216,4 +282,6 @@ public partial class Mokit : ContentPage
         }
 
     }
+
+
 }
