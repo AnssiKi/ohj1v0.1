@@ -22,14 +22,33 @@ public partial class Raportit : ContentPage
         DateTime startDate = alkupvm.Date;
         DateTime endDate = loppupvm.Date;
         string Raporttityyppi;
+        int yhteensa;
 
         if (selectedRaportti == "Majoitus")
         {
             Raporttityyppi = "Majoitus";
+
+            using (var context = new VnContext()) // haetaan majoitukset tietokannasta 
+            {
+                yhteensa = context.Varaus
+                            .Where(v => v.Mokki.AlueId == selectedAlue.AlueId &&
+                                        v.VarattuAlkupvm >= startDate &&
+                                        v.VarattuLoppupvm <= endDate)
+                            .Count();
+            }
         }
         else if (selectedRaportti == "Palvelut")
         {
             Raporttityyppi = "Palvelut";
+
+            using (var context = new VnContext())
+            {
+                yhteensa = context.VarauksenPalveluts
+                            .Where(vp => vp.Palvelu.AlueId == selectedAlue.AlueId &&
+                                          vp.Varaus.VarattuAlkupvm >= startDate &&
+                                          vp.Varaus.VarattuLoppupvm <= endDate)
+                            .Sum(vp => vp.Lkm);
+            }
         }
         else
         {
@@ -41,13 +60,16 @@ public partial class Raportit : ContentPage
             return; // ei tehda mitaan jos aluetta ei ole valittu
         }
 
-        Raportti newRaportti = new Raportti
+
+
+
+            Raportti newRaportti = new Raportti
         {
             Raporttityyppi = Raporttityyppi,
             Alue = selectedAlue.Nimi,
             Alkupvm = startDate,
-            Loppupvm = endDate
-            // Yhteensa = CRUD haku tietokannasta valituilla rajauksilla            
+            Loppupvm = endDate,
+            Yhteensa = yhteensa,       
         };
 
         raportti.Add(newRaportti);
