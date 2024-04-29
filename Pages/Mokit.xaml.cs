@@ -1,6 +1,7 @@
 using ohj1v0._1.Luokat;
 using ohj1v0._1.Viewmodels;
 using ohj1v0._1.Models;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace ohj1v0._1;
@@ -51,10 +52,18 @@ public partial class Mokit : ContentPage
         funktiot.CheckEntryPituus(entry, 45, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
     }
 
-    private void mokki_postinumero_TextChanged(object sender, TextChangedEventArgs e)
+    private async void mokki_postinumero_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 5 merkkiin
         Entry entry = (Entry)sender;
         funktiot.CheckEntryInteger(entry, this); // funktiossa tarkistetaan ettei syote sisalla tekstia
+        using (var dbContext = new VnContext())
+        {
+            var posti = await dbContext.Postis.FirstOrDefaultAsync(p => p.Postinro == entry.Text);
+            if (posti != null)
+            {
+                mokki_paikkakunta.Text = posti.Toimipaikka;
+            }
+        }
     }
 
     private void mokki_postinumero_Unfocused(object sender, FocusEventArgs e)
