@@ -181,8 +181,6 @@ public partial class Varaukset : ContentPage
             Grid grid = (Grid)entry_grid;
             ListView list = (ListView)lista;
             funktiot.TyhjennaEntryt(grid, list);
-            hae_varaukset.Date = DateTime.Today;
-            lista.ItemsSource = varausViewmodel.Varaukset;
 
             foreach (var child in grid)
             { // Muuttaa entryt tyhjennyksen jälkeen vain lukumuotoon
@@ -247,7 +245,11 @@ public partial class Varaukset : ContentPage
             var filteredVaraukset = varausViewmodel.Varaukset.Where(v => v.VarattuAlkupvm == selectedDate.Date).ToList();
             lista.ItemsSource = filteredVaraukset;
         }
-
+    }
+    private void Hae_varaukset_tyhjenna_Clicked(object sender, EventArgs e)
+    {
+        hae_varaukset.Date = DateTime.Today;
+        lista.ItemsSource = varausViewmodel.Varaukset;
     }
 
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
