@@ -141,6 +141,8 @@ public partial class Mokit : ContentPage
                         grid = (Grid)entry_grid;
                         ListView list = (ListView)lista;
                         funktiot.TyhjennaEntryt(grid, list);
+                        mokki_kuvaus.Text = "N/A";
+                        mokki_varustelu.Text = "N/A";
                     }
                     else // paivitetaan jo olemassa olevan mokin tietoja
                     {
@@ -164,12 +166,16 @@ public partial class Mokit : ContentPage
                             grid = (Grid)entry_grid;
                             ListView list = (ListView)lista;
                             funktiot.TyhjennaEntryt(grid, list);
+                            mokki_kuvaus.Text = "N/A";
+                            mokki_varustelu.Text = "N/A";
                         }
                         else //jos ei haluakaan tallentaa, tyhjennetään tiedot
                         {
                             await DisplayAlert("Muutoksia ei tallennettu", "Valitse mökki listalta jos haluat muokata mökkiä", "OK");
                             ListView list = (ListView)lista;
                             funktiot.TyhjennaEntryt(grid, list);
+                            mokki_kuvaus.Text = "N/A";
+                            mokki_varustelu.Text = "N/A";
                         }
                     }
 
@@ -199,6 +205,8 @@ public partial class Mokit : ContentPage
             ListView list = (ListView)lista;
             funktiot.TyhjennaEntryt(grid, list);
             selectedMokki = null;
+            mokki_kuvaus.Text = "N/A";
+            mokki_varustelu.Text = "N/A";
 
         }
         else
@@ -211,22 +219,32 @@ public partial class Mokit : ContentPage
 
     private async void poista_Clicked(object sender, EventArgs e)
     {
-        bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti poistaa tiedon?", "Kyllä", "Ei");
-
-        // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
-        if (result)
+        if(selectedMokki != null)
         {
-            int mokkiId = int.Parse(mokki_id.Text);
-            await mokkiViewmodel.PoistaMokkisAsync(mokkiId);
-            await mokkiViewmodel.LoadMokkisFromDatabaseAsync();
-            Grid grid = (Grid)entry_grid;
-            ListView list = (ListView)lista;
-            funktiot.TyhjennaEntryt(grid, list);
+            bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti poistaa tiedon?", "Kyllä", "Ei");
+
+            // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
+            if (result)
+            {
+                int mokkiId = int.Parse(mokki_id.Text);
+                await mokkiViewmodel.PoistaMokkisAsync(mokkiId);
+                await mokkiViewmodel.LoadMokkisFromDatabaseAsync();
+                Grid grid = (Grid)entry_grid;
+                ListView list = (ListView)lista;
+                funktiot.TyhjennaEntryt(grid, list);
+                mokki_kuvaus.Text = "N/A";
+                mokki_varustelu.Text = "N/A";
+            }
+            else
+            {
+                await DisplayAlert("Poistaminen peruttu", "", "OK");
+            }
         }
         else
         {
-            await DisplayAlert("Poistaminen peruttu", "", "OK");
+            await DisplayAlert("Valitse listalta poistettava mökki", "", "OK");
         }
+
 
     }
 
