@@ -1,14 +1,20 @@
 using ohj1v0._1.Luokat;
-
+using ohj1v0._1.Viewmodels;
+using ohj1v0._1.Models;
 namespace ohj1v0._1;
 
 public partial class Uusi_asiakas : ContentPage
 {
-    public Uusi_asiakas(TeeUusiVaraus mp)
+    private VarauksenTiedot varauksenTiedot;
+
+    public Uusi_asiakas(TeeUusiVaraus mp,VarauksenTiedot tiedot)
     {
         InitializeComponent();
+        this.BindingContext = mp;
+        varauksenTiedot = tiedot;
     }
     Funktiot funktiot = new Funktiot();
+    AsiakasViewmodel asiakasviewmodel = new AsiakasViewmodel();
 
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
@@ -65,20 +71,20 @@ public partial class Uusi_asiakas : ContentPage
         Entry sahkoposti = email;
         Grid grid = (Grid)entry_grid;
 
-        if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
-        {
-            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-        }
+        // (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
+        //{
+        //   // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        //}
+        //
+        // if (!funktiot.CheckEntryInteger(posti, this)) // tarkistetaan onko postinumero int
+        //{
+        // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        //}
 
-        else if (!funktiot.CheckEntryInteger(posti, this)) // tarkistetaan onko postinumero int
-        {
-            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-        }
-
-        else if (!funktiot.CheckEntryInteger(puhelin, this)) // tarkistetaan onko puhelinnumero int
-        {
-            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-        }
+        //        else if (!funktiot.CheckEntryInteger(puhelin, this)) // tarkistetaan onko puhelinnumero int
+        //      {
+        // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        //    }
 
         // vertailut eivat toimi koska sivulle ei ole listausta - mista tieto?
 
@@ -92,18 +98,64 @@ public partial class Uusi_asiakas : ContentPage
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
         }*/
 
-        else // Tarkistukset lapi voidaan tallentaa
-        {
-            try
-            {
-                // CRUD - toiminnot
-                await DisplayAlert("Tallennettu", "", "OK");
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
-            }
+        // Tarkistukset lapi voidaan tallentaa
 
+        try
+        { //Tallentaa uuden asiakkaan tietokantaan
+            using (var dbContext = new VnContext())
+            {
+                var asiakas = new Asiaka()
+                {
+                    Etunimi = etunimi.Text,
+                    Sukunimi = sukunimi.Text,
+                    Lahiosoite = lahiosoite.Text,
+                    Postinro = postinumero.Text,
+                    Email = email.Text,
+                    Puhelinnro = puhelinnumero.Text
+                    // AsiakasId p‰ivittyy automaattisesti tietokannassa
+                };
+
+
+                dbContext.Asiakas.Add(asiakas);
+                dbContext.SaveChanges();
+                BindingContext = new AsiakasViewmodel();
+                await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
+            
+                var varaus = new Varau()
+                {
+                    AsiakasId = asiakas.AsiakasId,
+                    MokkiId = varauksenTiedot.ValittuMokki.MokkiId,
+                    VarattuPvm = varauksenTiedot.Varattupvm,
+                    VahvistusPvm = varauksenTiedot.Vahvistuspvm,
+                    VarattuAlkupvm = varauksenTiedot.VarattuAlkupvm,
+                    VarattuLoppupvm = varauksenTiedot.VarattuLoppupvm,
+                    Asiakas = asiakas,
+                    Mokki = varauksenTiedot.ValittuMokki,
+                    VarauksenPalveluts = varauksenTiedot.VarauksenPalveluts
+
+                };
+
+                dbContext.Varaus.Add(varaus);
+                dbContext.SaveChanges();
+                BindingContext = new VarausViewmodel();
+            }
+        
+            await DisplayAlert("Asiakkaan ja varauksen tallennus onnistui!", "", "OK");
+            grid = (Grid)entry_grid;
+
+            foreach (var child in grid.Children)
+            {
+                if (child is Entry entry)
+                {
+                    entry.Text = ""; // Tyhjent‰‰ entryn
+                }
+            }
         }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
+        }
+         
+        
     }
 }
