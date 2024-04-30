@@ -21,7 +21,6 @@ public partial class Mokit : ContentPage
         alue_nimi.BindingContext = alueViewmodel;
     }
 
-
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
 
@@ -36,16 +35,13 @@ public partial class Mokit : ContentPage
     private async void mokki_nimi_Unfocused(object sender, FocusEventArgs e)
     {
         Type luokka = typeof(Mokki);
-        String selite = "mökki";
         Entry entry = mokki_nimi;
-        string vertailu = "Mokkinimi";
 
         if (CheckTuplaTietokanta(mokki_nimi.Text, (uint)alue_nimi.SelectedIndex + 1)) // varmistetaan ettei ole samannimista mokkia
         {
             await DisplayAlert("Virhe", "Saman niminen mökki on jo alueella", "OK");
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
         }
-
     }
 
     private void mokki_katuosoite_TextChanged(object sender, TextChangedEventArgs e)
@@ -95,13 +91,10 @@ public partial class Mokit : ContentPage
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
         Type luokka = typeof(Mokki);
-        string selite = "mökki";
         Entry nimi = mokki_nimi;
-
         Entry hinta = mokki_hinta;
         Entry postinumero = mokki_postinumero;
         Grid grid = (Grid)entry_grid;
-        string vertailu = "Mokkinimi";
 
         if (selectedMokki != null) // paivitetaan jo olemassa olevaa mokkia
         {
@@ -152,36 +145,17 @@ public partial class Mokit : ContentPage
                             TyhjennaFunktio();
                         }
                     }
-
                 }
 
                 catch (Exception ex)
                 {
                     await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
                 }
-
             }
         }
 
         else // tallennetaan uusi mokki
         {
-            /*if (mokki_id == null)
-            {
-                if (lista.ItemsSource is IEnumerable<Mokki> mokit)
-                {
-                    if (mokit.Any())
-                    {
-                        // Etsitään suurin mokki_id
-                        uint suurinMokkiId = mokit.Max(mokki => mokki.MokkiId);
-
-                        // Voit käyttää suurinMokkiId-arvoa mihin tahansa tarpeelliseen tarkoitukseen tässä
-                    }
-                    else // listview on tyhjä
-                    {
-                        mokki_id = 1;
-                    }
-                }
-            }*/
 
             if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
                    {

@@ -52,11 +52,17 @@
                     Text="Alue"
                     Grid.Column="1"/>
 
-                    <Entry                       
+                    <Frame
+                        Grid.Row="1"
+                        CornerRadius="5"/>
+                    
+                    <Label                        
                     x:Name="mokki_id"
                     Text=""
-                    IsEnabled="False"
+                    Padding="10"
+                    VerticalTextAlignment="Center"
                     Grid.Row="1"/>
+
 
                     <Picker 
                     x:Name="alue_nimi" 
