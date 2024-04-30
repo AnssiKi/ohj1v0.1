@@ -304,7 +304,7 @@ public partial class Mokit : ContentPage
             alue_nimi.SelectedItem = null;
         }
 
-        mokki_id.Text = selectedMokki.MokkiId.ToString();
+        id.Text = selectedMokki.MokkiId.ToString();
         mokki_nimi.Text = selectedMokki.Mokkinimi;
         mokki_katuosoite.Text = selectedMokki.Katuosoite;
         mokki_postinumero.Text = selectedMokki.Postinro;
