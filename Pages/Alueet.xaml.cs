@@ -72,6 +72,7 @@ public partial class Alueet : ContentPage
                             SelectedAlue.Nimi = alue_nimi.Text;
                             dbContext.Alues.Update(SelectedAlue);
                             dbContext.SaveChanges();
+                            OnPropertyChanged(nameof(SelectedAlue));
                             await alueViewmodel.LoadAluesFromDatabaseAsync();
                             await DisplayAlert("", "Muutokset tallennettu", "OK");
                         }
