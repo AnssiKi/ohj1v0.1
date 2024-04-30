@@ -18,13 +18,14 @@ namespace ohj1v0._1.Luokat
 
         public void CheckEntryPituus(Entry entry, int maxLength, ContentPage currentPage)
         { // tarkistetaan ettei entryn syote ole liian pitka
-            try 
+            try
             {
                 if (entry.Text.Length >= maxLength)
                 {
                     DisplayAlertOnPage(currentPage, "Virhe", $"Syöte voi olla enintään {maxLength} merkkiä pitkä.", "OK");
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return;
             }
@@ -138,7 +139,7 @@ namespace ohj1v0._1.Luokat
 
                 if (child is Picker picker && picker.SelectedIndex == -1)
                 {
-                    DisplayAlertOnPage(currentPage, "Virhe", "Kaikkiin valitsimiin täytyy valita", "OK");
+                    DisplayAlertOnPage(currentPage, "Virhe", "Kaikkiin valintatyökaluihin täytyy valita", "OK");
                     return false; // Palautetaan false, jos Pickerissä ei ole valittu mitaan
                 }
 
@@ -160,15 +161,13 @@ namespace ohj1v0._1.Luokat
                             loppuPvm = loppuDatePicker.Date;
                         }
                     }
+                    if (alkuPvm.Value > loppuPvm.Value)
+                    {
+                        DisplayAlertOnPage(currentPage, "Virhe", "Aloituspäivämäärä ei voi olla lopetuspäivämäärän jälkeen", "OK");
+                        return false; // Palautetaan false, jos alkuPvm on suurempi kuin loppuPvm
+                    }
                 }
             }
-
-            if (alkuPvm.Value > loppuPvm.Value)
-            {
-                DisplayAlertOnPage(currentPage, "Virhe", "Aloituspäivämäärä ei voi olla lopetuspäivämäärän jälkeen", "OK");
-                return false; // Palautetaan false, jos alkuPvm on suurempi kuin loppuPvm
-            }
-
             return true; // Palautetaan true, jos testit lapi
         }
 
@@ -199,6 +198,6 @@ namespace ohj1v0._1.Luokat
             {
                 lista.SelectedItem = null; // poistaa listview valinnan
             }
-        }       
+        }
     }
 }
