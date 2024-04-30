@@ -125,8 +125,8 @@ namespace ohj1v0._1.Luokat
 
         public bool CheckInput(ContentPage currentPage, Grid grid)
         {
-            DateTime alkuPvm = DateTime.MinValue;
-            DateTime loppuPvm = DateTime.MinValue;
+            DateTime? alkuPvm = null;
+            DateTime? loppuPvm = null;
 
             foreach (var child in grid.Children)
             {
@@ -146,16 +146,24 @@ namespace ohj1v0._1.Luokat
                 {
                     if (datePicker.FindByName("alkupvm") != null)
                     {
-                        alkuPvm = datePicker.Date;
+                        var alkuDatePicker = datePicker.FindByName("alkupvm") as DatePicker;
+                        if (alkuDatePicker != null)
+                        {
+                            alkuPvm = alkuDatePicker.Date;
+                        }
                     }
                     if (datePicker.FindByName("loppupvm") != null)
                     {
-                        loppuPvm = datePicker.Date;
+                        var loppuDatePicker = datePicker.FindByName("loppupvm") as DatePicker;
+                        if (loppuDatePicker != null)
+                        {
+                            loppuPvm = loppuDatePicker.Date;
+                        }
                     }
                 }
             }
 
-            if (alkuPvm > loppuPvm)
+            if (alkuPvm.Value > loppuPvm.Value)
             {
                 DisplayAlertOnPage(currentPage, "Virhe", "Aloituspäivämäärä ei voi olla lopetuspäivämäärän jälkeen", "OK");
                 return false; // Palautetaan false, jos alkuPvm on suurempi kuin loppuPvm
@@ -181,7 +189,10 @@ namespace ohj1v0._1.Luokat
                 {
                     datePicker.Date = DateTime.Today; // Asettaa datepickerin valinnan kuluvaksi paivaksi
                 }
-
+                else if (child is Label label && label == label.FindByName<Label>("id"))
+                {
+                    label.Text = ""; // Tyhjentää labelin, jos sen x:Name on "id"
+                }
             }
 
             if (lista.SelectedItem != null)
