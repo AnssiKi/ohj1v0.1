@@ -59,6 +59,13 @@ namespace ohj1v0._1.Viewmodels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public async Task<bool> OnkoPuhelinTaiSahkopostiKaytossa(string puhelin, string sahkoposti)
+        {
+            using var context = new VnContext();
+            var asiakas = await context.Asiakas
+                                       .AnyAsync(a => a.Puhelinnro == puhelin || a.Email == sahkoposti);
+            return asiakas;
+        }
     }
 
 
@@ -73,7 +80,7 @@ namespace ohj1v0._1.Viewmodels
         }
     }
 
-
+   
 }
 
 

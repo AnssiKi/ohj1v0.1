@@ -8,7 +8,7 @@ public partial class Uusi_asiakas : ContentPage
 {
     private VarauksenTiedot varauksenTiedot;
 
-    public Uusi_asiakas(TeeUusiVaraus mp,VarauksenTiedot tiedot)
+    public Uusi_asiakas(TeeUusiVaraus mp, VarauksenTiedot tiedot)
     {
         InitializeComponent();
         this.BindingContext = mp;
@@ -81,93 +81,91 @@ public partial class Uusi_asiakas : ContentPage
         Entry sahkoposti = email;
         Grid grid = (Grid)entry_grid;
 
-        // (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
-        //{
-        //   // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-        //}
-        //
-        // if (!funktiot.CheckEntryInteger(posti, this)) // tarkistetaan onko postinumero int
-        //{
-        // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-        //}
-
-        //        else if (!funktiot.CheckEntryInteger(puhelin, this)) // tarkistetaan onko puhelinnumero int
-        //      {
-        // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-        //    }
-
-        // vertailut eivat toimi koska sivulle ei ole listausta - mista tieto?
-
-        /*else if (!funktiot.CheckTupla(this, puhelin, lista, luokka, selite)) // varmistetaan ettei ole samaa puhelinnumeroa
+        if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
         {
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
         }
 
-        else if (!funktiot.CheckTupla(this, sahkoposti, lista, luokka, selite)) // varmistetaan ettei ole samaa sahkopostia
+        else if (!funktiot.CheckEntryInteger(posti, this)) // tarkistetaan onko postinumero int
+        {
+            //tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+        }
+
+        else if (!funktiot.CheckEntryInteger(puhelin, this)) // tarkistetaan onko puhelinnumero int
         {
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-        }*/
+        }
 
-        // Tarkistukset lapi voidaan tallentaa
+        else
+        {
+            bool onKaytossa = await asiakasviewmodel.OnkoPuhelinTaiSahkopostiKaytossa(puhelinnumero.Text, email.Text);
 
-        try
-        { //Tallentaa uuden asiakkaan tietokantaan
-            using (var dbContext = new VnContext())
+            if (!onKaytossa)
             {
-                var asiakas = new Asiaka()
-                {
-                    Etunimi = etunimi.Text,
-                    Sukunimi = sukunimi.Text,
-                    Lahiosoite = lahiosoite.Text,
-                    Postinro = postinumero.Text,
-                    Email = email.Text,
-                    Puhelinnro = puhelinnumero.Text
-                    // AsiakasId p‰ivittyy automaattisesti tietokannassa
-                };
+
+                try
+                { //Tallentaa uuden asiakkaan tietokantaan
+                    using (var dbContext = new VnContext())
+                    {
+                        var asiakas = new Asiaka()
+                        {
+                            Etunimi = etunimi.Text,
+                            Sukunimi = sukunimi.Text,
+                            Lahiosoite = lahiosoite.Text,
+                            Postinro = postinumero.Text,
+                            Email = email.Text,
+                            Puhelinnro = puhelinnumero.Text
+                            // AsiakasId p‰ivittyy automaattisesti tietokannassa
+                        };
 
 
-                dbContext.Asiakas.Add(asiakas);
-                dbContext.SaveChanges();
-                BindingContext = new AsiakasViewmodel();
-                await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
-            
-                var varaus = new Varau()
-                {
-                    AsiakasId = asiakas.AsiakasId,
-                    MokkiId = varauksenTiedot.ValittuMokki.MokkiId,
-                    VarattuPvm = varauksenTiedot.Varattupvm,
-                    VahvistusPvm = varauksenTiedot.Vahvistuspvm,
-                    VarattuAlkupvm = varauksenTiedot.VarattuAlkupvm,
-                    VarattuLoppupvm = varauksenTiedot.VarattuLoppupvm
-                   
-                    //varauksen palvelut pit‰‰ viel‰ saaha kuntoon
-                    //VarauksenPalveluts = varauksenTiedot.VarauksenPalveluts
+                        dbContext.Asiakas.Add(asiakas);
+                        dbContext.SaveChanges();
+                        BindingContext = new AsiakasViewmodel();
+                        await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
 
-                };
+                        var varaus = new Varau()
+                        {
+                            AsiakasId = asiakas.AsiakasId,
+                            MokkiId = varauksenTiedot.ValittuMokki.MokkiId,
+                            VarattuPvm = varauksenTiedot.Varattupvm,
+                            VahvistusPvm = varauksenTiedot.Vahvistuspvm,
+                            VarattuAlkupvm = varauksenTiedot.VarattuAlkupvm,
+                            VarattuLoppupvm = varauksenTiedot.VarattuLoppupvm
 
-                await varausViewmodel.LoadVarausFromDatabaseAsync();
-                dbContext.Varaus.Add(varaus);
-                dbContext.SaveChanges();
-                BindingContext = new VarausViewmodel();
-                await varausViewmodel.LoadVarausFromDatabaseAsync();
-            }
-        
-            await DisplayAlert("Asiakkaan ja varauksen tallennus onnistui!", "", "OK");
-            grid = (Grid)entry_grid;
+                            //varauksen palvelut pit‰‰ viel‰ saaha kuntoon
+                            //VarauksenPalveluts = varauksenTiedot.VarauksenPalveluts
 
-            foreach (var child in grid.Children)
-            {
-                if (child is Entry entry)
-                {
-                    entry.Text = ""; // Tyhjent‰‰ entryn
+                        };
+
+                        await varausViewmodel.LoadVarausFromDatabaseAsync();
+                        dbContext.Varaus.Add(varaus);
+                        dbContext.SaveChanges();
+                        BindingContext = new VarausViewmodel();
+                        await varausViewmodel.LoadVarausFromDatabaseAsync();
+                    }
+
+                    await DisplayAlert("Asiakkaan ja varauksen tallennus onnistui!", "", "OK");
+                    grid = (Grid)entry_grid;
+
+                    foreach (var child in grid.Children)
+                    {
+                        if (child is Entry entry)
+                        {
+                            entry.Text = ""; // Tyhjent‰‰ entryn
+                        }
+                    }
                 }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
+                }
+
+            }
+            else
+            {
+                DisplayAlert("Asiakas kyseisell‰ puhelinnumerolla ","tai s‰hkˆpostilla on jo tietokannassa","OK!");
             }
         }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
-        }
-         
-        
     }
 }

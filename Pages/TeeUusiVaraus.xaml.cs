@@ -23,6 +23,8 @@ public partial class TeeUusiVaraus : ContentPage
     
     Alue selectedAlue;
     Mokki selectedMokki;
+    private DateTime? alkupaiva;
+    private DateTime? loppupaiva;
 
 
 
@@ -39,13 +41,24 @@ public partial class TeeUusiVaraus : ContentPage
 
     private void alkupvm_DateSelected(object sender, DateChangedEventArgs e)
     {
-
+        alkupaiva = e.NewDate;
     }
 
-    private void loppupvm_DateSelected(object sender, DateChangedEventArgs e)
+    private async void loppupvm_DateSelected(object sender, DateChangedEventArgs e)
     {
+        loppupaiva = e.NewDate;
 
+        if (alkupaiva.HasValue && loppupaiva.HasValue) {
+
+            if (alkupaiva.Value > loppupaiva.Value)
+            {
+                DisplayAlert("Virhe", "Aloitusp‰iv‰m‰‰r‰ ei voi olla lopetusp‰iv‰m‰‰r‰n j‰lkeen", "OK");
+
+            }
+        }
     }
+        
+    
 
     private async void henkilomaara_SelectedIndexChanged(object sender, EventArgs e)
     {
