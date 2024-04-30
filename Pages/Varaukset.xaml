@@ -48,13 +48,17 @@
 
                     <Label
                         Text="ID"/>
-                    
-                    <Entry
-                        x:Name="varaus_id"
-                        Text=""
-                        IsEnabled="False"
-                        Grid.Column="0"
-                        Grid.Row="1"/>
+
+                    <Frame
+                        Grid.Row="1"
+                        CornerRadius="5"/>
+
+                    <Label                        
+                    x:Name="id"
+                    Text=""
+                    Padding="10"
+                    VerticalTextAlignment="Center"
+                    Grid.Row="1"/>
 
                     <Label
                         Text="Alue"
@@ -136,15 +140,13 @@
                          Grid.ColumnSpan="2"
                          Grid.Row="8"/>
 
-                    <Entry
-                          x:Name="mokin_nimi"
-                          Text=""
-                        MaxLength="45"
-                        TextChanged="mokin_nimi_TextChanged"
-                          Grid.Row="9"
-                          Grid.ColumnSpan="2" 
-                          HorizontalOptions="FillAndExpand"
-                         IsReadOnly="True"/>
+                    <Picker 
+                        x:Name="mokin_nimi"
+                        Grid.Row="9"
+                        Grid.ColumnSpan="2" 
+                        HorizontalOptions="FillAndExpand"
+                        ItemsSource="{Binding Mokkis}"
+                        ItemDisplayBinding="{Binding Mokkinimi}"/>
 
                     <Label
                           Text="Postinumero"
@@ -159,6 +161,7 @@
                         TextChanged="postinumero_TextChanged"
                           Grid.Row="11"
                           Grid.Column="0" 
+                        IsEnabled="False"
                          IsReadOnly="True"/>
 
                     <Label

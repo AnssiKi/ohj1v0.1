@@ -10,6 +10,7 @@ public partial class Varaukset : ContentPage
     Funktiot funktiot = new Funktiot();
     AlueViewmodel alueViewmodel = new AlueViewmodel();
     VarausViewmodel varausViewmodel = new VarausViewmodel();
+    MokkiViewmodel mokkiViewmodel = new MokkiViewmodel();
     Varau selectedVaraus;
 
     public Varaukset()
@@ -17,6 +18,7 @@ public partial class Varaukset : ContentPage
         InitializeComponent();
         lista.BindingContext = varausViewmodel;
         alue_nimi.BindingContext = alueViewmodel;
+        mokin_nimi.BindingContext = mokkiViewmodel;
 
     }
 
@@ -120,7 +122,7 @@ public partial class Varaukset : ContentPage
                             selectedVaraus.Asiakas.Sukunimi = sukunimi.Text;
                             selectedVaraus.Asiakas.Puhelinnro = puhelinnumero.Text;
                             selectedVaraus.Asiakas.Email = sahkoposti.Text;
-                            selectedVaraus.Mokki.Mokkinimi = mokin_nimi.Text;
+                            selectedVaraus.Mokki.Mokkinimi = mokin_nimi.SelectedItem.ToString();
                             selectedVaraus.Mokki.Postinro = postinumero.Text;
                             // CRUD paikkakunta haku postinumeron perusteella
 
@@ -190,6 +192,7 @@ public partial class Varaukset : ContentPage
             Grid grid = (Grid)entry_grid;
             ListView list = (ListView)lista;
             funktiot.TyhjennaEntryt(grid, list);
+            selectedVaraus = null;
 
             foreach (var child in grid)
             { // Muuttaa entryt tyhjennyksen jälkeen vain lukumuotoon
@@ -199,11 +202,6 @@ public partial class Varaukset : ContentPage
                     entry.IsReadOnly = true;
                 }
             }
-        }
-        else
-        {
-            // Jos käyttäjä valitsee "Ei", peruutetaan toiminto
-            // Tähän ei oo pakko laittaa mitää kerta se ei haluakkaa.
         }
     }
 
@@ -217,15 +215,21 @@ public partial class Varaukset : ContentPage
             // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
             if (result)
             {
-                int varausId = int.Parse(varaus_id.Text);
-                await varausViewmodel.PoistaVarausAsync(varausId);
-                await varausViewmodel.LoadVarausFromDatabaseAsync();
-                ListView list = (ListView)lista;
-                funktiot.TyhjennaEntryt(grid, list);
-            }
-            else
-            {
-                await DisplayAlert("Poistaminen peruttu", "", "OK");
+                try
+                {
+                    using (var dbContext = new VnContext())
+                    {
+                        dbContext.Varaus.Remove(selectedVaraus);
+                        dbContext.SaveChanges();
+                        await varausViewmodel.LoadVarausFromDatabaseAsync();
+                        TyhjennaFunktio();
+                    }
+                    await DisplayAlert("Poisto onnistui", "", "OK");
+                }
+                catch 
+                {
+                    await DisplayAlert("Virhe", "Varausta ei voitu poistaa.", "OK");
+                }
             }
 
             foreach (var child in grid)
@@ -236,10 +240,6 @@ public partial class Varaukset : ContentPage
                     entry.IsReadOnly = true;
                 }
             }
-        }
-        else
-        {
-            await DisplayAlert("Valitse listalta poistettava mökki", "", "OK");
         }
     }
 
@@ -272,7 +272,7 @@ public partial class Varaukset : ContentPage
 
         selectedVaraus = (Varau)e.Item;
 
-        varaus_id.Text = selectedVaraus.VarausId.ToString();
+        id.Text = selectedVaraus.VarausId.ToString();
 
         if (selectedVaraus.Mokki.Alue != null)
         {
@@ -287,7 +287,16 @@ public partial class Varaukset : ContentPage
         sukunimi.Text = selectedVaraus.Asiakas.Sukunimi;
         puhelinnumero.Text = selectedVaraus.Asiakas.Puhelinnro;
         sahkoposti.Text = selectedVaraus.Asiakas.Email;
-        mokin_nimi.Text = selectedVaraus.Mokki.Mokkinimi;
+
+        if (selectedVaraus.Mokki != null)
+        {
+            mokin_nimi.SelectedIndex = (int)selectedVaraus.Mokki.MokkiId - 1;
+        }
+        else
+        {
+            mokin_nimi.SelectedItem = null;
+        }
+
         postinumero.Text = selectedVaraus.Mokki.Postinro;
         paikkakunta.Text = selectedVaraus.Mokki.PostinroNavigation.Toimipaikka;
 
@@ -316,5 +325,12 @@ public partial class Varaukset : ContentPage
                 entry.IsReadOnly = false;
             }
         }
+    }
+
+    private void TyhjennaFunktio()
+    {
+        Grid grid = (Grid)entry_grid;
+        ListView list = (ListView)lista;
+        funktiot.TyhjennaEntryt(grid, list);
     }
 }
