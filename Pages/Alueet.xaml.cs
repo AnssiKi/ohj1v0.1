@@ -136,7 +136,7 @@ public partial class Alueet : ContentPage
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Virhe", $"Poistossa tapahtui virhe: {ex.Message}", "OK");
+                await DisplayAlert("Virhe", "Alue on jo käytössä, sitä ei voi poistaa.", "OK");
             }
 
         }
