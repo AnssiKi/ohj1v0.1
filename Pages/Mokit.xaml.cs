@@ -142,6 +142,7 @@ public partial class Mokit : ContentPage
                             dbContext.Mokkis.Update(selectedMokki);
                             dbContext.SaveChanges();
                             await mokkiViewmodel.LoadMokkisFromDatabaseAsync();
+                            OnPropertyChanged(nameof(selectedMokki));
                             await DisplayAlert("", "Muutokset tallennettu", "OK");
                             TyhjennaFunktio();
                         }
