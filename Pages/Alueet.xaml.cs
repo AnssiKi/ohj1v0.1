@@ -13,13 +13,11 @@ public partial class Alueet : ContentPage
     public Alueet()
 	{
 		InitializeComponent();
-        //BindingContext = new AlueViewmodel();
         lista.BindingContext = alueViewmodel;
     }
     Funktiot funktiot = new Funktiot();
     AlueViewmodel alueViewmodel = new AlueViewmodel();
     Alue SelectedAlue;
-
 
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
@@ -90,6 +88,8 @@ public partial class Alueet : ContentPage
             {
                 await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
             }
+
+            TyhjennaFunktio();
         }
     }
 
@@ -100,9 +100,7 @@ public partial class Alueet : ContentPage
         // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
         if (result)
         {
-            Grid grid = (Grid)entry_grid;
-            ListView list = (ListView)lista;
-            funktiot.TyhjennaEntryt(grid, list);
+            TyhjennaFunktio();
         }
         else
         {
@@ -111,6 +109,7 @@ public partial class Alueet : ContentPage
         }
 
     }
+
     //Valittu kohde listviewistä tallentuu SelectedAlue-olioon
     void lista_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
@@ -130,9 +129,7 @@ public partial class Alueet : ContentPage
                     dbContext.Alues.Remove(SelectedAlue);
                     dbContext.SaveChanges();
                     await alueViewmodel.LoadAluesFromDatabaseAsync();
-                    Grid grid = (Grid)entry_grid;
-                    ListView list = (ListView)lista;
-                    funktiot.TyhjennaEntryt(grid, list);
+                    TyhjennaFunktio();
 
                 }
                 await DisplayAlert("", "Poisto onnistui", "OK");
@@ -183,6 +180,13 @@ public partial class Alueet : ContentPage
             var filteredAlues = alueViewmodel.Alues.Where(m => m.Nimi.ToLower().Contains(searchText.ToLower())).ToList();
             lista.ItemsSource = filteredAlues;
         }
+    }
+
+    private void TyhjennaFunktio()
+    {
+        Grid grid = (Grid)entry_grid;
+        ListView list = (ListView)lista;
+        funktiot.TyhjennaEntryt(grid, list);
     }
 
  
