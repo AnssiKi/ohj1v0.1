@@ -26,6 +26,7 @@ public partial class TeeUusiVaraus : ContentPage
 
 
 
+
     private async void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {       
 
@@ -79,6 +80,23 @@ public partial class TeeUusiVaraus : ContentPage
     {
         // Tässä navigointi uudelle sivulle ja annetaan mukaan varauksen tiedot
 
+        VarauksenTiedot varauksenTiedot = VarauksenTiedot();
+
+        Navigation.PushAsync(new Uusi_asiakas(this,varauksenTiedot)); // tarvitsee tarkistukset tietojen oikeellisuudelle
+    }
+
+    private void vanha_asiakas_Clicked(object sender, EventArgs e)
+    {
+        // Navigointi uudelle sivulle ja annetaan mukaan varauksen tiedot
+        VarauksenTiedot varauksenTiedot = VarauksenTiedot();
+
+        Navigation.PushAsync(new Vanha_asiakas(this,varauksenTiedot)); // tarvitsee tarkistukset tietojen oikeellisuudelle
+
+    }
+
+    private VarauksenTiedot VarauksenTiedot() {
+        //Tämä ottaa talteen varauksentiedot luokkaan omiin muuttujiin,jotta helpompi siirtyä sivulta toiselle
+
         VarauksenTiedot varauksenTiedot = new VarauksenTiedot
         {
             ValittuMokki = selectedMokki,
@@ -86,17 +104,10 @@ public partial class TeeUusiVaraus : ContentPage
             VarattuAlkupvm = alkupvm.Date,
             VarattuLoppupvm = loppupvm.Date,
             Varattupvm = DateTime.Now,
-            Vahvistuspvm = DateTime.MaxValue // TÄHÄN PITÄÄ VIELÄ SE LASKUKAAVA SAAHA kuha laitoin nyt jonku
+            Vahvistuspvm = alkupvm.Date - TimeSpan.FromDays(7)
         };
 
-        Navigation.PushAsync(new Uusi_asiakas(this,varauksenTiedot)); // tarvitsee tarkistukset tietojen oikeellisuudelle
-    }
-
-    private void vanha_asiakas_Clicked(object sender, EventArgs e)
-    { // Tässä pelkästään navigointi uudelle sivulle 
-        // muut toiminnallisuudet puuttuvat vielä siirtyykö tieto mukana?
-        Navigation.PushAsync(new Vanha_asiakas(this)); // tarvitsee tarkistukset tietojen oikeellisuudelle
-
+        return varauksenTiedot;
     }
 
 }
