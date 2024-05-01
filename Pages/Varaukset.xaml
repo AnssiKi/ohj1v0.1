@@ -70,7 +70,8 @@
                         Grid.Column="1"
                         Grid.Row="1"
                         ItemsSource="{Binding Alues}"
-                        ItemDisplayBinding="{Binding Nimi}">
+                        ItemDisplayBinding="{Binding Nimi}"
+                        SelectedIndexChanged="alue_nimi_SelectedIndexChanged">
                     </Picker>
 
                     <Label
@@ -146,7 +147,8 @@
                         Grid.ColumnSpan="2" 
                         HorizontalOptions="FillAndExpand"
                         ItemsSource="{Binding Mokkis}"
-                        ItemDisplayBinding="{Binding Mokkinimi}"/>
+                        ItemDisplayBinding="{Binding Mokkinimi}"
+                        SelectedIndexChanged="mokin_nimi_SelectedIndexChanged"/>
 
                     <Label
                           Text="Postinumero"
