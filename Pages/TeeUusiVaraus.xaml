@@ -10,7 +10,8 @@
             VerticalOptions="Center">
 
             <Grid
-                Padding="10">
+                Padding="10"
+                x:Name="entry_grid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="2*" />
@@ -19,6 +20,7 @@
 
                 <Grid 
                     Padding="10"
+                    x:Name="entry_grid2"
                     Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

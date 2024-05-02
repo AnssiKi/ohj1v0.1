@@ -29,7 +29,7 @@ public partial class Vanha_asiakas : ContentPage
 
         if (string.IsNullOrWhiteSpace(searchText))
         {
-            lista.ItemsSource = asiakasviewmodel.Asiakas; // n‰ytet‰‰n kaikki asiakkaat, jos ei mit‰‰n hakukent‰ss‰
+            lista.BindingContext = asiakasviewmodel; // n‰ytet‰‰n kaikki asiakkaat, jos ei mit‰‰n hakukent‰ss‰
         }
         else
         {
