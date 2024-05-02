@@ -155,6 +155,7 @@ public partial class Uusi_asiakas : ContentPage
                             entry.Text = ""; // Tyhjent‰‰ entryn
                         }
                     }
+                    await Navigation.PushAsync(new TeeUusiVaraus());
                 }
                 catch (Exception ex)
                 {
