@@ -5,6 +5,8 @@ public partial class Laskut : ContentPage
 	public Laskut()
 	{
 		InitializeComponent();
+        //TODO laskun muodostus automaattisesti jos j‰‰ aikaa
+
 	}
 
     private void maksettu_CheckedChanged(object sender, CheckedChangedEventArgs e)

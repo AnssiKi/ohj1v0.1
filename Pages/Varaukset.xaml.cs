@@ -381,5 +381,8 @@ public partial class Varaukset : ContentPage
         funktiot.TyhjennaEntryt(grid, list);
     }
 
-
+    private async void muodostalasku_Clicked(object sender, EventArgs e)
+    {
+        DisplayAlert("H‰h‰‰", "Ei t‰m‰ viel‰ tee mit‰‰n", "OK");
+    }
 }

@@ -251,7 +251,14 @@
                          Margin="0,5,0,0"
                          Grid.Row="17"
                          Clicked="poista_Clicked"/>
-                </Grid>
+                    <Button
+                         x:Name="muodostalasku"
+                         Text="Muodosta lasku"
+                         Margin="0,5,0,0"
+                         Grid.Row="17"
+                         Grid.Column="1"
+                         Clicked="muodostalasku_Clicked"/>
+                 </Grid>
 
                 <Grid
                      Grid.Column="1"
