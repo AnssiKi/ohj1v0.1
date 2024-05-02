@@ -124,7 +124,8 @@ public partial class Mokit : ContentPage
                         // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
                         if (result)
                         {
-                            selectedMokki.AlueId = (uint)alue_nimi.SelectedIndex + 1;
+                            //selectedMokki.AlueId = ((Alue)alue_nimi.SelectedItem).AlueId;
+                            selectedMokki.Alue = (Alue)alue_nimi.SelectedItem;
                             selectedMokki.Mokkinimi = mokki_nimi.Text;
                             selectedMokki.Katuosoite = mokki_katuosoite.Text;
                             selectedMokki.Postinro = mokki_postinumero.Text;
@@ -133,7 +134,7 @@ public partial class Mokit : ContentPage
                             selectedMokki.Varustelu = mokki_varustelu.Text;
                             selectedMokki.Henkilomaara = int.Parse(mokki_henkilomaara.SelectedItem.ToString());
                             dbContext.Mokkis.Update(selectedMokki);
-                            dbContext.SaveChanges();
+                            await dbContext.SaveChangesAsync();
                             await mokkiViewmodel.LoadMokkisFromDatabaseAsync();
                             OnPropertyChanged(nameof(selectedMokki));
                             await DisplayAlert("", "Muutokset tallennettu", "OK");
