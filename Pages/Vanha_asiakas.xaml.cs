@@ -84,6 +84,7 @@ public partial class Vanha_asiakas : ContentPage
                 }
 
                 await DisplayAlert("Tallennettu", "", "OK");
+                await Navigation.PushAsync(new TeeUusiVaraus());
             }
             catch (Exception ex)
             {
