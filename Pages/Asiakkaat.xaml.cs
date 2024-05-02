@@ -15,6 +15,8 @@ public partial class Asiakkaat : ContentPage
 		InitializeComponent();
         BindingContext = asiakasviewmodel;
 	}
+
+    Asiaka selectedAsiakas;
   
 
 
@@ -77,65 +79,122 @@ public partial class Asiakkaat : ContentPage
         string vertailu = "Puhelinnro";
         string vertailu2 = "Email";
 
-        // if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
-        // {
-        // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-        // }
-        
-        if (!funktiot.CheckEntryInteger(posti, this)) // tarkistetaan onko postinumero int
+        if (selectedAsiakas != null) // paivitetaan jo olemassa olevaa asiakasta
         {
-            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-        }
-
-        else if (!funktiot.CheckEntryInteger(puhelin, this)) // tarkistetaan onko puhelinnumero int
-        {
-            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-        }
-
-        else if (!funktiot.CheckTupla(this, puhelin, lista, luokka, selite, vertailu)) // varmistetaan ettei ole samaa puhelinnumeroa
-        {
-            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-        }
-
-        else if (!funktiot.CheckTupla(this, sahkoposti, lista, luokka, selite, vertailu2)) // varmistetaan ettei ole samaa sahkopostia
-        {
-            // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-        }
-
-        else // Tarkistukset lapi voidaan tallentaa
-        {
-            try
+            if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
             {
-                using (var dbContext = new VnContext())
+                // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+            }
+
+            else if (!funktiot.CheckEntryInteger(postinumero, this)) // tarkistetaan onko postinumero int
+            {
+                // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+            }
+
+            else // Tarkistukset lapi voidaan tallentaa
+            {
+                try
                 {
-                    var asiakas = new Asiaka()
+                    using (var dbContext = new VnContext())
                     {
-                        Etunimi = etunimi.Text,
-                        Sukunimi = sukunimi.Text,
-                        Lahiosoite = lahiosoite.Text,
-                        Postinro = postinumero.Text,
-                        Email = email.Text,
-                        Puhelinnro = puhelinnumero.Text
+                        bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti muokata asiakkaan tietoja?", "Kyll‰", "Ei");
 
+                        // Jos k‰ytt‰j‰ valitsee "Kyll‰", toteutetaan peruutustoimet
+                        if (result)
+                        {
+                            selectedAsiakas.AsiakasId = selectedAsiakas.AsiakasId;
+                            selectedAsiakas.Etunimi = etunimi.Text;
+                            selectedAsiakas.Sukunimi = sukunimi.Text;
+                            selectedAsiakas.Puhelinnro = puhelinnumero.Text;
+                            selectedAsiakas.Lahiosoite = lahiosoite.Text;
+                            selectedAsiakas.Postinro = postinumero.Text;
+                            paikkakunta.Text = selectedAsiakas.PostinroNavigation.Toimipaikka;
+                            selectedAsiakas.Email = email.Text;
 
-                        // AlueId p‰ivittyy automaattisesti tietokannassa
-                    };
-
-                    dbContext.Asiakas.Add(asiakas);
-                    dbContext.SaveChanges();
-                    BindingContext = new AsiakasViewmodel();
-                    await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
+                            dbContext.Asiakas.Update(selectedAsiakas);
+                            await dbContext.SaveChangesAsync();
+                            await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
+                            lista.ItemsSource = asiakasviewmodel.Asiakas;
+                            OnPropertyChanged(nameof(asiakasviewmodel.Asiakas));
+                            await DisplayAlert("", "Muutokset tallennettu", "OK");
+                            funktiot.TyhjennaEntryt(grid,lista);
+                        }
+                        else //jos ei haluakaan tallentaa, tyhjennet‰‰n tiedot
+                        {
+                            await DisplayAlert("Muutoksia ei tallennettu", "Valitse asiakas listalta jos haluat muokata asiakaan tietoja", "OK");
+                            funktiot.TyhjennaEntryt(grid,lista);
+                        }
+                    }
                 }
-                await DisplayAlert("Tallennettu", "", "OK");
-                grid = (Grid)entry_grid;
-                ListView list = (ListView)lista;
-                funktiot.TyhjennaEntryt(grid, list);
+
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
+                }
             }
-            catch (Exception ex)
+        }
+        else//T‰ss‰ tarkistetaan uuden asiakkaan tiedot.
+        {
+            if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
             {
-                await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
+                // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
             }
 
+            if (!funktiot.CheckEntryInteger(posti, this)) // tarkistetaan onko postinumero int
+            {
+                // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+            }
+
+            else if (!funktiot.CheckEntryInteger(puhelin, this)) // tarkistetaan onko puhelinnumero int
+            {
+                // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+            }
+
+            else if (!funktiot.CheckTupla(this, puhelin, lista, luokka, selite, vertailu)) // varmistetaan ettei ole samaa puhelinnumeroa
+            {
+                // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+            }
+
+            else if (!funktiot.CheckTupla(this, sahkoposti, lista, luokka, selite, vertailu2)) // varmistetaan ettei ole samaa sahkopostia
+            {
+                // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+            }
+
+            else // Tarkistukset lapi voidaan tallentaa
+            {
+                try
+                {
+                    using (var dbContext = new VnContext())
+                    {
+                        var asiakas = new Asiaka()
+                        {
+                            Etunimi = etunimi.Text,
+                            Sukunimi = sukunimi.Text,
+                            Lahiosoite = lahiosoite.Text,
+                            Postinro = postinumero.Text,
+                            Email = email.Text,
+                            Puhelinnro = puhelinnumero.Text
+
+
+                            // AlueId p‰ivittyy automaattisesti tietokannassa
+                        };
+
+                        dbContext.Asiakas.Add(asiakas);
+                        dbContext.SaveChanges();
+                        BindingContext = new AsiakasViewmodel();
+                        await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
+                    }
+                    await DisplayAlert("Tallennettu", "", "OK");
+                    grid = (Grid)entry_grid;
+                    ListView list = (ListView)lista;
+                    funktiot.TyhjennaEntryt(grid, list);
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
+                }
+
+            }
         }
 
     }
@@ -204,7 +263,7 @@ public partial class Asiakkaat : ContentPage
             return;
         }
 
-        var selectedAsiakas = (Asiaka)e.Item;
+        selectedAsiakas = (Asiaka)e.Item;
 
 
 
