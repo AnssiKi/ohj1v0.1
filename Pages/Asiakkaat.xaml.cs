@@ -219,22 +219,29 @@ public partial class Asiakkaat : ContentPage
 
     private async void poista_Clicked(object sender, EventArgs e)
     {
-        bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti poistaa tiedon?", "Kyllä", "Ei");
-
-        // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
-        if (result)
+        if (selectedAsiakas != null) // Tarkistetaan että asiakas on valittu
         {
-            int asiakasId = int.Parse(asiakas_id.Text);
+            bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti poistaa tiedon?", "Kyllä", "Ei");
 
-            await asiakasviewmodel.PoistaAsiakasAsync(asiakasId);
-            await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
-            Grid grid = (Grid)entry_grid;
-            ListView list = (ListView)lista;
-            funktiot.TyhjennaEntryt(grid, list);
+            // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
+            if (result)
+            {
+                int asiakasId = int.Parse(asiakas_id.Text);
+
+                await asiakasviewmodel.PoistaAsiakasAsync(asiakasId);
+                await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
+                Grid grid = (Grid)entry_grid;
+                ListView list = (ListView)lista;
+                funktiot.TyhjennaEntryt(grid, list);
+            }
+            else
+            {
+                await DisplayAlert("Poistaminen peruttu", "", "OK");
+            }
         }
         else
         {
-            await DisplayAlert("Poistaminen peruttu","","OK");
+            await DisplayAlert("Hups,", "Taisi unohtua valita listasta poistettava asiakas","OK!");
         }
     }
 
