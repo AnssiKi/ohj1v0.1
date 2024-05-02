@@ -2,6 +2,7 @@ using ohj1v0._1;
 using ohj1v0._1.Luokat;
 using ohj1v0._1.Viewmodels;
 using ohj1v0._1.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ohj1v0._1;
 
@@ -10,14 +11,14 @@ public partial class TeeUusiVaraus : ContentPage
     Funktiot funktiot = new Funktiot();
     AlueViewmodel alueViewmodel = new AlueViewmodel();
     MokkiViewmodel mokkiViewmodel = new MokkiViewmodel();
+    VarausViewmodel varausViewmodel = new VarausViewmodel();
 
     public TeeUusiVaraus()
 	{
 		InitializeComponent();
         alue_nimi.BindingContext = alueViewmodel;
         varauspvm.Text = DateTime.Now.ToString("dd.MM.yyyy");
-        mokki_lista.BindingContext = mokkiViewmodel;
-        mokki_lista.ItemsSource = null;
+        mokki_lista.BindingContext = mokkiViewmodel.Mokkis;
         
     }
     
@@ -66,11 +67,17 @@ public partial class TeeUusiVaraus : ContentPage
         {            
             int henkilo = henkilomaara.SelectedIndex + 1;
 
-            await mokkiViewmodel.LoadMokkisFromDatabaseAsync();
-
-
-            var filteredMokit = mokkiViewmodel.Mokkis.Where(m => m.Henkilomaara >= henkilo && m.AlueId == selectedAlue.AlueId)
-            .ToList();
+            using var context = new VnContext();
+            //suodatetaan ensin mökit alueen mukaan
+            var filteredMokit = await context.Mokkis
+            .Where(m => m.Henkilomaara >= henkilo && m.AlueId == selectedAlue.AlueId)
+            .Include(m => m.Varaus) 
+            .ToListAsync();
+            //Sen jälkeen suodatetaan mökit jotka vapaana annettuina päivinä
+            filteredMokit = filteredMokit
+                .Where(m => m.Varaus.All(v => v.VarattuLoppupvm < alkupaiva.Value || v.VarattuAlkupvm > loppupaiva.Value))
+                .ToList();
+            //Asetetaan mökkilistaan vapaana olevat mökit
             mokki_lista.ItemsSource = filteredMokit;
         }
 
