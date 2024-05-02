@@ -48,11 +48,16 @@
                     <Label
                     Text="ID"/>
 
-                   
 
-                    <Entry                       
+                    <Frame
+                        Grid.Row="1"
+                        CornerRadius="5"/>
+
+                    <Label                       
                     x:Name="asiakas_id"
                     Text=""
+                    Padding="10"
+                    VerticalTextAlignment="Center"
                     IsEnabled="False"
                     Grid.Row="1"/>
 

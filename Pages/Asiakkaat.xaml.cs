@@ -9,6 +9,7 @@ public partial class Asiakkaat : ContentPage
 {
     Funktiot funktiot = new Funktiot();
     AsiakasViewmodel asiakasviewmodel = new AsiakasViewmodel();
+    VarausViewmodel varausViewmodel = new VarausViewmodel();
 
     public Asiakkaat()
 	{
@@ -209,6 +210,7 @@ public partial class Asiakkaat : ContentPage
             Grid grid = (Grid)entry_grid;
             ListView list = (ListView)lista;
             funktiot.TyhjennaEntryt(grid, list);
+            asiakas_id.Text = "";
         }
         else
         {
@@ -222,25 +224,52 @@ public partial class Asiakkaat : ContentPage
         if (selectedAsiakas != null) // Tarkistetaan ett‰ asiakas on valittu
         {
             bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti poistaa tiedon?", "Kyll‰", "Ei");
-
-            // Jos k‰ytt‰j‰ valitsee "Kyll‰", toteutetaan peruutustoimet
+            //Varmistetaan ett‰ haluaa poistaa asiakkaan ja jos kyll‰ niin teh‰‰n toimet
             if (result)
             {
-                int asiakasId = int.Parse(asiakas_id.Text);
+                try
+                {   //Tarkistetaan onko asiakkaalla varauksia:
 
-                await asiakasviewmodel.PoistaAsiakasAsync(asiakasId);
-                await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
-                Grid grid = (Grid)entry_grid;
-                ListView list = (ListView)lista;
-                funktiot.TyhjennaEntryt(grid, list);
+                    using (var context = new VnContext())
+                    {
+                        var asiakasId = selectedAsiakas.AsiakasId;
+
+                        var varaukset = await context.Varaus.Where(v => v.AsiakasId == asiakasId).ToListAsync();
+
+                        if (!varaukset.Any())
+                        {
+                            // Jos asiakkaalla ei ole varauksia, voidaan poistaa.
+
+                            var Id = int.Parse(asiakas_id.Text);
+
+                            context.Asiakas.Remove(selectedAsiakas);
+                            await context.SaveChangesAsync();
+                            await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
+                            Grid grid = (Grid)entry_grid;
+                            ListView list = (ListView)lista;
+                            funktiot.TyhjennaEntryt(grid, list);
+                            asiakas_id.Text = "";
+                            await DisplayAlert("Asiakkaalla ei ollut varauksia","Asiakas poistettu onnistuneesti","OK!");
+
+                        }
+                        else 
+                        { //Jos on varauksia
+                            await DisplayAlert("Valitettavasti t‰t‰ henkilˆ‰ ei voi poistaa,", " asiakkaalla n‰ytt‰isi olevan varaus", "OK!");
+                        }
+                    }
+                }
+                catch
+                {//Jos ei jostain syyst‰ onnistu
+                    await DisplayAlert("Valitettavasti poistaminen ei onnistunut,", "Kokeile ihmeess‰ uudelleen", "OK!");
+                }
             }
             else
-            {
-                await DisplayAlert("Poistaminen peruttu", "", "OK");
+            {//jos haluaakin perua poistaminen, ei tyhjennet‰ entryj‰ jos haluaa muokata viel‰ saman tietoja.
+                await DisplayAlert("Poistaminen peruttu,","voit jatkaa tietojen muokkausta tai tyhjent‰‰ lomakkeen","OK!");
             }
         }
         else
-        {
+        {//jos ei oo klikannu ket‰‰n asiakasta poistettavaksi
             await DisplayAlert("Hups,", "Taisi unohtua valita listasta poistettava asiakas","OK!");
         }
     }
