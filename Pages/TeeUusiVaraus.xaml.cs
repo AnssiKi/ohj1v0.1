@@ -40,8 +40,19 @@ public partial class TeeUusiVaraus : ContentPage
         if ((Alue)alue_nimi.SelectedItem != null)
         {
             selectedAlue = (Alue)alue_nimi.SelectedItem;
+
+            using var context = new VnContext();
+
+            var mokitValitullaAlueella = await context.Mokkis.Where(m => m.AlueId == selectedAlue.AlueId).ToListAsync();
+
+            if (!mokitValitullaAlueella.Any()) //Jos alueella ei ole mökkejä
+            {
+                await DisplayAlert("Tällä alueella ei ole vielä mökkejä","Valitse uusi alue","OK!");
+            }
+            else { mokki_lista.ItemsSource = mokitValitullaAlueella; }
         }
         
+
     }
 
     private void alkupvm_DateSelected(object sender, DateChangedEventArgs e)
