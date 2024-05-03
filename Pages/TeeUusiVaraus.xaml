@@ -138,12 +138,22 @@
                         x:Name="mokki_lista"
                         ItemTapped="mokki_lista_ItemTapped"
                         ItemsSource="{Binding Mokkis}">
+                            <ListView.Header>
+                                <StackLayout Orientation="Horizontal" Padding="10" BackgroundColor="#EFEFEF">
+                                    <Label Text="ID" WidthRequest="20" FontAttributes="Bold"/>
+                                    <Label Text="Mökin Nimi" WidthRequest="100" FontAttributes="Bold"/>
+                                    <Label Text="Hinta" WidthRequest="100" FontAttributes="Bold" />
+                                    <Label Text="Kuvaus" WidthRequest="300" FontAttributes="Bold" />
+                                </StackLayout>
+                            </ListView.Header>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
                                         <StackLayout Orientation="Horizontal" Padding="10">
-                                            <Label Text="{Binding MokkiId}" WidthRequest="100"/>
-                                            <Label Text="{Binding Mokkinimi}"/>
+                                            <Label Text="{Binding MokkiId}" WidthRequest="20"/>
+                                            <Label Text="{Binding Mokkinimi}" WidthRequest="100"/>
+                                            <Label Text="{Binding Hinta}" WidthRequest="100"/>
+                                            <Label Text="{Binding Kuvaus}" WidthRequest="300"/>
                                         </StackLayout>
                                     </ViewCell>
                                 </DataTemplate>
