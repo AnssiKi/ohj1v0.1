@@ -5,6 +5,7 @@
              Title="Palvelut">
     
     <!-- muokattu näkymää 28042024 KA -->
+    <!-- muokattu lisää 06052024 KA -->
     <ScrollView>
         <VerticalStackLayout
         Spacing="25"
@@ -49,14 +50,19 @@
                     <Label
                     Text="Alue"
                     Grid.Column="1"/>
+                    <!-- muutettu entry-kenttä labeliksi, ei sotke tallennusta. Frame lisätty myös ulkonäöllisistä syistä.-->
+                    <Frame
+                        Grid.Row="1"
+                        CornerRadius="5"
+                        HorizontalOptions="Start"
+                        WidthRequest="100"/>
 
-                    <Entry                       
+                    <Label                       
                     x:Name="palvelu_id"
                     Text=""
-                    IsEnabled="False"
                     Grid.Row="1"
-                    WidthRequest="100"
-                    HorizontalOptions="Start"/>
+                    VerticalTextAlignment="Center"
+                    />
 
                     <Picker 
                     x:Name="alue_nimi" 
@@ -98,7 +104,7 @@
                         TextChanged="palvelu_kuvaus_TextChanged"/>
 
                     <Label
-                    Text="Hinta"
+                    Text="Hinta ilman Alv"
                     Margin="0,5,0,0"
                     Grid.Row="6"/>
 
