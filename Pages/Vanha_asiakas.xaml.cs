@@ -10,6 +10,7 @@ public partial class Vanha_asiakas : ContentPage
     private VarauksenTiedot varauksenTiedot;
     AsiakasViewmodel asiakasviewmodel = new AsiakasViewmodel();
     VarausViewmodel varausViewmodel = new VarausViewmodel();
+    ListaViewModel listaViewModel = new ListaViewModel();
     public Vanha_asiakas(TeeUusiVaraus tuv,VarauksenTiedot tiedot)
 	{
 		InitializeComponent();
@@ -68,10 +69,8 @@ public partial class Vanha_asiakas : ContentPage
                         VarattuPvm = varauksenTiedot.Varattupvm,
                         VahvistusPvm = varauksenTiedot.Vahvistuspvm,
                         VarattuAlkupvm = varauksenTiedot.VarattuAlkupvm,
-                        VarattuLoppupvm = varauksenTiedot.VarattuLoppupvm
-
-                        //varauksen palvelut pit‰‰ viel‰ saaha kuntoon
-                        //VarauksenPalveluts = varauksenTiedot.VarauksenPalveluts
+                        VarattuLoppupvm = varauksenTiedot.VarattuLoppupvm,
+                        VarauksenPalveluts = varauksenTiedot.VarauksenPalveluts
 
                     };
 
@@ -83,7 +82,8 @@ public partial class Vanha_asiakas : ContentPage
                     await varausViewmodel.LoadVarausFromDatabaseAsync();
                 }
 
-                await DisplayAlert("Tallennettu", "", "OK");
+                await DisplayAlert("Varaus tallennettu", "", "OK");
+                listaViewModel.NollaaValitutPalvelut();
                 await Navigation.PushAsync(new TeeUusiVaraus());
             }
             catch (Exception ex)

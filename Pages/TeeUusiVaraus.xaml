@@ -140,9 +140,9 @@
                         ItemsSource="{Binding Mokkis}">
                             <ListView.Header>
                                 <StackLayout Orientation="Horizontal" Padding="10" BackgroundColor="#EFEFEF">
-                                    <Label Text="ID" WidthRequest="20" FontAttributes="Bold"/>
-                                    <Label Text="Mökin Nimi" WidthRequest="100" FontAttributes="Bold"/>
-                                    <Label Text="Hinta" WidthRequest="100" FontAttributes="Bold" />
+                                    <Label Text="ID" WidthRequest="40" FontAttributes="Bold"/>
+                                    <Label Text="Mökin Nimi" WidthRequest="150" FontAttributes="Bold"/>
+                                    <Label Text="Hinta" WidthRequest="50" FontAttributes="Bold" />
                                     <Label Text="Kuvaus" WidthRequest="300" FontAttributes="Bold" />
                                 </StackLayout>
                             </ListView.Header>
@@ -150,9 +150,9 @@
                                 <DataTemplate>
                                     <ViewCell>
                                         <StackLayout Orientation="Horizontal" Padding="10">
-                                            <Label Text="{Binding MokkiId}" WidthRequest="20"/>
-                                            <Label Text="{Binding Mokkinimi}" WidthRequest="100"/>
-                                            <Label Text="{Binding Hinta}" WidthRequest="100"/>
+                                            <Label Text="{Binding MokkiId}" WidthRequest="10"/>
+                                            <Label Text="{Binding Mokkinimi}" WidthRequest="150"/>
+                                            <Label Text="{Binding Hinta}" WidthRequest="50"/>
                                             <Label Text="{Binding Kuvaus}" WidthRequest="300"/>
                                         </StackLayout>
                                     </ViewCell>
@@ -174,40 +174,33 @@
                     Grid.ColumnSpan="2"
                     HorizontalOptions="FillAndExpand">
 
-                    <Grid 
-                        Padding="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-
-                        </Grid.ColumnDefinitions>
-
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <Label                    
-                            Text="Lukumäärä"                            
-                            Margin="0,5,0,0"
-                            Grid.Column="1"/>
-                        
-
-                        <Label                    
-                            Text="Palvelu 1"
-                            VerticalOptions="Center"
-                            Margin="0,5,20,0"
-                            HorizontalOptions="Center"
-                            Grid.Row="1"/>
-
-                        <Entry
-                            x:Name="palvelu_lkm"
-                            Grid.Column="1"
-                            Grid.Row="1"
-                            HorizontalOptions="Start"
-                            TextChanged="palvelu_lkm_TextChanged"/>
-                    </Grid>
-                </Frame>
+                        <ListView     
+                            x:Name="palvelu_lista"
+                            ItemTapped="palvelu_lista_ItemTapped"
+                            ItemsSource="{Binding Palvelus}">
+                            <ListView.Header>
+                                <StackLayout Orientation="Horizontal" Padding="10" BackgroundColor="#EFEFEF">
+                                    <Label Text="Lkm" WidthRequest="40" FontAttributes="Bold"/>
+                                    <Label Text="Palvelun Nimi" WidthRequest="150" FontAttributes="Bold"/>
+                                    <Label Text="Hinta" WidthRequest="50" FontAttributes="Bold" />
+                                    <Label Text="Kuvaus" WidthRequest="300" FontAttributes="Bold" />
+                                </StackLayout>
+                            </ListView.Header>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal" Padding="10">
+                                            <Entry x:Name="palvelu_lkm" TextChanged="palvelu_lkm_TextChanged"
+                                                   Text="" WidthRequest="10" />
+                                            <Label Text="{Binding Nimi}" WidthRequest="150"/>
+                                            <Label Text="{Binding HintaAlv}" WidthRequest="50"/>
+                                            <Label Text="{Binding Kuvaus}" WidthRequest="300"/>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Frame>
 
                 <Button
                 x:Name="uusi_asiakas"

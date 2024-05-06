@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ohj1v0._1.Models
-{//Luotu luokka varauksen tiedoille siirtymiseen eri sivujen välillä
+{//Luotu luokka varauksen tiedoille siirtymiseen eri sivujen välillä MH
     public class VarauksenTiedot
     {
         public Mokki ValittuMokki { get; set; }

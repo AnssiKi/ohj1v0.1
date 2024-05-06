@@ -17,6 +17,7 @@ public partial class Uusi_asiakas : ContentPage
     Funktiot funktiot = new Funktiot();
     AsiakasViewmodel asiakasviewmodel = new AsiakasViewmodel();
     VarausViewmodel varausViewmodel = new VarausViewmodel();
+    ListaViewModel listaViewModel = new ListaViewModel();
 
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
@@ -131,21 +132,22 @@ public partial class Uusi_asiakas : ContentPage
                             VarattuPvm = varauksenTiedot.Varattupvm,
                             VahvistusPvm = varauksenTiedot.Vahvistuspvm,
                             VarattuAlkupvm = varauksenTiedot.VarattuAlkupvm,
-                            VarattuLoppupvm = varauksenTiedot.VarattuLoppupvm
-
-                            //varauksen palvelut pitää vielä saaha kuntoon
-                            //VarauksenPalveluts = varauksenTiedot.VarauksenPalveluts
+                            VarattuLoppupvm = varauksenTiedot.VarattuLoppupvm,
+                            VarauksenPalveluts = varauksenTiedot.VarauksenPalveluts
 
                         };
 
                         await varausViewmodel.LoadVarausFromDatabaseAsync();
                         dbContext.Varaus.Add(varaus);
                         dbContext.SaveChanges();
-                        BindingContext = new VarausViewmodel();
                         await varausViewmodel.LoadVarausFromDatabaseAsync();
                     }
 
                     await DisplayAlert("Asiakkaan ja varauksen tallennus onnistui!", "", "OK");
+
+                    //nollataan listviewin lista
+                    listaViewModel.NollaaValitutPalvelut();
+                    
                     grid = (Grid)entry_grid;
 
                     foreach (var child in grid.Children)
@@ -165,7 +167,7 @@ public partial class Uusi_asiakas : ContentPage
             }
             else
             {
-                DisplayAlert("Asiakas kyseisellä puhelinnumerolla ","tai sähköpostilla on jo tietokannassa","OK!");
+                await DisplayAlert("Asiakas kyseisellä puhelinnumerolla ","tai sähköpostilla on jo tietokannassa","OK!");
             }
         }
     }
