@@ -129,6 +129,7 @@ public partial class TeeUusiVaraus : ContentPage
             {
                 //Jos alueella ei ole vapaana mökkejä, annetaan alert
                 await DisplayAlert("Valitettavasti alueella ei ole mökkejä vapaana valittuna ajankohtana", "vaihda päivämääriä", "OK!");
+                mokki_lista.ItemsSource = null;
             }
 
             else
@@ -291,15 +292,24 @@ public partial class TeeUusiVaraus : ContentPage
 
     private async Task<VarauksenTiedot> VarauksenTiedotAsync()
     {
-        // Tämä ottaa talteen varauksentiedot luokkaan omiin muuttujiin, jotta helpompi siirtyä sivulta toiselle
-        VarauksenTiedot varauksenTiedot = new VarauksenTiedot
+        //Tarkistetaan että onko varaus alkamassa jo alle viikonpäästä
+        var erotus= alkupvm.Date - DateTime.Now;
+        var vahvistus = DateTime.Now;
+
+        if (erotus.TotalDays <= 7) 
         {
+            vahvistus = DateTime.Now;
+        }
+        else { vahvistus = alkupvm.Date - TimeSpan.FromDays(7); }
+
+        VarauksenTiedot varauksenTiedot = new VarauksenTiedot
+        {  // Tämä ottaa talteen varauksentiedot luokkaan omiin muuttujiin, jotta helpompi siirtyä sivulta toiselle
             ValittuMokki = selectedMokki,
             ValittuAlue = selectedAlue,
             VarattuAlkupvm = alkupvm.Date,
             VarattuLoppupvm = loppupvm.Date,
             Varattupvm = DateTime.Now,
-            Vahvistuspvm = alkupvm.Date - TimeSpan.FromDays(7),
+            Vahvistuspvm = vahvistus,
             VarauksenPalveluts = new List<VarauksenPalvelut>()
         };
 
