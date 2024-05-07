@@ -144,11 +144,43 @@ public partial class TeeUusiVaraus : ContentPage
 
     }
 
-    private void mokki_lista_ItemTapped(object sender, ItemTappedEventArgs e)
+    private async void mokki_lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
-        selectedMokki = (Mokki)mokki_lista.SelectedItem;
+        //Tarkistetaan ettei mökillä oo samaan aikaan jo olemassa olevia varauksia
+        using (var context = new VnContext())
+        {
+            var mokki = e.Item as Mokki;
+            var mokkiId = mokki.MokkiId;
+
+            var mokin_varaukset = context.Varaus
+
+                .Where(v => v.MokkiId == mokkiId &&
+                            ((v.VarattuAlkupvm <= alkupaiva && v.VarattuLoppupvm >= alkupaiva) ||
+                             (v.VarattuAlkupvm <= loppupaiva && v.VarattuLoppupvm >= loppupaiva)))
+                .Select(v => new
+                {
+                    VarausId = v.VarausId,
+                    AlkuPvm = v.VarattuAlkupvm,
+                    LoppuPvm = v.VarattuLoppupvm,
+                    MokkiNimi = v.Mokki.Mokkinimi,
+                    MokkiAlue = v.Mokki.Alue.Nimi,
+                    PalveluNimi = v.VarauksenPalveluts.Select(vp => vp.Palvelu.Nimi).FirstOrDefault(),
+                    PalveluAlue = v.VarauksenPalveluts.Select(vp => vp.Palvelu.Alue.Nimi).FirstOrDefault()
+                })
+                .OrderBy(v => v.VarausId)
+                .ToList();
+            if (mokin_varaukset.Any())
+            {
+                await DisplayAlert("Mökki varattuna valittuna ajankohtana","Vaihda mökkiä tai vuokrausaikaa","OK!");
+                selectedMokki = null;
+            }
+            else
+            {
+                selectedMokki = (Mokki)mokki_lista.SelectedItem;
+            }
 
 
+        }
     }
     private async void palvelu_lkm_TextChanged(object sender, TextChangedEventArgs e)
     {
