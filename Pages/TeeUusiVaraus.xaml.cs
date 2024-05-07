@@ -26,12 +26,12 @@ public partial class TeeUusiVaraus : ContentPage
 
     }
 
-    Alue selectedAlue;
-    Mokki selectedMokki;
-    Palvelu selectedPalvelu;
-    private int lukumaara;
-    private DateTime? alkupaiva;
-    private DateTime? loppupaiva;
+    Alue selectedAlue = null;
+    Mokki selectedMokki = null;
+    Palvelu selectedPalvelu = null;
+    private int lukumaara = 0;
+    private DateTime? alkupaiva = null;
+    private DateTime? loppupaiva = null;
 
 
 
@@ -208,7 +208,10 @@ public partial class TeeUusiVaraus : ContentPage
             //navigointi uudelle sivulle ja annetaan mukaan varauksen tiedot
             VarauksenTiedot varauksenTiedot = await VarauksenTiedotAsync();
 
-            await Navigation.PushAsync(new Uusi_asiakas(this, varauksenTiedot));
+            if (varauksenTiedot != null)
+            {//jos k‰ytt‰j‰ valitsee ett‰ haluaakin lis‰t‰ palvelut ni estet‰‰n siirtyminen uuelle sivulle
+                await Navigation.PushAsync(new Uusi_asiakas(this, varauksenTiedot));
+            }
         }
         else
         {
@@ -232,8 +235,9 @@ public partial class TeeUusiVaraus : ContentPage
             // Navigointi uudelle sivulle ja annetaan mukaan varauksen tiedot
             VarauksenTiedot varauksenTiedot = await VarauksenTiedotAsync();
 
-            await Navigation.PushAsync(new Vanha_asiakas(this, varauksenTiedot));
-
+            if (varauksenTiedot != null) {//jos k‰ytt‰j‰ valitsee ett‰ haluaakin lis‰t‰ palvelut ni estet‰‰n siirtyminen uuelle sivulle
+                await Navigation.PushAsync(new Vanha_asiakas(this, varauksenTiedot));
+            }
         }
         else
         {   //Ei p‰‰stet‰ jatkamaan jos ei valinnu mˆkki‰
@@ -258,12 +262,12 @@ public partial class TeeUusiVaraus : ContentPage
         };
 
         // Tarkista, onko palvelu valittu ja onko lukum‰‰r‰ m‰‰ritelty
-        if (listaViewModel.valitutPalvelutLista==null || listaViewModel.valitutPalvelutLista.Count == 0 || lukumaara <= 0)
+        if (listaViewModel.valitutPalvelutIdLista==null || listaViewModel.valitutPalvelutIdLista.Count == 0 || lukumaara <= 0)
         {
             bool jatkaIlmanPalveluita = await DisplayAlert("Palveluita ei valittu", "Haluatko jatkaa ilman palveluita?", "Kyll‰", "Ei");
             if (!jatkaIlmanPalveluita)
             {
-                // Jos k‰ytt‰j‰ ei halua jatkaa ilman palveluita, palauta null
+                return null; // Jos k‰ytt‰j‰ ei halua jatkaa ilman palveluita, palauta null
                
             }
             // Jos k‰ytt‰j‰ haluaa jatkaa ilman palveluita, jatketaan ilman palveluiden lis‰yst‰
@@ -271,14 +275,14 @@ public partial class TeeUusiVaraus : ContentPage
         else
         {
             // Jos palveluita on valittu, lis‰t‰‰n ne varauksen tietoihin
-            foreach (var palvelu in listaViewModel.valitutPalvelutLista)
+            foreach (var palveluId in listaViewModel.valitutPalvelutIdLista)
             {
-                int palvelunLukumaara = listaViewModel.PalveluidenLkm.ContainsKey(palvelu) ? listaViewModel.PalveluidenLkm[palvelu] : 0;
+                int palvelunLukumaara = listaViewModel.PalveluidenLkm.ContainsKey(palveluId) ? listaViewModel.PalveluidenLkm[palveluId] : 0;
                 if (palvelunLukumaara > 0)
                 {
                     varauksenTiedot.VarauksenPalveluts.Add(new VarauksenPalvelut
                     {
-                        Palvelu = palvelu,
+                        PalveluId = palveluId, // K‰ytet‰‰n palvelun ID:t‰
                         Lkm = palvelunLukumaara
                     });
                 }
@@ -287,4 +291,5 @@ public partial class TeeUusiVaraus : ContentPage
 
         return varauksenTiedot;
     }
+  
 }

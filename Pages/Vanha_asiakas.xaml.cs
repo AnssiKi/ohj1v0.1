@@ -24,8 +24,16 @@ public partial class Vanha_asiakas : ContentPage
     
     bool valittu = false;
 
-    private void hae_sukunimella_TextChanged(object sender, TextChangedEventArgs e)
+    private CancellationTokenSource _cts;
+
+    private async void hae_sukunimella_TextChanged(object sender, TextChangedEventArgs e)
     {
+        if (_cts != null)
+        {
+            _cts.Cancel();
+            _cts = null;
+        }
+
         string searchText = e.NewTextValue;
 
         if (string.IsNullOrWhiteSpace(searchText))
@@ -34,9 +42,23 @@ public partial class Vanha_asiakas : ContentPage
         }
         else
         {
-            // filtterˆid‰‰n ListView sis‰ltˆ hakukent‰n mukaan
-            var filteredAsiakkaat = asiakasviewmodel.Asiakas.Where(a => a.Sukunimi.ToLower().Contains(searchText.ToLower())).ToList();
-            lista.ItemsSource = filteredAsiakkaat;
+            _cts = new CancellationTokenSource();
+            try
+            {
+                // Odota 500 millisekuntia ennen haun suorittamista
+                await Task.Delay(500, _cts.Token);
+
+                // filtterˆid‰‰n ListView sis‰ltˆ hakukent‰n mukaan
+                var filteredAsiakkaat = asiakasviewmodel.Asiakas
+                    .Where(a => a.Sukunimi.ToLower().Contains(searchText.ToLower()))
+                    .ToList();
+
+                lista.ItemsSource = filteredAsiakkaat;
+            }
+            catch (TaskCanceledException)
+            {
+                // Ei tehd‰ mit‰‰n, jos haku peruutetaan
+            }
         }
     }
 
@@ -69,8 +91,7 @@ public partial class Vanha_asiakas : ContentPage
                         VarattuPvm = varauksenTiedot.Varattupvm,
                         VahvistusPvm = varauksenTiedot.Vahvistuspvm,
                         VarattuAlkupvm = varauksenTiedot.VarattuAlkupvm,
-                        VarattuLoppupvm = varauksenTiedot.VarattuLoppupvm,
-                        VarauksenPalveluts = varauksenTiedot.VarauksenPalveluts
+                        VarattuLoppupvm = varauksenTiedot.VarattuLoppupvm
 
                     };
 
@@ -78,12 +99,25 @@ public partial class Vanha_asiakas : ContentPage
                     await varausViewmodel.LoadVarausFromDatabaseAsync();
                     dbContext.Varaus.Add(varaus);
                     dbContext.SaveChanges();
-                    BindingContext = new VarausViewmodel();
+                    //lis‰t‰‰n varaukselle varatut palvelut
+                    var varausId = varaus.VarausId;
+
+                    // Lis‰t‰‰n varauksen ID jokaiseen VarauksenPalvelut-olioon
+                    foreach (var palvelu in varauksenTiedot.VarauksenPalveluts)
+                    {
+                        palvelu.VarausId = varausId;
+                        dbContext.VarauksenPalveluts.Add(palvelu);
+                    }
+
+                    dbContext.SaveChanges();
+
                     await varausViewmodel.LoadVarausFromDatabaseAsync();
                 }
 
                 await DisplayAlert("Varaus tallennettu", "", "OK");
-                listaViewModel.NollaaValitutPalvelut();
+                listaViewModel.NollaaValitutPalvelut(); //Nollataan valitut palvelut Listaviewmodelista
+                await funktiot.TyhjennaVarauksenTiedotAsync(varauksenTiedot); // Nollataan varauksentiedot muuttujat uuestaan k‰ytett‰v‰ksi
+
                 await Navigation.PushAsync(new TeeUusiVaraus());
             }
             catch (Exception ex)
@@ -91,5 +125,8 @@ public partial class Vanha_asiakas : ContentPage
                 await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
             }
         }
+
+       
     }
+   
 }

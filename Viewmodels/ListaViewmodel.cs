@@ -14,8 +14,8 @@ namespace ohj1v0._1.Viewmodels
     public class ListaViewModel
     {
         public ObservableCollection<Palvelu> Items { get; set; }
-        public List<Palvelu> valitutPalvelutLista { get; set; }
-        public Dictionary<Palvelu, int> PalveluidenLkm { get; set; } //Tällä saahaan palveluiden lukumäärät mukaan
+        public List<uint> valitutPalvelutIdLista { get; set; }
+        public Dictionary<uint, int> PalveluidenLkm { get; set; } //Tällä saahaan palveluiden lukumäärät mukaan
 
         // Komento, jota kutsutaan, kun listan itemiä napautetaan
         public Command<Palvelu> OnItemTappedCommand { get; }
@@ -24,43 +24,45 @@ namespace ohj1v0._1.Viewmodels
         {
             Items = new ObservableCollection<Palvelu>();
 
-            valitutPalvelutLista = new List<Palvelu>();
+            valitutPalvelutIdLista = new List<uint>();
 
             OnItemTappedCommand = new Command<Palvelu>(OnItemTapped);
 
-            PalveluidenLkm = new Dictionary<Palvelu, int>();
+            PalveluidenLkm = new Dictionary<uint, int>();
 
             // Lisää kohteita Items-kokoelmaan
         }
 
         public void OnItemTapped(Palvelu item)
         {
-            if (valitutPalvelutLista.Contains(item))
+            uint palveluId = item.PalveluId;
+
+            if (valitutPalvelutIdLista.Contains(palveluId))
             {
-                valitutPalvelutLista.Remove(item);
+                valitutPalvelutIdLista.Remove(palveluId);//tarkistetaanko onko tupla
                 // Vähennä lukumäärää
-                if (PalveluidenLkm[item] > 1)
+                if (PalveluidenLkm[palveluId] > 1)
                 {
-                    PalveluidenLkm[item]--;
+                    PalveluidenLkm[palveluId]--;
                 }
                 else
                 {
-                    PalveluidenLkm.Remove(item);
+                    PalveluidenLkm.Remove(palveluId);
                 }
             }
 
 
             else
             {
-                valitutPalvelutLista.Add(item);
+                valitutPalvelutIdLista.Add(palveluId);
                 // Lisää lukumäärä tai aseta se yhdeksi, jos ei ole vielä listalla
-                if (PalveluidenLkm.ContainsKey(item))
+                if (PalveluidenLkm.ContainsKey(palveluId))
                 {
-                    PalveluidenLkm[item]++;
+                    PalveluidenLkm[palveluId]++;
                 }
                 else
                 {
-                    PalveluidenLkm[item] = 1;
+                    PalveluidenLkm[palveluId] = 1;
                 }
             } 
         }
@@ -70,17 +72,17 @@ namespace ohj1v0._1.Viewmodels
             Entry entry = (Entry)sender;
 
             Palvelu palvelu = entry.BindingContext as Palvelu;
+            uint palveluId = palvelu.PalveluId;
 
-                if (palvelu != null && int.TryParse(entry.Text, out int lukumaara))
-                {
-                   
-                    PalveluidenLkm[palvelu] = lukumaara;
-                }
-            
+            if (int.TryParse(entry.Text, out int lukumaara))
+            {
+                PalveluidenLkm[palveluId] = lukumaara;
+            }
+
         }
         public void NollaaValitutPalvelut()
         {
-            valitutPalvelutLista.Clear();
+            valitutPalvelutIdLista.Clear();
             PalveluidenLkm.Clear();
         }
     }

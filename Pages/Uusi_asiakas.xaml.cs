@@ -125,28 +125,42 @@ public partial class Uusi_asiakas : ContentPage
                         BindingContext = new AsiakasViewmodel();
                         await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
 
-                        var varaus = new Varau()
-                        {
-                            AsiakasId = asiakas.AsiakasId,
-                            MokkiId = varauksenTiedot.ValittuMokki.MokkiId,
-                            VarattuPvm = varauksenTiedot.Varattupvm,
-                            VahvistusPvm = varauksenTiedot.Vahvistuspvm,
-                            VarattuAlkupvm = varauksenTiedot.VarattuAlkupvm,
-                            VarattuLoppupvm = varauksenTiedot.VarattuLoppupvm,
-                            VarauksenPalveluts = varauksenTiedot.VarauksenPalveluts
+                        
+                            var varaus = new Varau()
+                            {
+                                AsiakasId = asiakas.AsiakasId,
+                                MokkiId = varauksenTiedot.ValittuMokki.MokkiId,
+                                VarattuPvm = varauksenTiedot.Varattupvm,
+                                VahvistusPvm = varauksenTiedot.Vahvistuspvm,
+                                VarattuAlkupvm = varauksenTiedot.VarattuAlkupvm,
+                                VarattuLoppupvm = varauksenTiedot.VarattuLoppupvm
 
-                        };
+                            };
 
-                        await varausViewmodel.LoadVarausFromDatabaseAsync();
-                        dbContext.Varaus.Add(varaus);
-                        dbContext.SaveChanges();
-                        await varausViewmodel.LoadVarausFromDatabaseAsync();
+
+                            await varausViewmodel.LoadVarausFromDatabaseAsync();
+                            dbContext.Varaus.Add(varaus);
+                            dbContext.SaveChanges();
+                            //lis‰t‰‰n varaukselle varatut palvelut
+                            var varausId = varaus.VarausId;
+
+                            // Lis‰t‰‰n varauksen ID jokaiseen VarauksenPalvelut-olioon
+                            foreach (var palvelu in varauksenTiedot.VarauksenPalveluts)
+                            {
+                                palvelu.VarausId = varausId;
+                                dbContext.VarauksenPalveluts.Add(palvelu);
+                            }
+
+                            dbContext.SaveChanges();
+                            await varausViewmodel.LoadVarausFromDatabaseAsync();
                     }
 
                     await DisplayAlert("Asiakkaan ja varauksen tallennus onnistui!", "", "OK");
 
                     //nollataan listviewin lista
                     listaViewModel.NollaaValitutPalvelut();
+                    //nollataan varauksenTiedot
+                    await funktiot.TyhjennaVarauksenTiedotAsync(varauksenTiedot);
                     
                     grid = (Grid)entry_grid;
 

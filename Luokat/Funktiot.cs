@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using ohj1v0._1.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -198,6 +199,20 @@ namespace ohj1v0._1.Luokat
             {
                 lista.SelectedItem = null; // poistaa listview valinnan
             }
+        }
+        public async Task TyhjennaVarauksenTiedotAsync(VarauksenTiedot varauksenTiedot)
+        {
+            // Alustettaan VarauksenTiedot-olio käytettäväksi uudelleen
+            varauksenTiedot = new VarauksenTiedot
+            {
+                ValittuMokki = null,
+                ValittuAlue = null,
+                VarattuAlkupvm = DateTime.MinValue,
+                VarattuLoppupvm = DateTime.MinValue,
+                Varattupvm = DateTime.MinValue,
+                Vahvistuspvm = DateTime.MinValue,
+                VarauksenPalveluts = new List<VarauksenPalvelut>()
+            };
         }
     }
 }
