@@ -95,6 +95,11 @@ public partial class TeeUusiVaraus : ContentPage
             {
                 await DisplayAlert("Aloituspäivämäärä tulee olla aikaisintaan tänään", "Valitse uusi päivämäärä", "OK!");
             }
+            else if (alkupaiva.Value == loppupaiva.Value) 
+            {
+                await DisplayAlert("Minimi vuokrausaika 1vrk", "Valitse uusi loppu päivämäärä", "OK!");
+
+            }
         }
         else
         {
@@ -106,7 +111,7 @@ public partial class TeeUusiVaraus : ContentPage
 
     private async void henkilomaara_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if ((Alue)alue_nimi.SelectedItem != null)
+        if ((Alue)alue_nimi.SelectedItem != null && alkupaiva.HasValue && loppupaiva.HasValue)
         {
             int henkilo = henkilomaara.SelectedIndex + 1;
 
@@ -130,6 +135,11 @@ public partial class TeeUusiVaraus : ContentPage
             {//Asetetaan mökkilistaan vapaana olevat mökit
                 mokki_lista.ItemsSource = filteredMokit;
             }
+        }
+        else
+        {
+            await DisplayAlert("Valitse ensin alue ja päivämäärät,jolloin haluaisit vuokrata mökin", "", "OK!");
+
         }
 
     }
