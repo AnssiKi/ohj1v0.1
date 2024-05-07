@@ -25,7 +25,9 @@ public partial class Palvelut : ContentPage
 		InitializeComponent();
         lista.BindingContext = pVm;
         alue_nimi.BindingContext = aVm;
-        hae_alueella.BindingContext = aVm; 
+        hae_alueella.BindingContext = aVm;
+        palvelu_hinta.TextChanged += palvelu_hinta_TextChanged;
+        palvelu_hinta.TextChanged += palvelu_hinta_laskealv;
 
         
 	}
@@ -36,7 +38,33 @@ public partial class Palvelut : ContentPage
     {
 
     }
-    
+
+
+    //funktio, joka laskee arvolis‰verollisen hinnan alvhinta-kentt‰‰n
+    private void palvelu_hinta_laskealv(object sender, EventArgs e)
+
+    {   //Jos sek‰ palvelu_hinta kent‰ss‰ ja palvelu_alv pickeriss‰ on valinta
+        if(!string.IsNullOrEmpty(palvelu_hinta.Text) && palvelu_alv.SelectedIndex != -1)
+        {
+            //tarkastetaan syˆtteet ja mik‰li muuttuvat doubleksi, suoritetaan laskutoimitus ja vied‰‰n tulos alvhinta kentt‰‰n
+            if(double.TryParse(palvelu_hinta.Text, out double hinta) && double.TryParse(palvelu_alv.SelectedItem.ToString(), out double kerroin))
+            {
+                double hintaAlv = hinta * (1 + (kerroin / 100));
+                alvhinta.Text = hintaAlv.ToString("0.##");
+            }
+            else
+            {
+                return;
+            }
+        }
+        else
+        {
+            return;
+        }
+
+    }
+
+
 
     private void palvelu_nimi_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 40 merkkiin
@@ -317,5 +345,6 @@ public partial class Palvelut : ContentPage
         ListView list = (ListView)lista;
         funktiot.TyhjennaEntryt(grid, list);
         palvelu_id.Text = null;
+        alvhinta.Text = null;   
     }
 }

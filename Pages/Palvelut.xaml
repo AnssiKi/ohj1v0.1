@@ -115,18 +115,26 @@
                         Text=""
                         Grid.Row="7"
                         Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"
-                        TextChanged="palvelu_hinta_TextChanged"/>
+                        HorizontalOptions="FillAndExpand"               
+                        />
 
                     <Label
                     Text="Alv"
                     Margin="0,5,0,0"
                     Grid.Row="8"/>
 
+                    <Label
+                     Text="Hinta sis. Alv"
+                     Margin="0,5,0,0"
+                     Grid.Row="8"
+                     Grid.Column="1"/>
+
                     <Picker 
                     x:Name="palvelu_alv" 
                     Grid.Row="9"
-                    SelectedIndexChanged="palvelu_alv_SelectedIndexChanged">
+                    WidthRequest="200"
+                    HorizontalOptions="Start"
+                    SelectedIndexChanged="palvelu_hinta_laskealv">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
                                 <x:String>10</x:String>
@@ -135,6 +143,21 @@
                             </x:Array>
                         </Picker.ItemsSource>
                     </Picker>
+
+                    <Frame
+                    Grid.Row="9"
+                    Grid.Column="1"
+                    CornerRadius="5"
+                    HorizontalOptions="Start"
+                    WidthRequest="100"/>
+
+                    <Label                       
+                       x:Name="alvhinta"
+                       Text=""
+                       Grid.Row="9"
+                       Grid.Column="1"
+                       VerticalTextAlignment="Center"
+                    />
 
                     <Button
                     x:Name="tallenna"
