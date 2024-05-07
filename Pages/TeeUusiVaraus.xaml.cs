@@ -73,10 +73,19 @@ public partial class TeeUusiVaraus : ContentPage
 
     }
 
-    private void alkupvm_DateSelected(object sender, DateChangedEventArgs e)
+    private async void alkupvm_DateSelected(object sender, DateChangedEventArgs e)
     {
         alkupaiva = e.NewDate;
-        if (alkupaiva != null) { }
+
+        
+       
+        if (alkupaiva.HasValue) 
+        {
+            if (alkupaiva.Value < DateTime.Now)
+            {
+                await DisplayAlert("Aloituspäivämäärä tulee olla aikaisintaan tänään", "Valitse uusi päivämäärä", "OK!");
+            }
+        }
     }
 
     private async void loppupvm_DateSelected(object sender, DateChangedEventArgs e)
@@ -90,10 +99,6 @@ public partial class TeeUusiVaraus : ContentPage
             {
                 await DisplayAlert("Virhe", "Aloituspäivämäärä ei voi olla lopetuspäivämäärän jälkeen", "OK");
 
-            }
-            else if (alkupaiva.Value < DateTime.Now)
-            {
-                await DisplayAlert("Aloituspäivämäärä tulee olla aikaisintaan tänään", "Valitse uusi päivämäärä", "OK!");
             }
             else if (alkupaiva.Value == loppupaiva.Value) 
             {
