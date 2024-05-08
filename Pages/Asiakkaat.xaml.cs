@@ -17,7 +17,7 @@ public partial class Asiakkaat : ContentPage
         BindingContext = asiakasviewmodel;
 	}
 
-    Asiaka selectedAsiakas;
+    Asiaka selectedAsiakas = null;
   
 
 
@@ -119,11 +119,16 @@ public partial class Asiakkaat : ContentPage
                             OnPropertyChanged(nameof(asiakasviewmodel.Asiakas));
                             await DisplayAlert("", "Muutokset tallennettu", "OK");
                             funktiot.TyhjennaEntryt(grid,lista);
+                            asiakas_id.Text = "";
+                            selectedAsiakas = null;
+
                         }
                         else //jos ei haluakaan tallentaa, tyhjennet‰‰n tiedot
                         {
-                            await DisplayAlert("Muutoksia ei tallennettu", "Valitse asiakas listalta jos haluat muokata asiakaan tietoja", "OK");
+                            await DisplayAlert("Muutoksia ei tallennettu", "Valitse uusi asiakas listalta jos haluat muokata asiakaan tietoja", "OK");
                             funktiot.TyhjennaEntryt(grid,lista);
+                            asiakas_id.Text = "";
+                            selectedAsiakas = null;
                         }
                     }
                 }
@@ -165,6 +170,8 @@ public partial class Asiakkaat : ContentPage
             {
                 try
                 {
+                    selectedAsiakas = null;
+
                     using (var dbContext = new VnContext())
                     {
                         var asiakas = new Asiaka()
@@ -189,6 +196,7 @@ public partial class Asiakkaat : ContentPage
                     grid = (Grid)entry_grid;
                     ListView list = (ListView)lista;
                     funktiot.TyhjennaEntryt(grid, list);
+                    asiakas_id.Text = "";
                 }
                 catch (Exception ex)
                 {
@@ -249,6 +257,7 @@ public partial class Asiakkaat : ContentPage
                             ListView list = (ListView)lista;
                             funktiot.TyhjennaEntryt(grid, list);
                             asiakas_id.Text = "";
+                            selectedAsiakas = null;
                             await DisplayAlert("Asiakkaalla ei ollut varauksia","Asiakas poistettu onnistuneesti","OK!");
 
                         }
