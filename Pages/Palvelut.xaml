@@ -6,19 +6,21 @@
     
     <!-- muokattu näkymää 28042024 KA -->
     <!-- muokattu lisää 06052024 KA -->
+    <!-- vaihdettu VerticalStacklayout HorizontalStackLayouttiin 08052024 KA-->
     <ScrollView>
-        <VerticalStackLayout
+        <HorizontalStackLayout
         Spacing="25"
         Padding="30,0"
         VerticalOptions="Start">
-
+            
             <Grid ColumnSpacing="10">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="600" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-
+                
+                <!-- Syöttökenttien grid-->
                 <Grid
                     Padding="10"
                     x:Name="entry_grid"
@@ -181,7 +183,8 @@
                     Grid.Row="11"
                     Clicked="poista_Clicked"/>
                 </Grid>
-
+                
+                <!-- Listviewin Grid-->
                 <Grid
                 Grid.Column="1"
                 Padding="10"
@@ -196,7 +199,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-
+                    <!-- hakukentän aliGrid -->
                     <Grid Grid.Column="0" Grid.Row="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="150"/>
@@ -238,6 +241,7 @@
                         </Button>
                         
                     </Grid>
+                    
                     <Frame
                     BorderColor="Black"
                     CornerRadius="2"
@@ -284,6 +288,6 @@
 
 
             </Grid>
-        </VerticalStackLayout>
+        </HorizontalStackLayout>
     </ScrollView>
 </ContentPage>

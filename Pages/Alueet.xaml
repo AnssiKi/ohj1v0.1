@@ -3,19 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ohj1v0._1.Alueet"
              Title="Alueet">
+    
+    <!-- muokattu näkymää 08052024 KA-->
     <ScrollView>
-        <VerticalStackLayout
+        <HorizontalStackLayout
           Spacing="25"
           Padding="30,0"
-          VerticalOptions="Center">
+          VerticalOptions="Start">
 
-            <Grid>
+            <Grid ColumnSpacing="10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="600" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-
+                <!-- syöttökenttien Grid-->
                 <Grid 
                     Padding="10"
                     x:Name="entry_grid">
@@ -27,8 +29,8 @@
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="300" />
                     </Grid.ColumnDefinitions>
 
                     <Label
@@ -66,6 +68,7 @@
                          Clicked="poista_Clicked"/>
          
                 </Grid>
+                <!-- listviewin Grid-->
                 <Grid 
                     Grid.Column="1"
                     Padding="10">
@@ -75,22 +78,38 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
-                        <RowDefinition Height="400"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
+                    
+                    <!-- hakukentän aligrid-->
+                    <Grid Grid.Column="0" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="400"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                    <Label
-                       Grid.Column="0"
-                       Grid.Row="0"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"                        
-                       Text="Hae alueen nimellä"/>
+                        <Label
+                           Grid.Column="0"
+                           Grid.Row="0"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center"                        
+                           Text="Hae alueen nimellä"
+                           HorizontalTextAlignment="Center"/>
 
-                    <Entry
-                        Grid.Column="1"
-                        Grid.Row="0"
-                        x:Name="Hae_alue_nimi"
-                        TextChanged="Hae_alue_nimi_TextChanged"/>
-
+                        <Entry
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            x:Name="Hae_alue_nimi"
+                            TextChanged="Hae_alue_nimi_TextChanged"
+                            HorizontalOptions="Start"
+                            WidthRequest="200"
+                            MinimumWidthRequest="200"
+                            MaximumWidthRequest="200"/>
+                        
+                    </Grid>
 
                     <Frame
                           BorderColor="Black"
@@ -107,12 +126,18 @@
                            ItemTapped="lista_ItemTapped"
                            ItemSelected="lista_ItemSelected"
                            ItemsSource="{Binding Alues}">
+                            <ListView.Header>
+                                <StackLayout Orientation="Horizontal" Padding="10">
+                                    <Label Text="ID" WidthRequest="50" FontAttributes="Bold"/>
+                                    <Label Text="Nimi" WidthRequest="200" FontAttributes="Bold"/>
+                                </StackLayout>
+                            </ListView.Header>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
                                         <StackLayout Orientation="Horizontal" Padding="10">
-                                            <Label Text="{Binding AlueId}" WidthRequest="100"/>
-                                            <Label Text="{Binding Nimi}"/>
+                                            <Label Text="{Binding AlueId}" WidthRequest="50"/>
+                                            <Label Text="{Binding Nimi}" WidthRequest="200"/>
                                         </StackLayout>
                                     </ViewCell>
                                 </DataTemplate>
@@ -122,6 +147,6 @@
                     </Frame>
                 </Grid>
             </Grid>
-        </VerticalStackLayout>
+        </HorizontalStackLayout>
     </ScrollView>
 </ContentPage>
