@@ -30,10 +30,10 @@ namespace ohj1v0._1.Viewmodels
 
             PalveluidenLkm = new Dictionary<uint, int>();
 
-            // Lisää kohteita Items-kokoelmaan
+            
         }
 
-        public void OnItemTapped(Palvelu item)
+        public void OnItemTapped(Palvelu item)// Lisää kohteita Items-kokoelmaan
         {
             uint palveluId = item.PalveluId;
 

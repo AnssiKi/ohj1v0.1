@@ -45,7 +45,7 @@ namespace ohj1v0._1.Viewmodels
             }
         }
 
-        protected void OnPropertyChanged(string propertyName)
+        public void OnPropertyChanged(string propertyName)//Funktio jota kutsutaan kun tehään alueeseen muutoksia, päivittää pickerit ja listat missä se on
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

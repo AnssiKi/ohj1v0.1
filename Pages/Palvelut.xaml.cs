@@ -202,6 +202,7 @@ public partial class Palvelut : ContentPage
                         dbContext.Palvelus.Add(palvelu);
                         dbContext.SaveChanges();
                         BindingContext = new PalveluViewmodel();
+                        pVm.OnPropertyChanged(nameof(pVm.Palvelus)); //lis‰sin t‰h‰n kutsun joka p‰ivitt‰‰ muilla sivuilla listat 0805/MH
                         await pVm.LoadPalvelusFromDatabaseAsync();
                         await DisplayAlert("Tallennettu", "", "OK");
                         funktiot.TyhjennaEntryt(grid, lista);
