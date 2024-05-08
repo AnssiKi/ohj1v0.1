@@ -264,13 +264,22 @@
                         <ListView
                         x:Name="lista"
                         ItemTapped="lista_ItemTapped"
+                        SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                         ItemsSource="{Binding Mokkis}">
+                            <ListView.Header>
+                                <StackLayout Orientation="Horizontal" Padding="10">
+                                    <Label Text="Id" WidthRequest="50" FontAttributes="Bold"/>
+                                    <Label Text="Alue" WidthRequest="125" FontAttributes="Bold"/>
+                                    <Label Text="Mökki" WidthRequest="125" FontAttributes="Bold"/>
+                                </StackLayout>
+                            </ListView.Header>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
                                         <StackLayout Orientation="Horizontal" Padding="10">
-                                            <Label Text="{Binding MokkiId}" WidthRequest="100"/>
-                                            <Label Text="{Binding Mokkinimi}"/>
+                                            <Label Text="{Binding MokkiId}" WidthRequest="50"/>
+                                            <Label Text="{Binding Alue.Nimi}" WidthRequest="125"/>
+                                            <Label Text="{Binding Mokkinimi}" WidthRequest="125"/>
                                         </StackLayout>
                                     </ViewCell>
                                 </DataTemplate>
