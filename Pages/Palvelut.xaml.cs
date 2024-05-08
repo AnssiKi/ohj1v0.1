@@ -126,7 +126,7 @@ public partial class Palvelut : ContentPage
 
                     using (var dbContext = new VnContext())
                     {
-                        bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti muokata asiakkaan tietoja?", "Kyllä", "Ei");
+                        bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti muokata palvelun tietoja?", "Kyllä", "Ei");
 
                         //Jos käyttäjä valitsee "Kyllä", toteutetaan perustoimet
                         if (result)

@@ -52,6 +52,7 @@
                     <Label
                     Text="Alue"
                     Grid.Column="1"/>
+                    
                     <!-- muutettu entry-kenttä labeliksi, ei sotke tallennusta. Frame lisätty myös ulkonäöllisistä syistä.-->
                     <Frame
                         Grid.Row="1"
@@ -63,9 +64,9 @@
                     x:Name="palvelu_id"
                     Text=""
                     Grid.Row="1"
-                    VerticalTextAlignment="Center"
-                    />
-
+                    Padding="10"
+                    VerticalTextAlignment="Center"/>
+                    
                     <Picker 
                     x:Name="alue_nimi" 
                     Grid.Column="1"
@@ -116,7 +117,7 @@
                         Placeholder="0,00"
                         Text=""
                         Grid.Row="7"
-                        Grid.ColumnSpan="2" 
+                        Grid.ColumnSpan="2"                      
                         HorizontalOptions="FillAndExpand"               
                         />
 
@@ -158,8 +159,9 @@
                        Text=""
                        Grid.Row="9"
                        Grid.Column="1"
-                       VerticalTextAlignment="Center"
-                    />
+                       Padding="10"
+                       VerticalTextAlignment="Center"/>
+                    
 
                     <Button
                     x:Name="tallenna"
@@ -232,7 +234,7 @@
                         </Picker>
                         <Button
                             x:Name="Hae_alueella_tyhjenna"
-                            Text="tyhjennä"
+                            Text="Tyhjennä" 
                             Clicked="hae_alueella_tyhjennaClicked"
                             Grid.Column="1"
                             Grid.Row="0"
