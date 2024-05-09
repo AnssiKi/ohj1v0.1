@@ -3,6 +3,16 @@ using ohj1v0._1.Viewmodels;
 using ohj1v0._1.Models;
 using System.Globalization;
 using Microsoft.EntityFrameworkCore;
+using iTextKernel = iText.Kernel.Pdf;
+using iTextLayout = iText.Layout;
+using iTextLOElement = iText.Layout.Element;
+using iTextLOP = iText.Layout.Properties;
+using CommunityToolkit.Maui;
+using System.IO;
+using System.Text;
+using iText.Kernel.Pdf;
+using CommunityToolkit.Maui.Storage;
+
 namespace ohj1v0._1;
 
 public partial class Varaukset : ContentPage
@@ -383,6 +393,37 @@ public partial class Varaukset : ContentPage
 
     private async void muodostalasku_Clicked(object sender, EventArgs e)
     {
-        DisplayAlert("H‰h‰‰", "Ei t‰m‰ viel‰ tee mit‰‰n", "OK");
+        using var memoryStream = new MemoryStream();
+        iTextKernel.PdfWriter writer = new iTextKernel.PdfWriter(memoryStream);
+        iTextKernel.PdfDocument pdf = new iTextKernel.PdfDocument(writer);
+        iTextLayout.Document document = new iTextLayout.Document(pdf);
+
+        iTextLOElement.Paragraph header = new iTextLOElement.Paragraph("Lasku")
+            .SetTextAlignment(iTextLOP.TextAlignment.CENTER)
+            .SetFontSize(20);
+
+        document.Add(header);
+        iTextLOElement.Paragraph varausInfo = new iTextLOElement.Paragraph($"Varaus Information: {selectedVaraus}")
+            .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
+            .SetFontSize(12);
+
+        document.Add(varausInfo);
+        document.Close();
+
+        byte[] pdfData = memoryStream.ToArray();
+        using var stream = new MemoryStream(pdfData);
+
+        var fileSaveResult = await FileSaver.Default.SaveAsync("sample.pdf", "application/pdf", stream);
+
+        if (fileSaveResult.IsSuccessful)
+        {
+            // File saved successfully
+            Console.WriteLine($"File saved at: {fileSaveResult.FilePath}");
+        }
+        else
+        {
+            // Error saving file
+            Console.WriteLine($"Error saving file: {fileSaveResult.Exception.Message}");
+        }
     }
 }
