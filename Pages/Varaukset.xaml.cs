@@ -7,10 +7,6 @@ using iTextKernel = iText.Kernel.Pdf;
 using iTextLayout = iText.Layout;
 using iTextLOElement = iText.Layout.Element;
 using iTextLOP = iText.Layout.Properties;
-using CommunityToolkit.Maui;
-using System.IO;
-using System.Text;
-using iText.Kernel.Pdf;
 using CommunityToolkit.Maui.Storage;
 
 namespace ohj1v0._1;
@@ -430,16 +426,14 @@ public partial class Varaukset : ContentPage
         byte[] pdfData = memoryStream.ToArray();
         using var stream = new MemoryStream(pdfData);
 
-        var fileSaveResult = await FileSaver.Default.SaveAsync("sample.pdf", "Lasku_varaus_" + selectedVaraus.VarausId.ToString(), stream);
+        var fileSaveResult = await FileSaver.Default.SaveAsync("sample.pdf", "Lasku_varaus_" + selectedVaraus.VarausId.ToString()+".pdf", stream);
 
         if (fileSaveResult.IsSuccessful)
         {
-            // File saved successfully
             Console.WriteLine($"File saved at: {fileSaveResult.FilePath}");
         }
         else
         {
-            // Error saving file
             Console.WriteLine($"Error saving file: {fileSaveResult.Exception.Message}");
         }
 
