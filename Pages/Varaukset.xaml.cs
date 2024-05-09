@@ -8,6 +8,7 @@ using iTextLayout = iText.Layout;
 using iTextLOElement = iText.Layout.Element;
 using iTextLOP = iText.Layout.Properties;
 using CommunityToolkit.Maui.Storage;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace ohj1v0._1;
 
@@ -26,6 +27,80 @@ public partial class Varaukset : ContentPage
         alue_nimi.BindingContext = alueViewmodel;
         mokin_nimi.BindingContext = mokkiViewmodel;
 
+    }
+    private async void muodostalasku_Clicked(object sender, EventArgs e)
+    {
+        //Tehdään PDF:
+        using var memoryStream = new MemoryStream();
+        iTextKernel.PdfWriter writer = new iTextKernel.PdfWriter(memoryStream);
+        iTextKernel.PdfDocument pdf = new iTextKernel.PdfDocument(writer);
+        iTextLayout.Document document = new iTextLayout.Document(pdf);
+
+        iTextLOElement.Paragraph header = new iTextLOElement.Paragraph("Lasku")
+            .SetTextAlignment(iTextLOP.TextAlignment.CENTER)
+            .SetFontSize(20);
+        document.Add(header);
+
+        var varausInfo = new iTextLOElement.Paragraph($"Varaus ID: {selectedVaraus.VarausId}\n" +
+            $"Asiakas: {selectedVaraus.Asiakas.Etunimi} {selectedVaraus.Asiakas.Sukunimi}\n" +
+            $"Mokki: {selectedVaraus.Mokki.Mokkinimi}\n" +
+            $"Mökin varauspäivä: {selectedVaraus.VarattuPvm}\n" +
+            $"Varauksen vahvistuspäivä: {selectedVaraus.VahvistusPvm}\n" +
+            $"Majoittumisen alkamispäivä: {selectedVaraus.VarattuAlkupvm}\n" +
+            $"Majoituksen loppumispäivä: {selectedVaraus.VarattuLoppupvm}\n" +
+            $"Hinta: {selectedVaraus.Mokki.Hinta}€\n" +
+            $"Palvelut:")
+            .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
+           .SetFontSize(12);
+        document.Add(varausInfo);
+
+        foreach (var p in selectedVaraus.VarauksenPalveluts) 
+        { var palvelu = p.Palvelu;
+            var palvelutInfo = new iTextLOElement.Paragraph($"Palvelu: {palvelu.Nimi}\n+" +
+            $"Hinta: {palvelu.Hinta}€\n"+
+            $"Alv %: {palvelu.Alv}")
+            .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
+            .SetFontSize(12);
+            document.Add(palvelutInfo);
+        }
+
+        iTextLOElement.Paragraph maksuInfo = new iTextLOElement.Paragraph($"Saajan tilinumero:\n" +
+        $"FI12 3456 7890 1234 56\n" +
+        $"Pankkiyhteys: HVKVG\n" +
+        $"Viite:\n" +
+        selectedVaraus.VarausId)
+
+        .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
+        .SetFontSize(12);
+        document.Add(maksuInfo);
+        document.Close();
+
+        byte[] pdfData = memoryStream.ToArray();
+        using var stream = new MemoryStream(pdfData);
+
+        var fileSaveResult = await FileSaver.Default.SaveAsync("sample.pdf", "Lasku_varaus_" +
+            selectedVaraus.VarausId.ToString() + ".pdf", stream);
+
+        if (fileSaveResult.IsSuccessful)
+        {
+            await DisplayAlert("Tallennettu", $"Tiedosto tallennettu sijaintiin: {fileSaveResult.FilePath}", "OK");
+        }
+        else
+        {
+            await DisplayAlert("Virhe", $"Tiedoston tallentaminen ei onnistunut: {fileSaveResult.Exception.Message}", "OK");
+        }
+
+        //Tallennus tietokantaan
+        var dbContext = new VnContext();
+        Lasku l = new Lasku();
+        {
+            //TODO laita laskemaan vielä oikein
+            l.VarausId = selectedVaraus.VarausId;
+            l.Summa = selectedVaraus.Mokki.Hinta;
+            l.Maksettu = 0; 
+            dbContext.Add(l);
+            await dbContext.SaveChangesAsync();
+        };
     }
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
@@ -187,7 +262,7 @@ public partial class Varaukset : ContentPage
                             {
                                 selectedVaraus.VarattuPvm = parsedDate;
                             }
-                            
+
                             if (alkupvm != null)
                             {
                                 selectedVaraus.VarattuAlkupvm = alkupvm.Date;
@@ -224,7 +299,7 @@ public partial class Varaukset : ContentPage
                                 entry.IsReadOnly = true;
                             }
                         }
-                    }               
+                    }
 
             }
             catch (Exception ex)
@@ -279,7 +354,7 @@ public partial class Varaukset : ContentPage
                     }
                     await DisplayAlert("Poisto onnistui", "", "OK");
                 }
-                catch 
+                catch
                 {
                     await DisplayAlert("Virhe", "Varausta ei voitu poistaa.", "OK");
                 }
@@ -387,58 +462,4 @@ public partial class Varaukset : ContentPage
         funktiot.TyhjennaEntryt(grid, list);
     }
 
-    private async void muodostalasku_Clicked(object sender, EventArgs e)
-    {
-        //Tehdään PDF:
-
-        using var memoryStream = new MemoryStream();
-        iTextKernel.PdfWriter writer = new iTextKernel.PdfWriter(memoryStream);
-        iTextKernel.PdfDocument pdf = new iTextKernel.PdfDocument(writer);
-        iTextLayout.Document document = new iTextLayout.Document(pdf);
-
-        iTextLOElement.Paragraph header = new iTextLOElement.Paragraph("Lasku")
-            .SetTextAlignment(iTextLOP.TextAlignment.CENTER)
-            .SetFontSize(20);
-        document.Add(header);
-
-        iTextLOElement.Paragraph varausInfo = new iTextLOElement.Paragraph($"Varaus ID: {selectedVaraus.VarausId}\n" +
-            $"Asiakas: {selectedVaraus.Asiakas.Etunimi} {selectedVaraus.Asiakas.Sukunimi}\n" +
-            $"Mokki: {selectedVaraus.Mokki.Mokkinimi}\n" +
-            $"Mökin varauspäivä: {selectedVaraus.VarattuPvm}\n" +
-            $"Varauksen vahvistuspäivä: {selectedVaraus.VahvistusPvm}\n" +
-            $"Majoittumisen alkamispäivä: {selectedVaraus.VarattuAlkupvm}\n" +
-            $"Majoituksen loppumispäivä: {selectedVaraus.VarattuLoppupvm}\n" +
-            $"Hinta: {selectedVaraus.Mokki.Hinta}€\n" +
-            $"Palvelut: tulee vielä")
-            .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
-            .SetFontSize(12);
-
-        iTextLOElement.Paragraph maksuInfo = new iTextLOElement.Paragraph($"Saajan tilinumero:\n" +
-            $"FI12 3456 7890 1234 56\n+" +
-            $"Viite:\n" +
-            selectedVaraus.VarausId)
-            .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
-            .SetFontSize(12);
-
-        document.Add(varausInfo);
-        document.Close();
-
-        byte[] pdfData = memoryStream.ToArray();
-        using var stream = new MemoryStream(pdfData);
-
-        var fileSaveResult = await FileSaver.Default.SaveAsync("sample.pdf", "Lasku_varaus_" + selectedVaraus.VarausId.ToString()+".pdf", stream);
-
-        if (fileSaveResult.IsSuccessful)
-        {
-            Console.WriteLine($"File saved at: {fileSaveResult.FilePath}");
-        }
-        else
-        {
-            Console.WriteLine($"Error saving file: {fileSaveResult.Exception.Message}");
-        }
-
-        //TODO
-        //Tallennetaan valittu varaus tietokantaan laskuna, 
-        //public int LaskuId, VarausID, Alv, Maksettu -> tämä menee statukseen 0= ei maksettu
-    }
 }
