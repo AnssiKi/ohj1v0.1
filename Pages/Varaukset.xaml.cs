@@ -393,6 +393,8 @@ public partial class Varaukset : ContentPage
 
     private async void muodostalasku_Clicked(object sender, EventArgs e)
     {
+        //Tehdään PDF:
+
         using var memoryStream = new MemoryStream();
         iTextKernel.PdfWriter writer = new iTextKernel.PdfWriter(memoryStream);
         iTextKernel.PdfDocument pdf = new iTextKernel.PdfDocument(writer);
@@ -425,5 +427,9 @@ public partial class Varaukset : ContentPage
             // Error saving file
             Console.WriteLine($"Error saving file: {fileSaveResult.Exception.Message}");
         }
+
+        //TODO
+        //Tallennetaan valittu varaus tietokantaan laskuna, 
+        //public int LaskuId, VarausID, Alv, Maksettu -> tämä menee statukseen 0= ei maksettu
     }
 }
