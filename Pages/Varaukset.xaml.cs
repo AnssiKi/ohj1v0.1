@@ -403,9 +403,15 @@ public partial class Varaukset : ContentPage
         iTextLOElement.Paragraph header = new iTextLOElement.Paragraph("Lasku")
             .SetTextAlignment(iTextLOP.TextAlignment.CENTER)
             .SetFontSize(20);
-
         document.Add(header);
-        iTextLOElement.Paragraph varausInfo = new iTextLOElement.Paragraph($"Varaus Information: {selectedVaraus}")
+
+        iTextLOElement.Paragraph varausInfo = new iTextLOElement.Paragraph($"Varaus ID: {selectedVaraus.VarausId}\n"+
+            $"Asiakas: {selectedVaraus.Asiakas.Etunimi} {selectedVaraus.Asiakas.Sukunimi}\n" +
+            $"Mokki: {selectedVaraus.Mokki.Mokkinimi}\n" +
+            $"Mökin varauspäivä: {selectedVaraus.VarattuPvm}\n" +
+            $"Varauksen vahvistuspäivä: {selectedVaraus.VahvistusPvm}\n" +
+            $"Majoittumisen alkamispäivä: {selectedVaraus.VarattuAlkupvm}\n" +
+            $"Majoituksen loppumispäivä: {selectedVaraus.VarattuLoppupvm}\n")
             .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
             .SetFontSize(12);
 
@@ -415,7 +421,7 @@ public partial class Varaukset : ContentPage
         byte[] pdfData = memoryStream.ToArray();
         using var stream = new MemoryStream(pdfData);
 
-        var fileSaveResult = await FileSaver.Default.SaveAsync("sample.pdf", "application/pdf", stream);
+        var fileSaveResult = await FileSaver.Default.SaveAsync("sample.pdf", "Lasku_varaus_" + selectedVaraus.VarausId.ToString(), stream);
 
         if (fileSaveResult.IsSuccessful)
         {
