@@ -100,6 +100,8 @@ public partial class Vanha_asiakas : ContentPage
                     await varausViewmodel.LoadVarausFromDatabaseAsync();
                     dbContext.Varaus.Add(varaus);
                     dbContext.SaveChanges();
+
+                    varausViewmodel.OnPropertyChanged(nameof(varausViewmodel.Varaukset));
                     //lis‰t‰‰n varaukselle varatut palvelut
                     var varausId = varaus.VarausId;
 
@@ -111,7 +113,7 @@ public partial class Vanha_asiakas : ContentPage
                     }
 
                     dbContext.SaveChanges(); //Tallennetaan muutokset
-                    varausViewmodel.OnPropertyChanged(nameof(varausViewmodel.Varaukset));
+                    
                     await varausViewmodel.LoadVarausFromDatabaseAsync(); //Ladataan varauslista uusiksi
                 }
 
