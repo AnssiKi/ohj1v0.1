@@ -51,7 +51,11 @@ namespace ohj1v0._1.Viewmodels
             }
 
         }
-
+        //funktio jota kutsutaan kun palvelu muuttuu, tämä päivittää kaikki listat missä palveluita on
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }   
 
 
@@ -65,7 +69,7 @@ namespace ohj1v0._1.Viewmodels
                     return palvelus;
                 }
         }
+    
 
-    
-    
+
 }

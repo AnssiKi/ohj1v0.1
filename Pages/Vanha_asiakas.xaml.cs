@@ -2,6 +2,7 @@ using Microsoft.Maui.ApplicationModel.Communication;
 using ohj1v0._1.Luokat;
 using ohj1v0._1.Viewmodels;
 using ohj1v0._1.Models;
+using System.ComponentModel;
 
 namespace ohj1v0._1;
 
@@ -109,9 +110,9 @@ public partial class Vanha_asiakas : ContentPage
                         dbContext.VarauksenPalveluts.Add(palvelu);
                     }
 
-                    dbContext.SaveChanges();
-
-                    await varausViewmodel.LoadVarausFromDatabaseAsync();
+                    dbContext.SaveChanges(); //Tallennetaan muutokset
+                    varausViewmodel.OnPropertyChanged(nameof(varausViewmodel.Varaukset));
+                    await varausViewmodel.LoadVarausFromDatabaseAsync(); //Ladataan varauslista uusiksi
                 }
 
                 await DisplayAlert("Varaus tallennettu", "", "OK");

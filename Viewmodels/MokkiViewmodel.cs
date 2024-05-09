@@ -58,7 +58,7 @@ namespace ohj1v0._1.Viewmodels
             }
         }
 
-        protected void OnPropertyChanged(string propertyName)
+        public void OnPropertyChanged(string propertyName)//Funktio jota kutsutaan kun mökin tiedot muuttuu/lisätään. päivittää listat
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

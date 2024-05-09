@@ -55,7 +55,7 @@ namespace ohj1v0._1.Viewmodels
                 await context.SaveChangesAsync();
             }
         }
-        protected void OnPropertyChanged(string propertyName)
+        public void OnPropertyChanged(string propertyName)//Funktio jota kutsutaan kun asiakastiedot muuttuu, päivittää listat
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

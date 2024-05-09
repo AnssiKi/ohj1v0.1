@@ -189,6 +189,7 @@ public partial class Asiakkaat : ContentPage
 
                         dbContext.Asiakas.Add(asiakas);
                         dbContext.SaveChanges();
+                        asiakasviewmodel.OnPropertyChanged(nameof(asiakasviewmodel.Asiakas));
                         BindingContext = new AsiakasViewmodel();
                         await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
                     }

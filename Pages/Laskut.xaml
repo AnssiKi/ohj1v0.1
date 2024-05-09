@@ -143,10 +143,9 @@
 
                         <ListView
                         x:Name="lista"
-                        ItemTapped="lista_ItemTapped">
-                            <ListView.ItemsSource>
-                                <x:String></x:String>
-                            </ListView.ItemsSource>
+                        ItemTapped="lista_ItemTapped"
+                        ItemsSource="{Binding Laskus}">
+                            
                         </ListView>
                     </Frame>
 

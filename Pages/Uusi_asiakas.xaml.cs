@@ -123,6 +123,7 @@ public partial class Uusi_asiakas : ContentPage
                         dbContext.Asiakas.Add(asiakas);
                         dbContext.SaveChanges();
                         BindingContext = new AsiakasViewmodel();
+                        asiakasviewmodel.OnPropertyChanged(nameof(asiakasviewmodel.Asiakas));
                         await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
 
                         
@@ -152,7 +153,8 @@ public partial class Uusi_asiakas : ContentPage
                             }
 
                             dbContext.SaveChanges();
-                            await varausViewmodel.LoadVarausFromDatabaseAsync();
+                        varausViewmodel.OnPropertyChanged(nameof(varausViewmodel.Varaukset));
+                        await varausViewmodel.LoadVarausFromDatabaseAsync();
                     }
 
                     await DisplayAlert("Asiakkaan ja varauksen tallennus onnistui!", "", "OK");
