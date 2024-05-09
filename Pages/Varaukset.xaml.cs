@@ -405,13 +405,22 @@ public partial class Varaukset : ContentPage
             .SetFontSize(20);
         document.Add(header);
 
-        iTextLOElement.Paragraph varausInfo = new iTextLOElement.Paragraph($"Varaus ID: {selectedVaraus.VarausId}\n"+
+        iTextLOElement.Paragraph varausInfo = new iTextLOElement.Paragraph($"Varaus ID: {selectedVaraus.VarausId}\n" +
             $"Asiakas: {selectedVaraus.Asiakas.Etunimi} {selectedVaraus.Asiakas.Sukunimi}\n" +
             $"Mokki: {selectedVaraus.Mokki.Mokkinimi}\n" +
             $"Mökin varauspäivä: {selectedVaraus.VarattuPvm}\n" +
             $"Varauksen vahvistuspäivä: {selectedVaraus.VahvistusPvm}\n" +
             $"Majoittumisen alkamispäivä: {selectedVaraus.VarattuAlkupvm}\n" +
-            $"Majoituksen loppumispäivä: {selectedVaraus.VarattuLoppupvm}\n")
+            $"Majoituksen loppumispäivä: {selectedVaraus.VarattuLoppupvm}\n" +
+            $"Hinta: {selectedVaraus.Mokki.Hinta}€\n" +
+            $"Palvelut: tulee vielä")
+            .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
+            .SetFontSize(12);
+
+        iTextLOElement.Paragraph maksuInfo = new iTextLOElement.Paragraph($"Saajan tilinumero:\n" +
+            $"FI12 3456 7890 1234 56\n+" +
+            $"Viite:\n" +
+            selectedVaraus.VarausId)
             .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
             .SetFontSize(12);
 
