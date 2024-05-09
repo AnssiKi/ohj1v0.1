@@ -108,11 +108,12 @@ public partial class Palvelut : ContentPage
             {
                 // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
             }
-
+             /*
             else if (!funktiot.CheckTupla(this, nimi, lista, luokka, selite, vertailu)) // varmistetaan ettei ole samannimista palvelua
             {
                 // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
             }
+             */
 
             else if (!funktiot.CheckEntryDouble(hinta, this)) // tarkistetaan hinta double
             {
