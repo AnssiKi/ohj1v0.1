@@ -3,25 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ohj1v0._1.Mokit"
              Title="Mökit">
+    
+    
+    <!-- Muokattu näkymää 09052024 KA-->
+    
     <ScrollView>
-        <VerticalStackLayout
+        <HorizontalStackLayout
         Spacing="25"
         Padding="30,0"
-        VerticalOptions="Center">
+        VerticalOptions="Start">
 
-            <Grid>
-
+            <Grid ColumnSpacing="10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="600" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-
+                
+                <!-- Syöttökenttien grid-->
                 <Grid
                     Padding="10"
-                    x:Name="entry_grid">
+                    x:Name="entry_grid"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="300" />
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
@@ -54,7 +60,9 @@
 
                     <Frame
                         Grid.Row="1"
-                        CornerRadius="5"/>
+                        CornerRadius="5"
+                        HorizontalOptions="Start"
+                        WidthRequest="100"/>
                     
                     <Label                        
                     x:Name="id"
@@ -69,6 +77,8 @@
                     Grid.Column="1"
                     Grid.Row="1"
                     SelectedIndexChanged="alue_nimi_SelectedIndexChanged"
+                    WidthRequest="200"
+                    HorizontalOptions="Start"
                     ItemsSource="{Binding Alues}"
                     ItemDisplayBinding="{Binding Nimi}">                        
                     </Picker> 
@@ -84,7 +94,8 @@
                         MaxLength="45"
                         Grid.Row="3"
                         Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"
+                        WidthRequest="590"
+                        HorizontalOptions="Start"
                         TextChanged="mokki_nimi_TextChanged"
                         Unfocused="mokki_nimi_Unfocused"/>
 
@@ -99,7 +110,8 @@
                         MaxLength="45"
                         Grid.Row="5"
                         Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"
+                        WidthRequest="590"
+                        HorizontalOptions="Start"
                         TextChanged="mokki_katuosoite_TextChanged"/>
 
                     <Label
@@ -118,6 +130,8 @@
                         Text=""
                         MaxLength="5"
                         Grid.Row="7"
+                        WidthRequest="200"
+                        HorizontalOptions="Start"
                         TextChanged="mokki_postinumero_TextChanged"
                         Unfocused="mokki_postinumero_Unfocused"/>
 
@@ -126,10 +140,12 @@
                     Text=""
                     Grid.Column="1"
                     Grid.Row="7"
+                    WidthRequest="200"
+                    HorizontalOptions="Start"
                     IsEnabled="False"/>
 
                     <Label
-                    Text="Hinta"
+                    Text="Vuorokausihinta"
                     Margin="0,5,0,0"
                     Grid.Row="8"/>
 
@@ -140,7 +156,8 @@
                         Placeholder="0,00"
                         Grid.Row="9"
                         Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"
+                        WidthRequest="200"
+                        HorizontalOptions="Start"                     
                         TextChanged="mokki_hinta_TextChanged"/>
 
                     <Label
@@ -154,7 +171,8 @@
                         MaxLength="150"
                         Grid.Row="11"
                         Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"
+                        WidthRequest="590"
+                        HorizontalOptions="Start"
                         TextChanged="mokki_kuvaus_TextChanged"/>
 
                     <Label
@@ -168,19 +186,23 @@
                         Grid.Row="13"
                         MaxLength="100"
                         Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"
+                        WidthRequest="590"
+                        HorizontalOptions="Start"
                         TextChanged="mokki_varustelu_TextChanged"/>
 
                     <Label
                     Text="Henkilömäärä"
                     Margin="0,5,0,0"
-                    Grid.Row="14"/>
+                    Grid.Row="14"
+                    />
 
                     <Picker 
                     x:Name="mokki_henkilomaara" 
                     Grid.Row="15"
-                        Grid.ColumnSpan="2"
-                    SelectedIndexChanged="mokki_henkilomaara_SelectedIndexChanged">
+                    Grid.ColumnSpan="2"
+                    SelectedIndexChanged="mokki_henkilomaara_SelectedIndexChanged"
+                    WidthRequest="200"
+                    HorizontalOptions="Start">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
                                 <x:String>1</x:String>
@@ -228,10 +250,14 @@
                     Grid.Row="17"
                     Clicked="poista_Clicked"/>
                 </Grid>
-
+                
+                
+                <!-- Listview grid -->
                 <Grid
                 Grid.Column="1"
-                Padding="10">
+                Padding="10"
+                VerticalOptions="Start"
+                HorizontalOptions="Start">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -241,56 +267,72 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Label
-                    Text="Hae nimellä"
-                    HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"/>
+                     <!-- Hakukentän aligrid-->
+                    <Grid Grid.Column="0" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="400"/>
+                        </Grid.ColumnDefinitions>
+                        <Label
+                        Grid.Column="0"
+                        HorizontalOptions="Center"
+                        Text="Hae Mökin nimellä"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center"/>
 
-                    <Entry
-                    x:Name="hae_nimella"
-                    Text=""
-                    Grid.Column="1"
-                    TextChanged="hae_nimella_TextChanged"/>
+                        <Entry
+                        x:Name="hae_nimella"
+                        Text=""
+                        HorizontalOptions="Center" 
+                        WidthRequest="390"
+                        Grid.Column="1"
+                        TextChanged="hae_nimella_TextChanged"/>
+                    </Grid>
+                
+                
+                        <Frame
+                        BorderColor="Black"
+                        CornerRadius="2"
+                        Padding="5"
+                        Margin="0,10,0,0"
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2" 
+                        HorizontalOptions="FillAndExpand">
 
-                    <Frame
-                    BorderColor="Black"
-                    CornerRadius="2"
-                    Padding="5"
-                    Margin="0,10,0,0"
-                    Grid.Row="1"
-                    Grid.ColumnSpan="2" 
-                    HorizontalOptions="FillAndExpand">
-
-                        <ListView
-                        x:Name="lista"
-                        ItemTapped="lista_ItemTapped"
-                        SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                        ItemsSource="{Binding Mokkis}">
-                            <ListView.Header>
-                                <StackLayout Orientation="Horizontal" Padding="10">
-                                    <Label Text="Id" WidthRequest="50" FontAttributes="Bold"/>
-                                    <Label Text="Alue" WidthRequest="125" FontAttributes="Bold"/>
-                                    <Label Text="Mökki" WidthRequest="125" FontAttributes="Bold"/>
+                            <ListView
+                            x:Name="lista"
+                            ItemTapped="lista_ItemTapped"
+                            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                            ItemsSource="{Binding Mokkis}">
+                                <ListView.Header>
+                                    <StackLayout Orientation="Horizontal" Padding="10">
+                                        <Label Text="ID" WidthRequest="50" FontAttributes="Bold"/>
+                                        <Label Text="Alue" WidthRequest="125" FontAttributes="Bold"/>
+                                        <Label Text="Mökki" WidthRequest="200" FontAttributes="Bold"/>
+                                        <Label Text="max hlö" WidthRequest="125" FontAttributes="Bold"/>
+                                        <Label Text="Hinta/Vrk" WidthRequest="125" FontAttributes="Bold"/>
                                 </StackLayout>
-                            </ListView.Header>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <StackLayout Orientation="Horizontal" Padding="10">
-                                            <Label Text="{Binding MokkiId}" WidthRequest="50"/>
-                                            <Label Text="{Binding Alue.Nimi}" WidthRequest="125"/>
-                                            <Label Text="{Binding Mokkinimi}" WidthRequest="125"/>
+                                </ListView.Header>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout Orientation="Horizontal" Padding="10">
+                                                <Label Text="{Binding MokkiId}" WidthRequest="50"/>
+                                                <Label Text="{Binding Alue.Nimi}" WidthRequest="125"/>
+                                                <Label Text="{Binding Mokkinimi}" WidthRequest="200"/>
+                                                <Label Text="{Binding Henkilomaara}" WidthRequest="125"/>
+                                                <Label Text="{Binding Hinta, StringFormat='{0} €'}" WidthRequest="125"/>
                                         </StackLayout>
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </Frame>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Frame>
 
                 </Grid>
 
 
             </Grid>
-        </VerticalStackLayout>
+        </HorizontalStackLayout>
     </ScrollView>
 </ContentPage>

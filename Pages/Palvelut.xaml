@@ -89,7 +89,8 @@
                         Text=""
                         Grid.Row="3"
                         Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"
+                        WidthRequest="590"
+                        HorizontalOptions="Start"
                         TextChanged="palvelu_nimi_TextChanged"/>
 
                     <Label
@@ -103,7 +104,8 @@
                         Text=""
                         Grid.Row="5"
                         Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"
+                        WidthRequest="590"
+                        HorizontalOptions="Start"
                         TextChanged="palvelu_kuvaus_TextChanged"/>
 
                     <Label
@@ -118,7 +120,8 @@
                         Text=""
                         Grid.Row="7"
                         Grid.ColumnSpan="2"                      
-                        HorizontalOptions="FillAndExpand"               
+                        WidthRequest="590"
+                        HorizontalOptions="Start"                      
                         />
 
                     <Label
@@ -260,7 +263,7 @@
                             ItemsSource="{Binding Palvelus}">
                             <ListView.Header>
                                 <StackLayout Orientation="Horizontal" Padding="10">
-                                    <Label Text="Id" WidthRequest="50" FontAttributes="Bold"/>
+                                    <Label Text="ID" WidthRequest="50" FontAttributes="Bold"/>
                                     <Label Text="Alue" WidthRequest="125" FontAttributes="Bold"/>
                                     <Label Text="Nimi" WidthRequest="200" FontAttributes="Bold"/>
                                     <Label Text="Hinta ALV 0%" WidthRequest="125" FontAttributes="Bold"/>

@@ -41,6 +41,8 @@
                         Grid.ColumnSpan="2"
                         x:Name="alue_nimi"
                         MaxLength="40"
+                        WidthRequest="590"
+                        HorizontalOptions="Start"
                         TextChanged="alue_nimi_TextChanged"/>
                     
                     <Button
@@ -84,7 +86,7 @@
                     <!-- hakukentän aligrid-->
                     <Grid Grid.Column="0" Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="400"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -94,7 +96,7 @@
                         <Label
                            Grid.Column="0"
                            Grid.Row="0"
-                           HorizontalOptions="Start"
+                           HorizontalOptions="Center"
                            VerticalOptions="Center"                        
                            Text="Hae alueen nimellä"
                            HorizontalTextAlignment="Center"/>
