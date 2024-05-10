@@ -291,14 +291,7 @@ public partial class Varaukset : ContentPage
 
                         }
 
-                        foreach (var child in grid)
-                        { // Muuttaa entryt tallennuksen jälkeen vain lukumuotoon
-
-                            if (child is Entry entry)
-                            {
-                                entry.IsReadOnly = true;
-                            }
-                        }
+                      
                     }
 
             }
@@ -322,14 +315,7 @@ public partial class Varaukset : ContentPage
             TyhjennaFunktio();
             selectedVaraus = null;
 
-            foreach (var child in grid)
-            { // Muuttaa entryt tyhjennyksen jälkeen vain lukumuotoon
-
-                if (child is Entry entry)
-                {
-                    entry.IsReadOnly = true;
-                }
-            }
+            
         }
     }
 
@@ -362,14 +348,7 @@ public partial class Varaukset : ContentPage
                 }
             }
 
-            foreach (var child in grid)
-            { // Muuttaa entryt tyhjennyksen jälkeen vain lukumuotoon
-
-                if (child is Entry entry)
-                {
-                    entry.IsReadOnly = true;
-                }
-            }
+            
         }
     }
 
