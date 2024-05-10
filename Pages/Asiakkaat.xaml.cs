@@ -295,7 +295,9 @@ public partial class Asiakkaat : ContentPage
         else
         {
             // filtteröidään ListView sisältö hakukentän mukaan
-            var filteredAsiakkaat = asiakasviewmodel.Asiakas.Where(a => a.Sukunimi.ToLower().Contains(searchText.ToLower())).ToList();
+            var filteredAsiakkaat = asiakasviewmodel.Asiakas
+                .Where(a => a.Sukunimi.StartsWith(searchText, StringComparison.OrdinalIgnoreCase))
+                .ToList();
             lista.ItemsSource = filteredAsiakkaat;
         }
 
