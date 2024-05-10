@@ -274,7 +274,7 @@
                     </Grid.RowDefinitions>
 
                     <Label
-                         Text="Hae päivämäärällä"
+                         Text="Hae varauksen alku päivämäärällä"
                          HorizontalTextAlignment="Center"
                          VerticalTextAlignment="Center"/>
 

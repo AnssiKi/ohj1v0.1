@@ -113,7 +113,7 @@ public partial class Vanha_asiakas : ContentPage
                     }
 
                     dbContext.SaveChanges(); //Tallennetaan muutokset
-                    
+                    varausViewmodel.OnPropertyChanged(nameof(varausViewmodel.Varaukset));
                     await varausViewmodel.LoadVarausFromDatabaseAsync(); //Ladataan varauslista uusiksi
                 }
 

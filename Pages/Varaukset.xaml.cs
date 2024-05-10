@@ -347,11 +347,13 @@ public partial class Varaukset : ContentPage
                 {
                     using (var dbContext = new VnContext())
                     {
+                        dbContext.VarauksenPalveluts.RemoveRange(dbContext.VarauksenPalveluts.Where(vp => vp.VarausId == selectedVaraus.VarausId));
                         dbContext.Varaus.Remove(selectedVaraus);
                         dbContext.SaveChanges();
                         await varausViewmodel.LoadVarausFromDatabaseAsync();
                         TyhjennaFunktio();
                     }
+                    varausViewmodel.OnPropertyChanged(nameof(Varaukset));
                     await DisplayAlert("Poisto onnistui", "", "OK");
                 }
                 catch
@@ -445,14 +447,7 @@ public partial class Varaukset : ContentPage
             varauspvm.Text = selectedVaraus.VarattuPvm.Value.ToString("dd.MM.yyyy");
         }
 
-        foreach (var child in grid)
-        { // Muuttaa entry valinnan jälkeen isreadonly=false
-
-            if (child is Entry entry)
-            {
-                entry.IsReadOnly = false;
-            }
-        }
+      
     }
 
     private void TyhjennaFunktio()

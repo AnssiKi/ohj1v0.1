@@ -142,8 +142,9 @@ public partial class Uusi_asiakas : ContentPage
                             await varausViewmodel.LoadVarausFromDatabaseAsync();
                             dbContext.Varaus.Add(varaus);
                             dbContext.SaveChanges();
-                            //lis‰t‰‰n varaukselle varatut palvelut
-                            var varausId = varaus.VarausId;
+                            varausViewmodel.OnPropertyChanged(nameof(varausViewmodel.Varaukset));
+                        //lis‰t‰‰n varaukselle varatut palvelut
+                        var varausId = varaus.VarausId;
 
                             // Lis‰t‰‰n varauksen ID jokaiseen VarauksenPalvelut-olioon
                             foreach (var palvelu in varauksenTiedot.VarauksenPalveluts)
