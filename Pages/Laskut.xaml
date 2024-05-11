@@ -141,14 +141,15 @@
 
                         <Label Text="ID" FontSize="16" HorizontalOptions="Center" />
                         <Label Text="Summa" Grid.Column="1" FontSize="20" HorizontalOptions="Center"/>
-                       
+                        <Label Text="Maksettu" Grid.Column="2" FontSize="16" HorizontalOptions="Center" />
+
                     </Grid>
 
                     <Frame
                     BorderColor="Black"
                     CornerRadius="2"
                     Padding="5"
-                    Margin="0,50,0,0"
+                    Margin="95,50,0,0"
                     Grid.Row="1"
                     Grid.ColumnSpan="2" 
                     HorizontalOptions="FillAndExpand">
@@ -160,10 +161,11 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                        <StackLayout Orientation="Horizontal" Spacing="30">
-                                            <Label Text="{Binding LaskuId}" FontSize="16" />
-                                            <Label Text="{Binding Summa, StringFormat='{0:C}'}" FontSize="16" />
-                                            <Label Text="{Binding Varaus.VarattuPvm, StringFormat='{0:d}'}" FontSize="16" />
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand"
+                                                     Spacing="200">
+                                            <Label Text="{Binding LaskuId}" FontSize="16" HorizontalTextAlignment="Start" />
+                                            <Label Text="{Binding Summa, StringFormat='{0:C}'}" FontSize="16" HorizontalTextAlignment="Center" />
+                                            <Label Text="{Binding Maksettu}" FontSize="16" HorizontalTextAlignment="End"/>
                                         </StackLayout>
                                     </ViewCell>
                                 </DataTemplate>
