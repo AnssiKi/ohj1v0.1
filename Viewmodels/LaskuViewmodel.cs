@@ -22,23 +22,42 @@ namespace ohj1v0._1.Viewmodels
                 }
             }
         }
+        public LaskuViewmodel()
+        {
+            _laskut = new ObservableCollection<Lasku>();
+            LoadLaskutFromDatabaseAsync();
+        }
 
-        protected virtual void OnPropertyChanged(string propertyName)
+        public async Task LoadLaskutFromDatabaseAsync()
+        {
+            LaskuLoad loader = new LaskuLoad();
+            var LaskuFromDb = await loader.LoadLaskuAsync();
+            Laskut = new ObservableCollection<Lasku>(LaskuFromDb);
+        }
+  
+        public async Task PoistaLaskuAsync(int laskuID) 
+        {
+            var lasku = _laskut.FirstOrDefault(a => a.LaskuId == laskuID);
+            if(lasku!=null)
+            {
+                _laskut.Remove(lasku);
+                using var context = new VnContext();
+                context.Laskus.Remove(lasku);
+                await context.SaveChangesAsync();
+            }
+        }
+        public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public LaskuViewmodel()
+    }
+    public class LaskuLoad 
+    {
+        public async Task<List<Lasku>> LoadLaskuAsync() 
         {
-            LoadLaskut();
-        }
-
-        public void LoadLaskut()
-        {
-            using (var dbContext = new VnContext())
-            {
-                Laskut = new ObservableCollection<Lasku>(dbContext.Laskus.ToList());
-            }
+            using var context = new VnContext();
+            var lasku = await context.Laskus.ToListAsync();
+            return lasku;
         }
     }
 }

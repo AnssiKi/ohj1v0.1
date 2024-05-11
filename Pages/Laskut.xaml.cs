@@ -1,15 +1,22 @@
+using ohj1v0._1.Models;
 using ohj1v0._1.Viewmodels;
 
 namespace ohj1v0._1;
 
 public partial class Laskut : ContentPage
 {
-	public Laskut()
+    readonly LaskuViewmodel laskuViewmodel = new LaskuViewmodel();
+    Lasku selectedLasku;
+    public Laskut()
 	{
 	    InitializeComponent();
-        BindingContext = new LaskuViewmodel();
+        BindingContext = laskuViewmodel;
 	}
-
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await laskuViewmodel.LoadLaskutFromDatabaseAsync();
+    }
     private void maksettu_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
 

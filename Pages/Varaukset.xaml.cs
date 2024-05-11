@@ -8,7 +8,6 @@ using iTextLayout = iText.Layout;
 using iTextLOElement = iText.Layout.Element;
 using iTextLOP = iText.Layout.Properties;
 using CommunityToolkit.Maui.Storage;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace ohj1v0._1;
 
@@ -31,6 +30,11 @@ public partial class Varaukset : ContentPage
     }
     private async void muodostalasku_Clicked(object sender, EventArgs e)
     {
+        if (selectedVaraus == null) 
+        {
+            DisplayAlert("Virhe", "Valitse ensin varaus josta haluat muodostaa laskun", "OK");
+            return;
+        }
         //Tehd‰‰n PDF:
         using var memoryStream = new MemoryStream();
         iTextKernel.PdfWriter writer = new iTextKernel.PdfWriter(memoryStream);
@@ -98,16 +102,16 @@ public partial class Varaukset : ContentPage
             //TODO laita laskemaan viel‰ oikein
             l.VarausId = selectedVaraus.VarausId;
             l.Summa = selectedVaraus.Mokki.Hinta;
-            l.Maksettu = 0; 
-            dbContext.Add(l);
-            await dbContext.SaveChangesAsync();
-            laskuViewmodel.LoadLaskut();
-        
-        };    }
+            l.Maksettu = 0;
+        };
+        dbContext.Add(l);
+        await dbContext.SaveChangesAsync();
+        laskuViewmodel.LoadLaskutFromDatabaseAsync();
+    }
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
-        // Tarkistetaan, ett‰ valittu alue on asetettuMicrosoft.EntityFrameworkCore.DbUpdateException: 'An error occurred while saving the entity changes. See the inner exception for details.'
+        // Tarkistetaan, ett‰ valittu alue on asetettu
 
         if (alue_nimi.SelectedItem != null)
         {
