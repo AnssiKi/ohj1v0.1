@@ -78,9 +78,7 @@ namespace ohj1v0._1.Viewmodels
             var asiakas = await context.Asiakas.Include(m => m.PostinroNavigation).Include(m => m.Varaus).OrderBy(a => a.AsiakasId).ToListAsync();
             return asiakas;
         }
-    }
-
-   
+    } 
 }
 
 

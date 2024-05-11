@@ -105,7 +105,8 @@ public partial class Varaukset : ContentPage
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
-        // Tarkistetaan, että valittu alue on asetettu
+        // Tarkistetaan, että valittu alue on asetettuMicrosoft.EntityFrameworkCore.DbUpdateException: 'An error occurred while saving the entity changes. See the inner exception for details.'
+
         if (alue_nimi.SelectedItem != null)
         {
             // Haetaan valitun alueen ID

@@ -108,7 +108,7 @@ public partial class VnContext : DbContext
             entity.HasIndex(e => e.VarausId, "lasku_ibfk_1");
 
             entity.Property(e => e.LaskuId)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnType("int(11)")
                 .HasColumnName("lasku_id");
             entity.Property(e => e.Alv)
