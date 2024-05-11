@@ -132,11 +132,23 @@
                         Grid.Column="1"
                         DateSelected="hakupvm_DateSelected"/>
 
+                    <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Text="ID" FontSize="16" HorizontalOptions="Center" />
+                        <Label Text="Summa" Grid.Column="1" FontSize="20" HorizontalOptions="Center"/>
+                       
+                    </Grid>
+
                     <Frame
                     BorderColor="Black"
                     CornerRadius="2"
                     Padding="5"
-                    Margin="0,10,0,0"
+                    Margin="0,50,0,0"
                     Grid.Row="1"
                     Grid.ColumnSpan="2" 
                     HorizontalOptions="FillAndExpand">
@@ -144,8 +156,19 @@
                         <ListView
                         x:Name="lista"
                         ItemTapped="lista_ItemTapped"
-                        ItemsSource="{Binding Laskus}">
-                            
+                        ItemsSource="{Binding Laskut}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal" Spacing="30">
+                                            <Label Text="{Binding LaskuId}" FontSize="16" />
+                                            <Label Text="{Binding Summa, StringFormat='{0:C}'}" FontSize="16" />
+                                            <Label Text="{Binding Varaus.VarattuPvm, StringFormat='{0:d}'}" FontSize="16" />
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
                         </ListView>
                     </Frame>
 

@@ -30,11 +30,10 @@ namespace ohj1v0._1.Viewmodels
 
         public LaskuViewmodel()
         {
-            _laskut = new ObservableCollection<Lasku>();
             LoadLaskut();
         }
 
-        private void LoadLaskut()
+        public void LoadLaskut()
         {
             using (var dbContext = new VnContext())
             {

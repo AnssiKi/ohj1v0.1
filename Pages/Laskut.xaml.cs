@@ -1,12 +1,13 @@
+using ohj1v0._1.Viewmodels;
+
 namespace ohj1v0._1;
 
 public partial class Laskut : ContentPage
 {
 	public Laskut()
 	{
-		InitializeComponent();
-        //TODO laskun muodostus automaattisesti jos j‰‰ aikaa
-
+	    InitializeComponent();
+        BindingContext = new LaskuViewmodel();
 	}
 
     private void maksettu_CheckedChanged(object sender, CheckedChangedEventArgs e)

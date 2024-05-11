@@ -15,6 +15,7 @@ namespace ohj1v0._1;
 public partial class Varaukset : ContentPage
 {
     Funktiot funktiot = new Funktiot();
+    LaskuViewmodel laskuViewmodel = new LaskuViewmodel();
     AlueViewmodel alueViewmodel = new AlueViewmodel();
     VarausViewmodel varausViewmodel = new VarausViewmodel();
     MokkiViewmodel mokkiViewmodel = new MokkiViewmodel();
@@ -100,8 +101,9 @@ public partial class Varaukset : ContentPage
             l.Maksettu = 0; 
             dbContext.Add(l);
             await dbContext.SaveChangesAsync();
-        };
-    }
+            laskuViewmodel.LoadLaskut();
+        
+        };    }
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
