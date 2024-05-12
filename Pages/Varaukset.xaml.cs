@@ -26,11 +26,43 @@ public partial class Varaukset : ContentPage
         lista.BindingContext = varausViewmodel;
         alue_nimi.BindingContext = alueViewmodel;
         mokin_nimi.BindingContext = mokkiViewmodel;
-
     }
+    
     private async void muodostalasku_Clicked(object sender, EventArgs e)
     {
-        if (selectedVaraus == null) 
+        TulostaPDF(selectedVaraus);
+
+        //Tallennus tietokantaan
+        var dbContext = new VnContext();
+        Lasku l = new Lasku();
+        {
+            double loppusumma = 0;
+            double verot = 0;
+
+            //palveluiden hinta veroineen
+            foreach (var palvelu in selectedVaraus.VarauksenPalveluts) 
+            {
+                loppusumma += palvelu.Palvelu.HintaAlv;
+            }
+
+            //palveluiden hinta ilman veroja
+            foreach (var palvelu in selectedVaraus.VarauksenPalveluts) 
+            {
+                verot += (palvelu.Palvelu.HintaAlv - palvelu.Palvelu.Hinta);
+            }
+          
+            l.VarausId = selectedVaraus.VarausId;
+            l.Summa = loppusumma + selectedVaraus.Mokki.Hinta;
+            l.Alv = l.Summa - verot;
+            l.Maksettu = 0;
+        };
+        dbContext.Add(l);
+        await dbContext.SaveChangesAsync();
+        laskuViewmodel.LoadLaskutFromDatabaseAsync();
+    }
+    private async void TulostaPDF(Varau selectedVaraus)//Tarkistaa onko laskua valittuna ja muodostaa PDF:n
+    {
+        if (selectedVaraus == null)
         {
             DisplayAlert("Virhe", "Valitse ensin varaus josta haluat muodostaa laskun", "OK");
             return;
@@ -41,9 +73,9 @@ public partial class Varaukset : ContentPage
         iTextKernel.PdfDocument pdf = new iTextKernel.PdfDocument(writer);
         iTextLayout.Document document = new iTextLayout.Document(pdf);
 
-        iTextLOElement.Paragraph header = new iTextLOElement.Paragraph("Lasku")
+        iTextLOElement.Paragraph header = new iTextLOElement.Paragraph("Village Newbies OY - Lasku")
             .SetTextAlignment(iTextLOP.TextAlignment.CENTER)
-            .SetFontSize(20);
+            .SetFontSize(22);
         document.Add(header);
 
         var varausInfo = new iTextLOElement.Paragraph($"Varaus ID: {selectedVaraus.VarausId}\n" +
@@ -59,11 +91,12 @@ public partial class Varaukset : ContentPage
            .SetFontSize(12);
         document.Add(varausInfo);
 
-        foreach (var p in selectedVaraus.VarauksenPalveluts) 
-        { var palvelu = p.Palvelu;
+        foreach (var p in selectedVaraus.VarauksenPalveluts)
+        {
+            var palvelu = p.Palvelu;
+            System.Diagnostics.Debug.WriteLine($"Service: {palvelu.Nimi}, Price: {palvelu.HintaAlv}");
             var palvelutInfo = new iTextLOElement.Paragraph($"Palvelu: {palvelu.Nimi}\n+" +
-            $"Hinta: {palvelu.Hinta}€\n"+
-            $"Alv %: {palvelu.Alv}")
+            $"Hinta sis {palvelu.Alv}% alv: {palvelu.HintaAlv}€\n")
             .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
             .SetFontSize(12);
             document.Add(palvelutInfo);
@@ -75,7 +108,7 @@ public partial class Varaukset : ContentPage
         $"Viite:\n" +
         selectedVaraus.VarausId)
 
-        .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
+        .SetTextAlignment(iTextLOP.TextAlignment.RIGHT)
         .SetFontSize(12);
         document.Add(maksuInfo);
         document.Close();
@@ -94,19 +127,6 @@ public partial class Varaukset : ContentPage
         {
             await DisplayAlert("Virhe", $"Tiedoston tallentaminen ei onnistunut: {fileSaveResult.Exception.Message}", "OK");
         }
-
-        //Tallennus tietokantaan
-        var dbContext = new VnContext();
-        Lasku l = new Lasku();
-        {
-            //TODO laita laskemaan vielä oikein
-            l.VarausId = selectedVaraus.VarausId;
-            l.Summa = selectedVaraus.Mokki.Hinta;
-            l.Maksettu = 0;
-        };
-        dbContext.Add(l);
-        await dbContext.SaveChangesAsync();
-        laskuViewmodel.LoadLaskutFromDatabaseAsync();
     }
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
