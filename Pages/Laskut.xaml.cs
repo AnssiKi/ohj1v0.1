@@ -8,6 +8,7 @@ public partial class Laskut : ContentPage
     readonly LaskuViewmodel laskuViewmodel = new LaskuViewmodel();
     Lasku selectedLasku;
     VnContext context = new VnContext();
+    bool isUserCheckChange = true;
     public Laskut()
 	{
 	    InitializeComponent();
@@ -21,6 +22,7 @@ public partial class Laskut : ContentPage
     }
     private void maksettu_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
+        if (!isUserCheckChange) return;
         if (selectedLasku != null && selectedLasku.Maksettu == 0) 
         {
             selectedLasku.Maksettu = 1;
@@ -70,7 +72,8 @@ public partial class Laskut : ContentPage
         laskuID.Text = selectedLasku.LaskuId.ToString();
         varausID.Text = selectedLasku.VarausId.ToString();  
         summa.Text = selectedLasku.Summa.ToString();
-        alv.Text = selectedLasku.Alv.ToString();    
+        alv.Text = selectedLasku.Alv.ToString();
+        isUserCheckChange = false;
         if (selectedLasku.Maksettu == 0) 
         { 
             maksettu.IsChecked = false; 
@@ -79,5 +82,6 @@ public partial class Laskut : ContentPage
         { 
             maksettu.IsChecked = true;
         }
+        isUserCheckChange = true;
     }
 }
