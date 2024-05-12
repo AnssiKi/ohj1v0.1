@@ -276,7 +276,7 @@
                         <Label
                         Grid.Column="0"
                         HorizontalOptions="Center"
-                        Text="Hae Mökin nimellä"
+                        Text="Hae mökin nimellä"
                         HorizontalTextAlignment="Center"
                         VerticalTextAlignment="Center"/>
 

@@ -3,25 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ohj1v0._1.Asiakkaat"
              Title="Asiakkaat">
+    
+    <!-- Muokattu näkymää 12052024 Ka -->
     <ScrollView>
-        <VerticalStackLayout
+        <HorizontalStackLayout
         Spacing="25"
         Padding="30,0"
-        VerticalOptions="Center">
+        VerticalOptions="Start">
 
-            <Grid>
+            <Grid ColumnSpacing="10">
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="600" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-
+                
+                <!-- Syöttökenttien grid-->
                 <Grid
                     Padding="10"
-                    x:Name="entry_grid">
+                    x:Name="entry_grid"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="300" />
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
@@ -51,14 +56,17 @@
 
                     <Frame
                         Grid.Row="1"
-                        CornerRadius="5"/>
+                        CornerRadius="5"
+                        HorizontalOptions="Start"
+                        WidthRequest="100"
+                        HeightRequest="44"/>
 
                     <Label                       
                     x:Name="asiakas_id"
                     Text=""
                     Padding="10"
                     VerticalTextAlignment="Center"
-                    IsEnabled="False"
+                    HeightRequest="44"
                     Grid.Row="1"/>
 
                    
@@ -74,7 +82,8 @@
                         MaxLength="20"
                         Grid.Row="3"
                         Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"
+                        WidthRequest="590"
+                        HorizontalOptions="Start"
                         TextChanged="etunimi_TextChanged"/>
 
                     <Label
@@ -88,7 +97,8 @@
                         MaxLength="40"
                         Grid.Row="5"
                         Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"
+                        WidthRequest="590"
+                        HorizontalOptions="Start"
                         TextChanged="sukunimi_TextChanged"/>
 
                     <Label
@@ -102,7 +112,8 @@
                         MaxLength="40"
                         Grid.Row="7"
                         Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"
+                        WidthRequest="590"
+                        HorizontalOptions="Start"
                         TextChanged="lahiosoite_TextChanged"/>
 
                     <Label
@@ -121,6 +132,8 @@
                         Text=""
                         MaxLength="5"
                         Grid.Row="9"
+                        HorizontalOptions="Start"
+                        WidthRequest="290"
                         TextChanged="postinumero_TextChanged"/>
 
                     <Entry
@@ -128,6 +141,8 @@
                         Text=""
                         Grid.Column="1"
                         Grid.Row="9"
+                        HorizontalOptions="Start"
+                        WidthRequest="290"
                         IsEnabled="False"/>
 
                     <Label
@@ -142,7 +157,8 @@
                         Grid.Row="11"
                         TextChanged="email_TextChanged"
                         Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"/>
+                        WidthRequest="590"
+                        HorizontalOptions="Start"/>
 
                     <Label
                         Text="Puhelinnumero"
@@ -156,7 +172,8 @@
                         Grid.Row="13"
                         TextChanged="puhelinnumero_TextChanged"
                         Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"/>
+                        WidthRequest="590"
+                        HorizontalOptions="Start"/>
 
                     <Button
                     x:Name="tallenna"
@@ -180,10 +197,14 @@
                     Grid.Row="15"
                     Clicked="poista_Clicked"/>
                 </Grid>
-
+                    
+                
+                <!-- listviewin Grid-->
                 <Grid
                 Grid.Column="1"
-                Padding="10">
+                Padding="10"
+                VerticalOptions="Start"
+                HorizontalOptions="Start">     
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -192,17 +213,36 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
+                    
+                    <!-- hakukentän aligrid-->
 
-                    <Label
-                    Text="Hae sukunimellä"
-                    HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"/>
+                    <Grid Grid.Column="0" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="400"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                    <Entry
-                    x:Name="hae_sukunimella"
-                    Text=""
-                    Grid.Column="1"
-                    TextChanged="hae_sukunimella_TextChanged"/>
+                        <Label
+                            Text="Hae sukunimellä"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            HorizontalOptions="Center"/>      
+
+                        <Entry
+                            x:Name="hae_sukunimella"
+                            Text=""
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            TextChanged="hae_sukunimella_TextChanged"
+                            HorizontalOptions="Start"
+                            WidthRequest="200"/>
+
+                    </Grid>
 
                     <Frame
                     BorderColor="Black"
@@ -217,15 +257,26 @@
                         x:Name="lista"
                         ItemTapped="lista_ItemTapped"
                          ItemsSource="{Binding Asiakas}">
+                            <ListView.Header>
+                                <StackLayout Orientation="Horizontal" Padding="10">
+                                    <Label Text="ID" WidthRequest="50" FontAttributes="Bold"/>
+                                    <Label Text="Sukunimi" WidthRequest="125" FontAttributes="Bold"/>
+                                    <Label Text="Etunimi" WidthRequest="125" FontAttributes="Bold"/>
+                                    <Label Text="Postinumero" WidthRequest="100" FontAttributes="Bold"/>
+                                    <Label Text="Kaupunki" WidthRequest="100" FontAttributes="Bold"/>
+                                    <Label Text="Puhnro" WidthRequest="125" FontAttributes="Bold"/>
+                                </StackLayout>
+                            </ListView.Header>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
                                         <StackLayout Orientation="Horizontal" Padding="10">
-                                            <Label Text="{Binding AsiakasId}" WidthRequest="20"/>
-                                            <Label Text="{Binding Sukunimi}" WidthRequest="100"/>
-                                            <Label Text="{Binding Etunimi}" WidthRequest="80"/>
-                                            <Label Text="{Binding Lahiosoite}" WidthRequest="150"/>
-                                            <Label Text="{Binding Puhelinnro}" WidthRequest="100"/>
+                                            <Label Text="{Binding AsiakasId}" WidthRequest="50"/>
+                                            <Label Text="{Binding Sukunimi}" WidthRequest="125"/>
+                                            <Label Text="{Binding Etunimi}" WidthRequest="125"/>
+                                            <Label Text="{Binding Postinro}" WidthRequest="100"/>
+                                            <Label Text="{Binding PostinroNavigation.Toimipaikka}" WidthRequest="100"/>
+                                            <Label Text="{Binding Puhelinnro}" WidthRequest="125"/>
                                         </StackLayout>
                                     </ViewCell>
                                 </DataTemplate>
@@ -237,6 +288,6 @@
 
 
             </Grid>
-        </VerticalStackLayout>
+        </HorizontalStackLayout>
     </ScrollView>
 </ContentPage>
