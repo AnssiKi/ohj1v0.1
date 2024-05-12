@@ -19,6 +19,7 @@ public partial class Varaukset : ContentPage
     VarausViewmodel varausViewmodel = new VarausViewmodel();
     MokkiViewmodel mokkiViewmodel = new MokkiViewmodel();
     Varau selectedVaraus;
+    
 
     public Varaukset()
     {
@@ -28,39 +29,36 @@ public partial class Varaukset : ContentPage
         mokin_nimi.BindingContext = mokkiViewmodel;
     }
     
-    private async void muodostalasku_Clicked(object sender, EventArgs e)
-    {
-        TulostaPDF(selectedVaraus);
-
-        //Tallennus tietokantaan
-        var dbContext = new VnContext();
-        Lasku l = new Lasku();
+    public async void muodostalasku_Clicked(object sender, EventArgs e)
+    {  //Tallennus tietokantaan
+        if (selectedVaraus != null)
         {
             double loppusumma = 0;
             double verot = 0;
-
-            //palveluiden hinta veroineen
-            foreach (var palvelu in selectedVaraus.VarauksenPalveluts) 
+            var dbContext = new VnContext();
+            var varauksenPalvelut = dbContext.VarauksenPalveluts.Where(m => m.VarausId == selectedVaraus.VarausId).Select(n => n.Palvelu).ToList();
+            Lasku l = new Lasku();
             {
-                loppusumma += palvelu.Palvelu.HintaAlv;
-            }
+                l.VarausId = selectedVaraus.VarausId;
+                l.Summa = loppusumma + selectedVaraus.Mokki.Hinta;
+                l.Alv = l.Summa - verot;
+                l.Maksettu = 0;
+            };
 
-            //palveluiden hinta ilman veroja
-            foreach (var palvelu in selectedVaraus.VarauksenPalveluts) 
-            {
-                verot += (palvelu.Palvelu.HintaAlv - palvelu.Palvelu.Hinta);
-            }
-          
-            l.VarausId = selectedVaraus.VarausId;
-            l.Summa = loppusumma + selectedVaraus.Mokki.Hinta;
-            l.Alv = l.Summa - verot;
-            l.Maksettu = 0;
-        };
-        dbContext.Add(l);
-        await dbContext.SaveChangesAsync();
-        laskuViewmodel.LoadLaskutFromDatabaseAsync();
+            dbContext.Add(l);
+            await dbContext.SaveChangesAsync();
+            laskuViewmodel.LoadLaskutFromDatabaseAsync();
+
+            TulostaPDF(selectedVaraus, varauksenPalvelut);
+        }
+        else 
+        {
+            DisplayAlert("Virhe", "Valitse ensin varaus", "OK");
+            return;
+        }
+            
     }
-    private async void TulostaPDF(Varau selectedVaraus)//Tarkistaa onko laskua valittuna ja muodostaa PDF:n
+    public async void TulostaPDF(Varau selectedVaraus, List<Palvelu> varauksenPalvelut)//Tarkistaa onko laskua valittuna ja muodostaa PDF:n
     {
         if (selectedVaraus == null)
         {
@@ -91,15 +89,25 @@ public partial class Varaukset : ContentPage
            .SetFontSize(12);
         document.Add(varausInfo);
 
-        foreach (var p in selectedVaraus.VarauksenPalveluts)
+        if (varauksenPalvelut.Any())
         {
-            var palvelu = p.Palvelu;
-            System.Diagnostics.Debug.WriteLine($"Service: {palvelu.Nimi}, Price: {palvelu.HintaAlv}");
-            var palvelutInfo = new iTextLOElement.Paragraph($"Palvelu: {palvelu.Nimi}\n+" +
-            $"Hinta sis {palvelu.Alv}% alv: {palvelu.HintaAlv}€\n")
-            .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
-            .SetFontSize(12);
+            foreach (var p in varauksenPalvelut)
+            {
+                var palvelu = p.Nimi;
+                var palvelutInfo = new iTextLOElement.Paragraph($"{p.Nimi}\n+" +
+                $"Hinta sis {p.Alv}% alv: {p.HintaAlv}€\n")
+                .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
+                .SetFontSize(12);
+                document.Add(palvelutInfo);
+            }
+        }
+        else //TODO KATO ETTÄ HYPPÄÄ TÄHÄN JOS EI PALVELUITA
+        {
+            var palvelutInfo = new iTextLOElement.Paragraph($"Muistathan varata ensi kerralla myös lisähuvit!")
+                .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
+                .SetFontSize(12);
             document.Add(palvelutInfo);
+
         }
 
         iTextLOElement.Paragraph maksuInfo = new iTextLOElement.Paragraph($"Saajan tilinumero:\n" +
