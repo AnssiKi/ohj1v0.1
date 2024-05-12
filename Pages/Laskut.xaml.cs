@@ -11,6 +11,7 @@ public partial class Laskut : ContentPage
 	{
 	    InitializeComponent();
         BindingContext = laskuViewmodel;
+        maksettu.IsEnabled = false;
 	}
     protected override async void OnAppearing()
     {
@@ -50,6 +51,8 @@ public partial class Laskut : ContentPage
 
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
+        selectedLasku = (Lasku)e.Item;
+
 
     }
 
