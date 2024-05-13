@@ -30,7 +30,7 @@ public partial class TeeUusiVaraus : ContentPage
     Mokki selectedMokki = null;
     Palvelu selectedPalvelu = null;
     private int lukumaara = 0;
-    private DateTime? alkupaiva = null;
+    private DateTime? alkupaiva = DateTime.Now;
     private DateTime? loppupaiva = null;
 
 
