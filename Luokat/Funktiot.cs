@@ -77,7 +77,7 @@ namespace ohj1v0._1.Luokat
                     int value = Convert.ToInt32(entry.Text);
                     if (value < 0)
                     {
-                        DisplayAlertOnPage(currentPage, "Virhe", "Syötteen on oltava ei-negatiivinen.", "OK");
+                        DisplayAlertOnPage(currentPage, "Virhe", "Syötteen on positiivinen kokonaisluku.", "OK");
                         return false; // syote on negatiivinen
                     }
                     return true; // kaikki oikein

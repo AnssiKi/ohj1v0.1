@@ -33,12 +33,6 @@ public partial class TeeUusiVaraus : ContentPage
     private DateTime? alkupaiva = DateTime.Now;
     private DateTime? loppupaiva = null;
 
-
-
-
-
-
-
     private async void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
 
@@ -69,16 +63,11 @@ public partial class TeeUusiVaraus : ContentPage
                 }
             }
         }
-
-
     }
 
     private async void alkupvm_DateSelected(object sender, DateChangedEventArgs e)
     {
         alkupaiva = e.NewDate;
-
-        
-       
         if (alkupaiva.HasValue) 
         {
             if (alkupaiva.Value < DateTime.Now)
@@ -138,9 +127,6 @@ public partial class TeeUusiVaraus : ContentPage
             await DisplayAlert("Valitse myös aloituspäivä ", "nämä tiedot ovat pakollisia", "OK!");
         }
     }
-
-
-
     private async void henkilomaara_SelectedIndexChanged(object sender, EventArgs e)
     {
         if ((Alue)alue_nimi.SelectedItem != null && alkupaiva.HasValue && loppupaiva.HasValue)
@@ -160,7 +146,6 @@ public partial class TeeUusiVaraus : ContentPage
                     .Where(m => m.Varaus.All(v => v.VarattuLoppupvm < alkupaiva.Value || v.VarattuAlkupvm > loppupaiva.Value))
                     .ToList();
             }
-            
             if (!filteredMokit.Any())
             {
                 //Jos alueella ei ole vapaana mökkejä, annetaan alert
@@ -215,8 +200,6 @@ public partial class TeeUusiVaraus : ContentPage
             {//jos mökki on vapaana otetaan se olio selectedMokki muuttujaan
                 selectedMokki = (Mokki)mokki_lista.SelectedItem;
             }
-
-
         }
     }
     private async void palvelu_lkm_TextChanged(object sender, TextChangedEventArgs e)
@@ -244,11 +227,7 @@ public partial class TeeUusiVaraus : ContentPage
     }
     private async void palvelu_lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
-      
-
         selectedPalvelu = (Palvelu)palvelu_lista.SelectedItem;
-
-
             if (selectedPalvelu != null)
             {
                 // Päivitä valittujen palveluiden lista
@@ -257,23 +236,13 @@ public partial class TeeUusiVaraus : ContentPage
                 if (lukumaara <= 0)
                 {
                 await DisplayAlert("Valitse myös lukumäärä", "Voit ottaa useamman palvelun samaa halutessasi","OK!"); 
-                }
-                 
-
-            
+                }         
             }
             else
             {
               await DisplayAlert("Tuli tähän","",""); //väliaikanen alertti virheen seurantaan
             }
-
-
-
     }
-
-
-
-
     private async void uusi_asiakas_Clicked(object sender, EventArgs e)
     {
         Grid grid = (Grid)entry_grid;
@@ -328,8 +297,6 @@ public partial class TeeUusiVaraus : ContentPage
         {   //Ei päästetä jatkamaan jos ei valinnu mökkiä
             await DisplayAlert("No pittäähän se mökkiki valita jos meinasit mökille mennä", "", "OK!");
         }
-
-
     }
 
     private async Task<VarauksenTiedot> VarauksenTiedotAsync()
@@ -382,8 +349,6 @@ public partial class TeeUusiVaraus : ContentPage
                 }
             }
         }
-
         return varauksenTiedot;
-    }
-  
+    }  
 }

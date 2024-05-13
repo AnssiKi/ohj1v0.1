@@ -19,7 +19,6 @@ public partial class Uusi_asiakas : ContentPage
     VarausViewmodel varausViewmodel = new VarausViewmodel();
     ListaViewModel listaViewModel = new ListaViewModel();
 
-
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
 
@@ -44,7 +43,6 @@ public partial class Uusi_asiakas : ContentPage
         Entry entry = (Entry)sender;
         funktiot.CheckEntryPituus(entry, 40, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
     }
-
     private async void postinumero_TextChanged(object sender, TextChangedEventArgs e)
     {
         Entry entry = (Entry)sender;
@@ -58,21 +56,18 @@ public partial class Uusi_asiakas : ContentPage
             }
         }
     }
-
     private void puhelinnumero_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 15 merkkiin
         Entry entry = (Entry)sender;
         funktiot.CheckEntryPituus(entry, 15, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
         funktiot.CheckEntryInteger(entry, this); // funktiossa tarkistetaan ettei syote sisalla tekstia
     }
-
     private void email_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 50 merkkiin
         Entry entry = (Entry)sender;
         funktiot.CheckEntryPituus(entry, 50, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
 
     }
-
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
         Type luokka = typeof(ohj1v0._1.Models.Asiaka);
@@ -96,7 +91,6 @@ public partial class Uusi_asiakas : ContentPage
         {
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
         }
-
         else
         {
             bool onKaytossa = await asiakasviewmodel.OnkoPuhelinTaiSahkopostiKaytossa(puhelinnumero.Text, email.Text);
@@ -119,14 +113,12 @@ public partial class Uusi_asiakas : ContentPage
                             // AsiakasId päivittyy automaattisesti tietokannassa
                         };
 
-
                         dbContext.Asiakas.Add(asiakas);
                         dbContext.SaveChanges();
                         BindingContext = new AsiakasViewmodel();
                         asiakasviewmodel.OnPropertyChanged(nameof(asiakasviewmodel.Asiakas));
                         await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
-
-                        
+                
                             var varaus = new Varau()
                             {
                                 AsiakasId = asiakas.AsiakasId,
@@ -137,7 +129,6 @@ public partial class Uusi_asiakas : ContentPage
                                 VarattuLoppupvm = varauksenTiedot.VarattuLoppupvm
 
                             };
-
 
                             await varausViewmodel.LoadVarausFromDatabaseAsync();
                             dbContext.Varaus.Add(varaus);
@@ -156,7 +147,6 @@ public partial class Uusi_asiakas : ContentPage
                             dbContext.SaveChanges();
                         await varausViewmodel.LoadVarausFromDatabaseAsync();
                     }
-
                     await DisplayAlert("Asiakkaan ja varauksen tallennus onnistui!", "", "OK");
 
                     //nollataan listviewin lista

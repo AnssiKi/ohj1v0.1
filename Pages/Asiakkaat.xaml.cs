@@ -193,7 +193,7 @@ public partial class Asiakkaat : ContentPage
                         BindingContext = new AsiakasViewmodel();
                         await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
                     }
-                    await DisplayAlert("Tallennettu", "", "OK");
+                    await DisplayAlert("Tallennus", "Tallennettu", "OK");
                     grid = (Grid)entry_grid;
                     ListView list = (ListView)lista;
                     funktiot.TyhjennaEntryt(grid, list);
@@ -310,10 +310,7 @@ public partial class Asiakkaat : ContentPage
         {
             return;
         }
-
         selectedAsiakas = (Asiaka)e.Item;
-
-
 
         asiakas_id.Text = selectedAsiakas.AsiakasId.ToString();
         etunimi.Text = selectedAsiakas.Etunimi;
@@ -324,6 +321,4 @@ public partial class Asiakkaat : ContentPage
         paikkakunta.Text = selectedAsiakas.PostinroNavigation.Toimipaikka;
         email.Text = selectedAsiakas.Email;
     }
-
-
 }

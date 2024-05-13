@@ -29,16 +29,12 @@ public partial class Palvelut : ContentPage
         palvelu_hinta.TextChanged += palvelu_hinta_TextChanged;
         palvelu_hinta.TextChanged += palvelu_hinta_laskealv;
 
-        
 	}
 
-    
-    
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
 
     }
-
 
     //funktio, joka laskee arvolis‰verollisen hinnan alvhinta-kentt‰‰n
     private void palvelu_hinta_laskealv(object sender, EventArgs e)
@@ -63,8 +59,6 @@ public partial class Palvelut : ContentPage
         }
 
     }
-
-
 
     private void palvelu_nimi_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 40 merkkiin
@@ -128,7 +122,6 @@ public partial class Palvelut : ContentPage
                     using (var dbContext = new VnContext())
                     {
                         bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti muokata palvelun tietoja?", "Kyll‰", "Ei");
-
                         //Jos k‰ytt‰j‰ valitsee "Kyll‰", toteutetaan perustoimet
                         if (result)
                         {
@@ -143,14 +136,12 @@ public partial class Palvelut : ContentPage
                             await dbContext.SaveChangesAsync();
                             await pVm.LoadPalvelusFromDatabaseAsync();
                             OnPropertyChanged(nameof(selectedPalvelu));
-                            await DisplayAlert("", "Muutokset Tallennettu", "OK");
+                            await DisplayAlert("Tallennus", "Muutokset Tallennettu", "OK");
                             funktiot.TyhjennaEntryt(grid, lista);
-
-
                         }
                         else
                         {
-                            await DisplayAlert("", "Muutoksia ei tallennettu", "OK");
+                            await DisplayAlert("Tallennus", "Muutoksia ei tallennettu", "OK");
                             funktiot.TyhjennaEntryt(grid, lista);
                         }
                     }
@@ -159,9 +150,7 @@ public partial class Palvelut : ContentPage
                 {
                     await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
                 }
-
             }
-
         }
         else
         {
@@ -205,7 +194,7 @@ public partial class Palvelut : ContentPage
                         BindingContext = new PalveluViewmodel();
                         pVm.OnPropertyChanged(nameof(pVm.Palvelus)); //lis‰sin t‰h‰n kutsun joka p‰ivitt‰‰ muilla sivuilla listat 0805/MH
                         await pVm.LoadPalvelusFromDatabaseAsync();
-                        await DisplayAlert("Tallennettu", "", "OK");
+                        await DisplayAlert("Tallennus", "Tiedot tallennettu onnistuneesti", "OK");
                         funktiot.TyhjennaEntryt(grid, lista);
                     }
                 }
@@ -227,17 +216,11 @@ public partial class Palvelut : ContentPage
             TyhjennaTiedot();
             selectedPalvelu = null;
         }
-        else
-        {
-            // Jos k‰ytt‰j‰ valitsee "Ei", peruutetaan toiminto
-            // T‰h‰n ei oo pakko laittaa mit‰‰ kerta se ei haluakkaa.
-        }
+        return;
     }
 
     private async void poista_Clicked(object sender, EventArgs e)
-    {
-       
-        
+    {      
         bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti poistaa tiedon?", "Kyll‰", "Ei");
 
         // Jos k‰ytt‰j‰ valitsee "Kyll‰", toteutetaan peruutustoimet
@@ -265,7 +248,6 @@ public partial class Palvelut : ContentPage
             // Jos k‰ytt‰j‰ valitsee "Ei", peruutetaan toiminto
             // T‰h‰n ei oo pakko laittaa mit‰‰ kerta se ei haluakkaa poistaa.
         }
-
     }
 
     //Eventhandler, joka noutaa tiedot listviewist‰ entrykenttiin.
@@ -275,7 +257,6 @@ public partial class Palvelut : ContentPage
         {
             return;
         }
-
         selectedPalvelu = (Palvelu)e.Item;
 
         if (selectedPalvelu.Alue != null)
@@ -312,9 +293,7 @@ public partial class Palvelut : ContentPage
         {
             palvelu_alv.SelectedIndex = -1; // Ei valittu mit‰‰n
         }
-
     }
-
 
     //Eventhandler, joka valitsee n‰ytett‰v‰t tiedot Picker-elementin valinnan mukaan.
     private void hae_alueella_SelectedIndexChanged(object sender, EventArgs e)
@@ -336,9 +315,7 @@ public partial class Palvelut : ContentPage
     {
         hae_alueella.SelectedIndex = -1;
         lista.ItemsSource = pVm.Palvelus;
-
     }
-
 
     //Tyhjennys-funktio, joka tyhjent‰‰ entry-kent‰t sek‰ palvelu_id-labelin. 
     private void TyhjennaTiedot()

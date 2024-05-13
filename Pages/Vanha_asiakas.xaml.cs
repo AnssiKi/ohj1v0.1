@@ -9,9 +9,13 @@ namespace ohj1v0._1;
 public partial class Vanha_asiakas : ContentPage
 {
     private VarauksenTiedot varauksenTiedot;
-    AsiakasViewmodel asiakasviewmodel = new AsiakasViewmodel();
-    VarausViewmodel varausViewmodel = new VarausViewmodel();
-    ListaViewModel listaViewModel = new ListaViewModel();
+    AsiakasViewmodel asiakasviewmodel;
+    VarausViewmodel varausViewmodel;
+    ListaViewModel listaViewModel;
+    Funktiot funktiot;
+    Asiaka selectedAsiakas;
+    bool valittu = false;
+    private CancellationTokenSource _cts;
     public Vanha_asiakas(TeeUusiVaraus tuv,VarauksenTiedot tiedot)
 	{
 		InitializeComponent();
@@ -19,14 +23,7 @@ public partial class Vanha_asiakas : ContentPage
         varauksenTiedot = tiedot;
         this.BindingContext = tuv;
     }
-    Funktiot funktiot = new Funktiot();
     
-    Asiaka selectedAsiakas;
-    
-    bool valittu = false;
-
-    private CancellationTokenSource _cts;
-
     private async void hae_sukunimella_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (_cts != null)
@@ -62,7 +59,6 @@ public partial class Vanha_asiakas : ContentPage
             }
         }
     }
-
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
         if (e.Item == null)
@@ -74,9 +70,7 @@ public partial class Vanha_asiakas : ContentPage
             valittu = true;
             selectedAsiakas = (Asiaka)lista.SelectedItem;
         }
-
     }
-
     private async void tallenna_Clicked(object sender, EventArgs e)
     { 
         if (valittu) // listasta on valittu asiakas
@@ -95,8 +89,6 @@ public partial class Vanha_asiakas : ContentPage
                         VarattuLoppupvm = varauksenTiedot.VarattuLoppupvm
 
                     };
-
-
                     await varausViewmodel.LoadVarausFromDatabaseAsync();
                     dbContext.Varaus.Add(varaus);
                     dbContext.SaveChanges();
@@ -128,9 +120,6 @@ public partial class Vanha_asiakas : ContentPage
             {
                 await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
             }
-        }
-
-       
-    }
-   
+        }       
+    }   
 }

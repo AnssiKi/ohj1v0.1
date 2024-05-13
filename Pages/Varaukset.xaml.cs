@@ -19,16 +19,13 @@ public partial class Varaukset : ContentPage
     VarausViewmodel varausViewmodel = new VarausViewmodel();
     MokkiViewmodel mokkiViewmodel = new MokkiViewmodel();
     Varau selectedVaraus;
-    
-
     public Varaukset()
     {
         InitializeComponent();
         lista.BindingContext = varausViewmodel;
         alue_nimi.BindingContext = alueViewmodel;
         mokin_nimi.BindingContext = mokkiViewmodel;
-    }
-    
+    } 
     public async void muodostalasku_Clicked(object sender, EventArgs e)
     { 
         //Tallennus tietokantaan
@@ -37,9 +34,7 @@ public partial class Varaukset : ContentPage
             double loppusumma = 0;
             double verot = 0;
             var dbContext = new VnContext();
-            var varauksenPalvelut = dbContext.VarauksenPalveluts.Where(m => m.VarausId == selectedVaraus.VarausId).Select(n => n.Palvelu).ToList();
-            
-           
+            var varauksenPalvelut = dbContext.VarauksenPalveluts.Where(m => m.VarausId == selectedVaraus.VarausId).Select(n => n.Palvelu).ToList();          
             // Iteroidaan varauksen palvelut ja lasketaan niiden hinta sek‰ eritell‰‰n verot
             if (varauksenPalvelut.Any()) 
             {
@@ -59,19 +54,16 @@ public partial class Varaukset : ContentPage
                 l.Maksettu = 0;
             };
 
-
             dbContext.Add(l);
             await dbContext.SaveChangesAsync();
             laskuViewmodel.LoadLaskutFromDatabaseAsync();
-
             TulostaPDF(selectedVaraus, varauksenPalvelut, loppusumma, verot);
         }
         else 
         {
             DisplayAlert("Virhe", "Valitse ensin varaus", "OK");
             return;
-        }
-            
+        }         
     }
     public async void TulostaPDF(Varau selectedVaraus, List<Palvelu> varauksenPalvelut, double loppusumma, double verot)//Tarkistaa onko laskua valittuna ja muodostaa PDF:n
     {
@@ -178,15 +170,12 @@ public partial class Varaukset : ContentPage
             }
         }
     }
-
-
     private void etunimi_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 20 merkkiin
         Entry entry = (Entry)sender;
         funktiot.CheckEntryPituus(entry, 20, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
         funktiot.CheckEntryText(entry, this); // tarkistetaan ettei syottessa ole numeroita
     }
-
     private void sukunimi_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 40 merkkiin
         Entry entry = (Entry)sender;
@@ -199,13 +188,11 @@ public partial class Varaukset : ContentPage
         funktiot.CheckEntryPituus(entry, 15, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
         funktiot.CheckEntryInteger(entry, this); // funktiossa tarkistetaan ettei syote sisalla tekstia
     }
-
     private void sahkoposti_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 50 merkkiin
         Entry entry = (Entry)sender;
         funktiot.CheckEntryPituus(entry, 50, this); // funktiossa ilmoitetaan jos kayttajan syote liian pitka
     }
-
     private void mokin_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
         // Tarkistetaan, ett‰ on valittu mˆkki
@@ -240,7 +227,6 @@ public partial class Varaukset : ContentPage
             paikkakunta.Text = "";
         }
     }
-
     private async void postinumero_TextChanged(object sender, TextChangedEventArgs e)
     {// entryn pituus rajoitettu xaml.cs max 5 merkkiin
         Entry entry = (Entry)sender;
@@ -255,29 +241,22 @@ public partial class Varaukset : ContentPage
         }
 
     }
-
     private void paikkakunta_TextChanged(object sender, TextChangedEventArgs e)
     {
 
     }
-
     private void alkupvm_DateSelected(object sender, DateChangedEventArgs e)
     {
 
     }
-
     private void loppupvm_DateSelected(object sender, DateChangedEventArgs e)
     {
 
     }
-
     private void vahvistuspvm_DateSelected(object sender, DateChangedEventArgs e)
     {
 
     }
-
-
-
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
         Grid grid = (Grid)entry_grid;
@@ -345,21 +324,15 @@ public partial class Varaukset : ContentPage
                             await DisplayAlert("Muutoksia ei tallennettu", "Valitse varaus listalta jos haluat muokata mˆkki‰", "OK");
                             TyhjennaFunktio();
 
-                        }
-
-                      
+                        }       
                     }
-
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
             }
         }
-
     }
-
-
     private async void tyhjenna_Clicked(object sender, EventArgs e)
     {
         bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti tyhjent‰‰ lomakkeen tiedot?", "Kyll‰", "Ei");
@@ -368,20 +341,17 @@ public partial class Varaukset : ContentPage
         if (result)
         {
             Grid grid = (Grid)entry_grid;
-            TyhjennaFunktio();
-            selectedVaraus = null;
-
-            
+            ListView list = (ListView)lista;
+            funktiot.TyhjennaEntryt(grid, list);
+            selectedVaraus = null;         
         }
     }
-
     private async void poista_Clicked(object sender, EventArgs e)
     {
         Grid grid = (Grid)entry_grid;
         if (selectedVaraus != null)
         {
             bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti poistaa tiedon?", "Kyll‰", "Ei");
-
             // Jos k‰ytt‰j‰ valitsee "Kyll‰", toteutetaan peruutustoimet
             if (result)
             {
@@ -402,20 +372,16 @@ public partial class Varaukset : ContentPage
                 {
                     await DisplayAlert("Virhe", "Varausta ei voitu poistaa.", "OK");
                 }
-            }
-
-            
+            }          
         }
     }
 
     private void hae_varaukset_DateSelected(object sender, DateChangedEventArgs e)
     {
         DateTime? selectedDateNullable = e.NewDate;
-
         if (selectedDateNullable.HasValue)
         {
             DateTime selectedDate = selectedDateNullable.Value;
-
             var filteredVaraukset = varausViewmodel.Varaukset.Where(v => v.VarattuAlkupvm == selectedDate.Date).ToList();
             lista.ItemsSource = filteredVaraukset;
         }
@@ -429,16 +395,12 @@ public partial class Varaukset : ContentPage
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
         Grid grid = (Grid)entry_grid;
-
         if (e.Item == null)
         {
             return;
         }
-
         selectedVaraus = (Varau)e.Item;
-
         id.Text = selectedVaraus.VarausId.ToString();
-
         if (selectedVaraus.Mokki.Alue != null)
         {
             alue_nimi.SelectedIndex = (int)selectedVaraus.Mokki.Alue.AlueId - 1;
@@ -480,16 +442,6 @@ public partial class Varaukset : ContentPage
         if (selectedVaraus.VarattuPvm.HasValue)
         {
             varauspvm.Text = selectedVaraus.VarattuPvm.Value.ToString("dd.MM.yyyy");
-        }
-
-      
+        }     
     }
-
-    private void TyhjennaFunktio()
-    {
-        Grid grid = (Grid)entry_grid;
-        ListView list = (ListView)lista;
-        funktiot.TyhjennaEntryt(grid, list);
-    }
-
 }

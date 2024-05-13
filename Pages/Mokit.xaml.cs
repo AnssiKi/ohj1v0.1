@@ -137,12 +137,12 @@ public partial class Mokit : ContentPage
                             await dbContext.SaveChangesAsync();
                             await mokkiViewmodel.LoadMokkisFromDatabaseAsync();
                             mokkiViewmodel.OnPropertyChanged(nameof(mokkiViewmodel.Mokkis));
-                            await DisplayAlert("", "Muutokset tallennettu", "OK");
+                            await DisplayAlert("Tallennus", "Muutokset tallennettu", "OK");
                             TyhjennaFunktio();
                         }
                         else //jos ei haluakaan tallentaa, tyhjennetään tiedot
                         {
-                            await DisplayAlert("Muutoksia ei tallennettu", "Valitse mökki listalta jos haluat muokata mökkiä", "OK");
+                            await DisplayAlert("Tallennus", "Valitse ensin mökki listalta jos haluat muokata tietoja", "OK");
                             TyhjennaFunktio();
                         }
                     }
@@ -165,7 +165,7 @@ public partial class Mokit : ContentPage
 
             else if (CheckTuplaTietokanta(mokki_nimi.Text, (uint)alue_nimi.SelectedIndex + 1)) // varmistetaan ettei ole samannimista mokkia
             {
-                await DisplayAlert("Virhe tallentaessa", "Saman niminen mökki on jo alueella", "OK");
+                await DisplayAlert("Virhe", "Alueella on jo saman niminen mökki", "OK");
             }
 
             else if (!funktiot.CheckEntryDouble(hinta, this)) // tarkistetaan onko hinta double
@@ -202,7 +202,7 @@ public partial class Mokit : ContentPage
                         dbContext.SaveChanges();
                         BindingContext = new MokkiViewmodel();
                         await mokkiViewmodel.LoadMokkisFromDatabaseAsync();
-                        await DisplayAlert("Tallennettu", "", "OK");
+                        await DisplayAlert("Tallennus", "Tietojen tallennus onnistui", "OK");
                         TyhjennaFunktio();
 
                     }                        
@@ -259,7 +259,7 @@ public partial class Mokit : ContentPage
                     TyhjennaFunktio();
 
                 }
-                await DisplayAlert("", "Poisto onnistui", "OK");
+                await DisplayAlert("Poisto", "Tiedot poistettu onnistuneesti", "OK");
 
             }
             catch (Exception ex)

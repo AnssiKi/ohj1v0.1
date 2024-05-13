@@ -74,11 +74,11 @@ public partial class Alueet : ContentPage
                             dbContext.SaveChanges();
                             OnPropertyChanged(nameof(SelectedAlue));
                             await alueViewmodel.LoadAluesFromDatabaseAsync();
-                            await DisplayAlert("", "Muutokset tallennettu", "OK");
+                            await DisplayAlert("Tallennus", "Muutokset tallennettu", "OK");
                         }
                         else //jos ei haluakaan tallentaa, tyhjennet‰‰n entry
                         {
-                            await DisplayAlert("Muutoksia ei tallennettu", "Valitse alue listalta jos haluat muokata aluetta", "OK");
+                            await DisplayAlert("Tallennus", "Valitse alue listalta jos haluat muokata aluetta", "OK");
                             ListView list = (ListView)lista;
                             funktiot.TyhjennaEntryt(grid, list);
                         }
@@ -133,7 +133,7 @@ public partial class Alueet : ContentPage
                     TyhjennaFunktio();
 
                 }
-                await DisplayAlert("", "Poisto onnistui", "OK");
+                await DisplayAlert("Poisto", "Alue poistettu", "OK");
             }
             catch (Exception ex)
             {

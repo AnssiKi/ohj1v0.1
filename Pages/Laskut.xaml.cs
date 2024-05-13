@@ -1,3 +1,4 @@
+using ohj1v0._1.Luokat;
 using ohj1v0._1.Models;
 using ohj1v0._1.Viewmodels;
 
@@ -6,9 +7,13 @@ namespace ohj1v0._1;
 public partial class Laskut : ContentPage
 {
     readonly LaskuViewmodel laskuViewmodel = new LaskuViewmodel();
+
     Lasku selectedLasku;
-    VnContext context = new VnContext();
-    bool isUserCheckChange = true;
+    VnContext context;
+    Funktiot funktiot;
+
+    bool isUserCheckChange = true; //pitää kirjaa siitä onko checkboxiin tehty muutos käyttäjä- vai ohjelmaperäinen
+    
     public Laskut()
 	{
 	    InitializeComponent();
@@ -20,7 +25,7 @@ public partial class Laskut : ContentPage
         base.OnAppearing();
         await laskuViewmodel.LoadLaskutFromDatabaseAsync();
     }
-    private void maksettu_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    private async void maksettu_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         if (!isUserCheckChange) return;
         if (selectedLasku != null && selectedLasku.Maksettu == 0) 
@@ -29,12 +34,12 @@ public partial class Laskut : ContentPage
             context.Laskus.Update(selectedLasku);
             context.SaveChanges();
             OnPropertyChanged(nameof(selectedLasku));
-            laskuViewmodel.LoadLaskutFromDatabaseAsync();
+            await laskuViewmodel.LoadLaskutFromDatabaseAsync();
             selectedLasku = null;
         }
         else 
         {
-            DisplayAlert("Virhe", "Valitse ensin lasku", "OK");
+            await DisplayAlert("Virhe", "Valitse ensin lasku", "OK");
             return; }
 
     }
@@ -51,13 +56,12 @@ public partial class Laskut : ContentPage
         // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
         if (result)
         {
-            //TYHJENNETÄÄN tiedot tähän
+            Grid grid = (Grid)entry_grid;
+            ListView list = (ListView)lista;
+            funktiot.TyhjennaEntryt(grid, list);
+            Label_laskuID.Text = "";
         }
-        else
-        {
-            // Jos käyttäjä valitsee "Ei", peruutetaan toiminto
-            // Tähän ei oo pakko laittaa mitää kerta se ei haluakkaa.
-        }
+        return;
     }
 
     private void hakupvm_DateSelected(object sender, DateChangedEventArgs e)

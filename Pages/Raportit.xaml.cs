@@ -60,9 +60,6 @@ public partial class Raportit : ContentPage
             return; // ei tehda mitaan jos aluetta ei ole valittu
         }
 
-
-
-
             Raportti newRaportti = new Raportti
         {
             Raporttityyppi = Raporttityyppi,
@@ -77,7 +74,6 @@ public partial class Raportit : ContentPage
         lista.ItemsSource = raportti;
     }
 
-    
     private void alkupvm_DateSelected(object sender, DateChangedEventArgs e)
     {
 

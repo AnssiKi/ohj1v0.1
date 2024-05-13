@@ -17,6 +17,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid
+                x:Name="entry_grid"
                 Padding="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -35,6 +36,7 @@
                     </Grid.RowDefinitions>
 
                     <Label
+                    x:Name="Label_laskuID"
                     Text="Lasku ID"/>
 
                     <Label
