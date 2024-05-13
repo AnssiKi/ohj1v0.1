@@ -162,9 +162,10 @@
                 </Frame>
 
                 <Label                    
-                    Text="Valitse lisäpalvelu"
+                    Text="Valitse ensin lisäpalvelu ja anna sen jälkeen lukumäärä"
                     Margin="0,5,0,0"
-                    Grid.Row="9"/>
+                    Grid.Row="9"
+                    Grid.ColumnSpan="2"/>
 
                 <Frame                    
                     BorderColor="Black"
