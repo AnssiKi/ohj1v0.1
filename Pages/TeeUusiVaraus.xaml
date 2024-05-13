@@ -139,7 +139,7 @@
                         ItemTapped="mokki_lista_ItemTapped"
                         ItemsSource="{Binding Mokkis}">
                             <ListView.Header>
-                                <StackLayout Orientation="Horizontal" Padding="10" BackgroundColor="#EFEFEF">
+                                <StackLayout Orientation="Horizontal" Padding="10" >
                                     <Label Text="ID" WidthRequest="40" FontAttributes="Bold"/>
                                     <Label Text="Mökin Nimi" WidthRequest="150" FontAttributes="Bold"/>
                                     <Label Text="Hinta" WidthRequest="50" FontAttributes="Bold" />
@@ -179,7 +179,7 @@
                             ItemTapped="palvelu_lista_ItemTapped"
                             ItemsSource="{Binding Palvelus}">
                             <ListView.Header>
-                                <StackLayout Orientation="Horizontal" Padding="10" BackgroundColor="#EFEFEF">
+                                <StackLayout Orientation="Horizontal" Padding="10" >
                                     <Label Text="Lkm" WidthRequest="40" FontAttributes="Bold"/>
                                     <Label Text="Palvelun Nimi" WidthRequest="150" FontAttributes="Bold"/>
                                     <Label Text="Hinta" WidthRequest="50" FontAttributes="Bold" />

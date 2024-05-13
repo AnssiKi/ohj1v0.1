@@ -100,10 +100,37 @@ public partial class TeeUusiVaraus : ContentPage
                 await DisplayAlert("Virhe", "Aloituspäivämäärä ei voi olla lopetuspäivämäärän jälkeen", "OK");
 
             }
-            else if (alkupaiva.Value == loppupaiva.Value) 
+            else if (alkupaiva.Value == loppupaiva.Value)
             {
                 await DisplayAlert("Minimi vuokrausaika 1vrk", "Valitse uusi loppu päivämäärä", "OK!");
 
+            }
+            if ((Alue)alue_nimi.SelectedItem != null)
+            {
+                List<Mokki> vapaanaolevat;
+
+                using var context = new VnContext();
+                {
+
+                    // Suodatetaan ensin mökit alueen mukaan
+                    vapaanaolevat = await context.Mokkis
+                        .Where(m => m.AlueId == selectedAlue.AlueId)
+                        .Include(m => m.Varaus)
+                        .ToListAsync();
+
+                    // Sen jälkeen suodatetaan mökit, jotka ovat vapaana annettuina päivinä
+                    vapaanaolevat = vapaanaolevat
+                        .Where(m => m.Varaus.All(v => v.VarattuLoppupvm < alkupaiva.Value || v.VarattuAlkupvm > loppupaiva.Value))
+                        .ToList();
+                }
+                if (vapaanaolevat.Any())
+                {//Asetetaan vapaanaolevat mökit näkyväksi
+                   mokki_lista.ItemsSource = vapaanaolevat;
+                }
+                else 
+                {//Jos ei oo mökkejä vapaana,ei näytetä mitään
+                   mokki_lista.ItemsSource = null; 
+                }
             }
         }
         else
@@ -118,18 +145,22 @@ public partial class TeeUusiVaraus : ContentPage
     {
         if ((Alue)alue_nimi.SelectedItem != null && alkupaiva.HasValue && loppupaiva.HasValue)
         {
+            List<Mokki> filteredMokit;
             int henkilo = henkilomaara.SelectedIndex + 1;
-
+            
             using var context = new VnContext();
-            //suodatetaan ensin mökit alueen mukaan
-            var filteredMokit = await context.Mokkis
-            .Where(m => m.Henkilomaara >= henkilo && m.AlueId == selectedAlue.AlueId)
-            .Include(m => m.Varaus)
-            .ToListAsync();
-            //Sen jälkeen suodatetaan mökit jotka vapaana annettuina päivinä
-            filteredMokit = filteredMokit
-                .Where(m => m.Varaus.All(v => v.VarattuLoppupvm < alkupaiva.Value || v.VarattuAlkupvm > loppupaiva.Value))
-                .ToList();
+            { //suodatetaan ensin mökit alueen mukaan ja henkilömäärän mukaan
+                 filteredMokit = await context.Mokkis
+                .Where(m => m.Henkilomaara >= henkilo && m.AlueId == selectedAlue.AlueId)
+                .Include(m => m.Varaus)
+                .ToListAsync();
+
+                //Sen jälkeen suodatetaan mökit jotka vapaana annettuina päivinä
+                filteredMokit = filteredMokit
+                    .Where(m => m.Varaus.All(v => v.VarattuLoppupvm < alkupaiva.Value || v.VarattuAlkupvm > loppupaiva.Value))
+                    .ToList();
+            }
+            
             if (!filteredMokit.Any())
             {
                 //Jos alueella ei ole vapaana mökkejä, annetaan alert
@@ -157,7 +188,7 @@ public partial class TeeUusiVaraus : ContentPage
         {
             var mokki = e.Item as Mokki;
             var mokkiId = mokki.MokkiId;
-
+            //eka filtteröidään mökin kaikki varaukset ja tarkistetaan ettei ole valittuina päivinä
             var mokin_varaukset = context.Varaus
 
                 .Where(v => v.MokkiId == mokkiId &&
@@ -176,12 +207,12 @@ public partial class TeeUusiVaraus : ContentPage
                 .OrderBy(v => v.VarausId)
                 .ToList();
             if (mokin_varaukset.Any())
-            {
+            {//Jos mökillä on varauksia kyseisenä aikana ja vahingossa päässy näkymään yritetään napata se tällä
                 await DisplayAlert("Mökki varattuna valittuna ajankohtana","Vaihda mökkiä tai vuokrausaikaa","OK!");
                 selectedMokki = null;
             }
             else
-            {
+            {//jos mökki on vapaana otetaan se olio selectedMokki muuttujaan
                 selectedMokki = (Mokki)mokki_lista.SelectedItem;
             }
 
@@ -191,8 +222,7 @@ public partial class TeeUusiVaraus : ContentPage
     private async void palvelu_lkm_TextChanged(object sender, TextChangedEventArgs e)
     {
         Entry entry = (Entry)sender;
-        
-        
+
         if (!funktiot.CheckEntryInteger(entry, this))
         {
             // funktiossa tarkistetaan ettei syote sisalla tekstia

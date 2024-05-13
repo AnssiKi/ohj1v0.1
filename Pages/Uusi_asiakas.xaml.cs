@@ -152,9 +152,8 @@ public partial class Uusi_asiakas : ContentPage
                                 palvelu.VarausId = varausId;
                                 dbContext.VarauksenPalveluts.Add(palvelu);
                             }
-
+                            //T‰h‰n pit‰‰ lis‰t‰ mill‰ p‰ivitet‰‰n varauksen palvelut lista, jos ne lis‰t‰‰n n‰kym‰‰n
                             dbContext.SaveChanges();
-                        varausViewmodel.OnPropertyChanged(nameof(varausViewmodel.Varaukset));
                         await varausViewmodel.LoadVarausFromDatabaseAsync();
                     }
 
