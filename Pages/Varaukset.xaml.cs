@@ -30,26 +30,41 @@ public partial class Varaukset : ContentPage
     }
     
     public async void muodostalasku_Clicked(object sender, EventArgs e)
-    {  //Tallennus tietokantaan
+    { 
+        //Tallennus tietokantaan
         if (selectedVaraus != null)
         {
             double loppusumma = 0;
             double verot = 0;
             var dbContext = new VnContext();
             var varauksenPalvelut = dbContext.VarauksenPalveluts.Where(m => m.VarausId == selectedVaraus.VarausId).Select(n => n.Palvelu).ToList();
+            
+           
+            // Iteroidaan varauksen palvelut ja lasketaan niiden hinta sekä eritellään verot
+            if (varauksenPalvelut.Any()) 
+            {
+                foreach (var palvelu in varauksenPalvelut)
+                {
+                    loppusumma += palvelu.HintaAlv;
+                    verot += (palvelu.HintaAlv - palvelu.Hinta);
+                }
+            }
+            loppusumma += selectedVaraus.Mokki.Hinta;
+            //Lasketaan loppusumma veroineen eriteltynä
             Lasku l = new Lasku();
             {
                 l.VarausId = selectedVaraus.VarausId;
-                l.Summa = loppusumma + selectedVaraus.Mokki.Hinta;
-                l.Alv = l.Summa - verot;
+                l.Summa = loppusumma;
+                l.Alv = verot;
                 l.Maksettu = 0;
             };
+
 
             dbContext.Add(l);
             await dbContext.SaveChangesAsync();
             laskuViewmodel.LoadLaskutFromDatabaseAsync();
 
-            TulostaPDF(selectedVaraus, varauksenPalvelut);
+            TulostaPDF(selectedVaraus, varauksenPalvelut, loppusumma, verot);
         }
         else 
         {
@@ -58,7 +73,7 @@ public partial class Varaukset : ContentPage
         }
             
     }
-    public async void TulostaPDF(Varau selectedVaraus, List<Palvelu> varauksenPalvelut)//Tarkistaa onko laskua valittuna ja muodostaa PDF:n
+    public async void TulostaPDF(Varau selectedVaraus, List<Palvelu> varauksenPalvelut, double loppusumma, double verot)//Tarkistaa onko laskua valittuna ja muodostaa PDF:n
     {
         if (selectedVaraus == null)
         {
@@ -101,7 +116,7 @@ public partial class Varaukset : ContentPage
                 document.Add(palvelutInfo);
             }
         }
-        else //TODO KATO ETTÄ HYPPÄÄ TÄHÄN JOS EI PALVELUITA
+        else
         {
             var palvelutInfo = new iTextLOElement.Paragraph($"Muistathan varata ensi kerralla myös lisähuvit!")
                 .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
@@ -109,6 +124,12 @@ public partial class Varaukset : ContentPage
             document.Add(palvelutInfo);
 
         }
+
+        var loppusummaInfo = new iTextLOElement.Paragraph($"Laskun loppusumma: {loppusumma}€\n" +
+            $"Verot: {verot}€")
+            .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
+            .SetFontSize(12);
+            document.Add(loppusummaInfo);
 
         iTextLOElement.Paragraph maksuInfo = new iTextLOElement.Paragraph($"Saajan tilinumero:\n" +
         $"FI12 3456 7890 1234 56\n" +
