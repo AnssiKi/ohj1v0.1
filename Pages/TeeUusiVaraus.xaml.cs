@@ -253,7 +253,14 @@ public partial class TeeUusiVaraus : ContentPage
             {
                 // Päivitä valittujen palveluiden lista
                 listaViewModel.OnItemTapped(selectedPalvelu);
-                
+
+                if (lukumaara <= 0)
+                {
+                await DisplayAlert("Valitse myös lukumäärä", "Voit ottaa useamman palvelun samaa halutessasi","OK!"); 
+                }
+                 
+
+            
             }
             else
             {
