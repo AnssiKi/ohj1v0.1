@@ -102,7 +102,8 @@ public partial class Varaukset : ContentPage
             {
                 var palvelu = p.Nimi;
                 var palvelutInfo = new iTextLOElement.Paragraph($"{p.Nimi}\n+" +
-                $"Hinta sis {p.Alv}% alv: {p.HintaAlv}€\n")
+                $"Hinta sis {p.Alv}% alv: {p.HintaAlv}€\n"+
+                $"_______________")
                 .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
                 .SetFontSize(12);
                 document.Add(palvelutInfo);

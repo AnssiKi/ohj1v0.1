@@ -1,9 +1,11 @@
 using CommunityToolkit.Maui.Storage;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Maui.Controls;
 using ohj1v0._1.Luokat;
 using ohj1v0._1.Models;
 using ohj1v0._1.Viewmodels;
 using Org.BouncyCastle.Bcpg;
+using System.Linq;
 using iTextKernel = iText.Kernel.Pdf;
 using iTextLayout = iText.Layout;
 using iTextLOElement = iText.Layout.Element;
@@ -86,13 +88,22 @@ public partial class Laskut : ContentPage
             foreach (var lp in laskunPalvelut) 
             {
                 var palvelutInfo = new iTextLOElement.Paragraph($"{lp.Nimi}\n"+
-                    $"Hinta sis. {lp.Alv}%:\n"+
-                    $"{lp.HintaAlv}€")
+                    $"Hinta sis. {lp.Alv}% alv: \n"+
+                    $"{lp.HintaAlv}€"+
+                    $"_______________")
                     .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
                     .SetFontSize (12);
                 document.Add(palvelutInfo);
             }
-        } 
+        }
+        else 
+        {
+            var palvelutInfo = new iTextLOElement.Paragraph($"Muistattehan varata ensi kerralla myös lisäpalvelut!")
+                    .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
+                    .SetFontSize(12);
+            document.Add(palvelutInfo);
+
+        }
 
         if (selectedLasku.Maksettu == 0)
         {
@@ -194,14 +205,23 @@ public partial class Laskut : ContentPage
     }
     public List<Palvelu> HaeLaskunPalvelut(Lasku selectedLasku)
     {
-        Varau varaus = context.Varaus.FirstOrDefault(v => v.VarausId == selectedLasku.VarausId);
-        if (varaus == null)
+        Varau varau = context.Varaus.Include(v => v.VarauksenPalveluts)
+                                .FirstOrDefault(v => v.VarausId == selectedLasku.VarausId);
+
+        // If no Varau was found, return null
+        if (varau == null)
         {
             return null;
         }
-        List<Palvelu> laskunPalvelut = context.Palvelus
-        .Where(p => varaus.VarauksenPalveluts.Any(vp => vp.PalveluId == p.PalveluId))
-        .ToList();
-        return laskunPalvelut;
+
+        // Get the list of Palvelu IDs associated with the Varau
+        List<uint> palveluIds = varau.VarauksenPalveluts.Select(vp => vp.PalveluId).ToList();
+
+        // Get the list of Palvelu associated with the Varau
+        List<Palvelu> palvelut = context.Palvelus
+            .Where(p => palveluIds.Contains(p.PalveluId))
+            .ToList();
+
+        return palvelut;
     }
 }
