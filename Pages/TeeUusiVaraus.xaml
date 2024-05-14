@@ -103,6 +103,7 @@
                             <x:String>12</x:String>
                             <x:String>13</x:String>
                             <x:String>14</x:String>
+                            <x:String>15</x:String>
                             <x:String>16</x:String>
                             <x:String>17</x:String>
                             <x:String>18</x:String>
@@ -141,6 +142,7 @@
                     <ListView     
                         x:Name="mokki_lista"
                         ItemTapped="mokki_lista_ItemTapped"
+                        IsEnabled="false"
                         ItemsSource="{Binding Mokkis}">
                             <ListView.Header>
                                 <StackLayout Orientation="Horizontal" Padding="10" >
@@ -183,6 +185,7 @@
 
                         <ListView     
                             x:Name="palvelu_lista"
+                            IsEnabled="false"
                             ItemTapped="palvelu_lista_ItemTapped"
                             ItemsSource="{Binding Palvelus}">
                             <ListView.Header>

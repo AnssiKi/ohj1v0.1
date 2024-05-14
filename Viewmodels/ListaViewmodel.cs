@@ -85,6 +85,18 @@ namespace ohj1v0._1.Viewmodels
             valitutPalvelutIdLista.Clear();
             PalveluidenLkm.Clear();
         }
+
+        public void EiValittu(Palvelu selectedPalvelu,int luku)
+        {
+            Palvelu palvelu = selectedPalvelu;
+            uint palveluId = palvelu.PalveluId;
+            int lukumaara = luku;
+
+            if (lukumaara!=0)
+            {
+                PalveluidenLkm[palveluId] = lukumaara;
+            }
+        }
     }
 
 }

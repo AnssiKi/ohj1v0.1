@@ -120,6 +120,8 @@ public partial class TeeUusiVaraus : ContentPage
                 {//Jos ei oo mökkejä vapaana,ei näytetä mitään
                    mokki_lista.ItemsSource = null; 
                 }
+                mokki_lista.IsEnabled = true;
+                palvelu_lista.IsEnabled = true;
             }
         }
         else
@@ -233,10 +235,7 @@ public partial class TeeUusiVaraus : ContentPage
                 // Päivitä valittujen palveluiden lista
                 listaViewModel.OnItemTapped(selectedPalvelu);
 
-                if (lukumaara <= 0)
-                {
-                await DisplayAlert("Virhe", "Valitse palveluiden lukumäärä","OK"); 
-                }         
+                       
             }
             else
             {
@@ -323,7 +322,7 @@ public partial class TeeUusiVaraus : ContentPage
         };
 
         // Tarkista, onko palvelu valittu ja onko lukumäärä määritelty
-        if (listaViewModel.valitutPalvelutIdLista==null || listaViewModel.valitutPalvelutIdLista.Count == 0 || lukumaara <= 0)
+        if (listaViewModel.valitutPalvelutIdLista==null)
         {
             bool jatkaIlmanPalveluita = await DisplayAlert("Ilmoitus", "Haluatko jatkaa ilman palveluita?", "Kyllä", "Ei");
             if (!jatkaIlmanPalveluita)
@@ -332,6 +331,7 @@ public partial class TeeUusiVaraus : ContentPage
                
             }
             // Jos käyttäjä haluaa jatkaa ilman palveluita, jatketaan ilman palveluiden lisäystä
+           
         }
         else
         {
@@ -339,6 +339,20 @@ public partial class TeeUusiVaraus : ContentPage
             foreach (var palveluId in listaViewModel.valitutPalvelutIdLista)
             {
                 int palvelunLukumaara = listaViewModel.PalveluidenLkm.ContainsKey(palveluId) ? listaViewModel.PalveluidenLkm[palveluId] : 0;
+
+                if (selectedPalvelu != null && palvelunLukumaara <= 0)
+                {
+                    palvelunLukumaara += 1;
+
+                    varauksenTiedot.VarauksenPalveluts.Add(new VarauksenPalvelut
+                    {
+                        PalveluId = palveluId, // Käytetään palvelun ID:tä
+                        Lkm = palvelunLukumaara
+                    });
+
+                    
+                    listaViewModel.EiValittu(selectedPalvelu, palvelunLukumaara);
+                }
                 if (palvelunLukumaara > 0)
                 {
                     varauksenTiedot.VarauksenPalveluts.Add(new VarauksenPalvelut
