@@ -208,7 +208,7 @@
                     <!-- hakukentän aliGrid -->
                     <Grid Grid.Column="0" Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="175"/>
                             <ColumnDefinition Width="400"/>
                         </Grid.ColumnDefinitions>    
                         <Grid.RowDefinitions>
@@ -217,7 +217,6 @@
 
                         <Label
                             Text="Hae alueella"
-                            HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
                             Grid.Column="0"
                             Grid.Row="0"
@@ -225,17 +224,18 @@
                         </Label>
 
                         <Picker
-                             x:Name="hae_alueella"
-                             SelectedIndexChanged="hae_alueella_SelectedIndexChanged"
-                             Grid.Column="1"
-                             Grid.Row="0"
-                             ItemsSource="{Binding Alues}"
-                             ItemDisplayBinding="{Binding Nimi}"
-                             HorizontalOptions="Start"
-                             WidthRequest="200"
-                             MinimumWidthRequest="200"
-                             MaximumWidthRequest="200">
+                            x:Name="hae_alueella"
+                            SelectedIndexChanged="hae_alueella_SelectedIndexChanged"
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            ItemsSource="{Binding Alues}"
+                            ItemDisplayBinding="{Binding Nimi}"
+                            HorizontalOptions="Start"
+                            WidthRequest="200"
+                            MinimumWidthRequest="200"
+                            MaximumWidthRequest="200"> 
                         </Picker>
+
                         <Button
                             x:Name="Hae_alueella_tyhjenna"
                             Text="Tyhjennä" 
@@ -243,7 +243,6 @@
                             Grid.Column="1"
                             Grid.Row="0"
                             HorizontalOptions="End">
-                        
                         </Button>
                         
                     </Grid>

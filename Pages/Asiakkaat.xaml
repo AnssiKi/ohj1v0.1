@@ -218,7 +218,7 @@
 
                     <Grid Grid.Column="0" Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="175"/>
                             <ColumnDefinition Width="400"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -227,11 +227,11 @@
 
                         <Label
                             Text="Hae sukunimellä"
-                            HorizontalTextAlignment="Center"
                             VerticalTextAlignment="Center"
                             Grid.Column="0"
                             Grid.Row="0"
-                            HorizontalOptions="Center"/>      
+                            HorizontalOptions="Center">
+                        </Label>
 
                         <Entry
                             x:Name="hae_sukunimella"
@@ -240,8 +240,9 @@
                             Grid.Column="1"
                             TextChanged="hae_sukunimella_TextChanged"
                             HorizontalOptions="Start"
-                            WidthRequest="200"/>
-
+                            WidthRequest="250">
+                        </Entry>
+                        
                     </Grid>
 
                     <Frame

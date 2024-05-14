@@ -3,26 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ohj1v0._1.Laskut"
              Title="Laskut">
+    
+    <!-- Muokattu näkymää 14052024 KA-->
     <ScrollView>
-        <VerticalStackLayout
+        <HorizontalStackLayout
         Spacing="25"
         Padding="30,0"
-        VerticalOptions="Center">
+        VerticalOptions="Start">
 
-            <Grid>
+            <Grid ColumnSpacing="10">
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="600" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <Grid
-                x:Name="entry_grid"
-                Padding="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                   Padding="10"
+                   x:Name="entry_grid"
+                   VerticalOptions="Start"
+                   HorizontalOptions="Start">
+                   <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="300" />
+                      <ColumnDefinition Width="300" />
+                   </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -46,15 +50,21 @@
                     <Entry                       
                     x:Name="laskuID"
                     Text=""
+                    Grid.Row="1" 
+                    WidthRequest="290"
+                    HorizontalOptions="Start"
                     IsEnabled="False"
-                    Grid.Row="1"/>
+                    />
 
                     <Entry                       
                     x:Name="varausID"
                     Text=""
-                    IsEnabled="False"
                     Grid.Column="1"
-                    Grid.Row="1"/>
+                    Grid.Row="1"
+                    WidthRequest="290"
+                    HorizontalOptions="Start"
+                    IsEnabled="False"
+                    />
 
                     <Label
                     Text="Laskun loppusumma"
@@ -66,8 +76,9 @@
                     Text=""
                     Grid.Row="3"
                     Grid.ColumnSpan="2" 
-                    IsEnabled="False"
-                    HorizontalOptions="FillAndExpand"/>
+                    WidthRequest="590"
+                    HorizontalOptions="Start"
+                    IsEnabled="False"/>
 
                     <Label
                     Text="ALV"
@@ -79,9 +90,10 @@
                     Text=""
                     Grid.Row="5"
                     Grid.ColumnSpan="2" 
-                    IsEnabled="False"
-                    HorizontalOptions="FillAndExpand"/>
-
+                    WidthRequest="590"
+                    HorizontalOptions="Start"  
+                    IsEnabled="False"/>
+                    
                     <Label
                     Text="Maksettu"
                     Margin="0,5,0,0"
@@ -111,10 +123,14 @@
                     Clicked="tyhjenna_Clicked"/>
 
                 </Grid>
+                
+                <!-- Listviewin grid-->
 
                 <Grid
                 Grid.Column="1"
-                Padding="10">
+                Padding="10"
+                VerticalOptions="Start"
+                HorizontalOptions="Start">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -124,26 +140,31 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Label
-                    Text="Hae päivämäärällä"
-                    HorizontalTextAlignment="Center"
-                    VerticalTextAlignment="Center"/>
-
-                    <DatePicker
-                        x:Name="hakupvm"
-                        Grid.Column="1"
-                        DateSelected="hakupvm_DateSelected"/>
-
-                    <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                    <Grid Grid.Column="0" Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="175"/>
+                            <ColumnDefinition Width="400"/>
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                        <Label Text="ID" FontSize="16" HorizontalOptions="Center" />
-                        <Label Text="Summa" Grid.Column="1" FontSize="20" HorizontalOptions="Center"/>
-                        <Label Text="Maksettu" Grid.Column="2" FontSize="16" HorizontalOptions="Center" />
+                        <Label
+                            Text="Hae päivämäärällä"
+                            VerticalTextAlignment="Center"
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            HorizontalOptions="Center">
+                        </Label>
+
+                        <DatePicker
+                            x:Name="hakupvm"
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            WidthRequest="200"
+                            HorizontalOptions="Start"
+                            DateSelected="hakupvm_DateSelected">
+                        </DatePicker>
 
                     </Grid>
 
@@ -151,7 +172,7 @@
                     BorderColor="Black"
                     CornerRadius="2"
                     Padding="5"
-                    Margin="95,50,0,0"
+                    Margin="0,10,0,0"
                     Grid.Row="1"
                     Grid.ColumnSpan="2" 
                     HorizontalOptions="FillAndExpand">
@@ -160,14 +181,20 @@
                         x:Name="lista"
                         ItemTapped="lista_ItemTapped"
                         ItemsSource="{Binding Laskut}">
+                            <ListView.Header>
+                                <StackLayout Orientation="Horizontal" Padding="10">
+                                    <Label Text="ID" WidthRequest="50" FontAttributes="Bold"/>
+                                    <Label Text="Summa" WidthRequest="125" FontAttributes="Bold"/>
+                                    <Label Text="Maksettu" WidthRequest="100" FontAttributes="Bold"/>
+                                </StackLayout>
+                            </ListView.Header>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand"
-                                                     Spacing="200">
-                                            <Label Text="{Binding LaskuId}" FontSize="16" HorizontalTextAlignment="Start" />
-                                            <Label Text="{Binding Summa, StringFormat='{0:C}'}" FontSize="16" HorizontalTextAlignment="Center" />
-                                            <Label Text="{Binding Maksettu}" FontSize="16" HorizontalTextAlignment="End"/>
+                                        <StackLayout Orientation="Horizontal" Padding="10">
+                                            <Label Text="{Binding LaskuId}" WidthRequest="50" />
+                                            <Label Text="{Binding Summa, StringFormat='{0:C}'}" WidthRequest="125"/>
+                                            <Label Text="{Binding Maksettu}" WidthRequest="100"/>
                                         </StackLayout>
                                     </ViewCell>
                                 </DataTemplate>
@@ -180,6 +207,6 @@
 
 
             </Grid>
-        </VerticalStackLayout>
+        </HorizontalStackLayout>
     </ScrollView>
 </ContentPage>

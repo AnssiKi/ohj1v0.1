@@ -89,7 +89,7 @@
                     <!-- hakukentän aligrid-->
                     <Grid Grid.Column="0" Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="175"/>
                             <ColumnDefinition Width="400"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
@@ -97,12 +97,12 @@
                         </Grid.RowDefinitions>
 
                         <Label
-                           Text="Hae alueen nimellä"
-                           HorizontalTextAlignment="Center"
+                           Text="Hae alueen nimellä"                          
                            VerticalTextAlignment="Center"
                            Grid.Column="0"
                            Grid.Row="0"                   
                            HorizontalOptions="Center"
+                           
                         />
                            
 
@@ -113,7 +113,8 @@
                             Grid.Column="1"
                             TextChanged="Hae_alue_nimi_TextChanged"
                             HorizontalOptions="Start"
-                            WidthRequest="200"/>
+                            WidthRequest="200"
+                            />
 
                         
                     </Grid>

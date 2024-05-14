@@ -270,23 +270,24 @@
                      <!-- Hakukentän aligrid-->
                     <Grid Grid.Column="0" Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="175"/>
                             <ColumnDefinition Width="400"/>
                         </Grid.ColumnDefinitions>
                         <Label
                         Grid.Column="0"
                         HorizontalOptions="Center"
                         Text="Hae mökin nimellä"
-                        HorizontalTextAlignment="Center"
-                        VerticalTextAlignment="Center"/>
+                        VerticalTextAlignment="Center">
+                        </Label>
 
                         <Entry
                         x:Name="hae_nimella"
                         Text=""
-                        HorizontalOptions="Center" 
-                        WidthRequest="390"
+                        HorizontalOptions="Start" 
+                        WidthRequest="250"
                         Grid.Column="1"
-                        TextChanged="hae_nimella_TextChanged"/>
+                        TextChanged="hae_nimella_TextChanged">
+                        </Entry>
                     </Grid>
                 
                 

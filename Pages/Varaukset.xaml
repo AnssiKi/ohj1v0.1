@@ -3,26 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ohj1v0._1.Varaukset"
              Title="Varaukset">
+    
+    <!-- Muokattu näkymää 14052024 KA-->
+    
     <ScrollView>
-        <VerticalStackLayout
+        <HorizontalStackLayout
          Spacing="25"
          Padding="30,0"
-         VerticalOptions="Center"
+         VerticalOptions="Start"
             x:Name="VerticalStack">
 
-            <Grid>
+            <Grid ColumnSpacing="10">
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="600" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-
+                
+                <!-- Syöttökenttien grid -->
                 <Grid
                     Padding="10"
-                    x:Name="entry_grid">
+                    x:Name="entry_grid"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="300" />
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
@@ -51,14 +57,18 @@
 
                     <Frame
                         Grid.Row="1"
-                        CornerRadius="5"/>
+                        CornerRadius="5"
+                        HorizontalOptions="Start"
+                        WidthRequest="100"
+                        HeightRequest="44"/>
 
                     <Label                        
                     x:Name="id"
                     Text=""
+                    Grid.Row="1"
                     Padding="10"
-                    VerticalTextAlignment="Center"
-                    Grid.Row="1"/>
+                    VerticalTextAlignment="Center"/>
+                   
 
                     <Label
                         Text="Alue"
@@ -69,9 +79,11 @@
                         x:Name="alue_nimi"
                         Grid.Column="1"
                         Grid.Row="1"
+                        SelectedIndexChanged="alue_nimi_SelectedIndexChanged"
+                        WidthRequest="200"
+                        HorizontalOptions="Start"
                         ItemsSource="{Binding Alues}"
-                        ItemDisplayBinding="{Binding Nimi}"
-                        SelectedIndexChanged="alue_nimi_SelectedIndexChanged">
+                        ItemDisplayBinding="{Binding Nimi}">
                     </Picker>
 
                     <Label
@@ -81,12 +93,13 @@
 
                     <Entry
                          x:Name="etunimi"
-                         Text=""
-                        MaxLength="20"
-                        TextChanged="etunimi_TextChanged"
+                         MaxLength="20"
+                         Text=""   
                          Grid.Row="3"
                          Grid.Column="0" 
-                         HorizontalOptions="FillAndExpand"
+                         WidthRequest="290"
+                         HorizontalOptions="Start"
+                         TextChanged="etunimi_TextChanged"
                          IsReadOnly="True"/>
 
                     <Label
@@ -97,12 +110,13 @@
 
                     <Entry
                          x:Name="sukunimi"
+                         MaxLength="40"
                          Text=""
-                        MaxLength="40"
-                        TextChanged="sukunimi_TextChanged"
                          Grid.Row="3"
-                         Grid.Column="1" 
-                         HorizontalOptions="FillAndExpand"
+                         Grid.Column="1"   
+                         WidthRequest="290"
+                         HorizontalOptions="Start"
+                         TextChanged="sukunimi_TextChanged"
                          IsReadOnly="True"/>
 
                     <Label
@@ -112,12 +126,13 @@
 
                     <Entry
                          x:Name="puhelinnumero"
+                         MaxLength="15"
                          Text=""
-                        MaxLength="15"
                          Grid.Row="5"
-                        TextChanged="puhelinnumero_TextChanged"
                          Grid.ColumnSpan="2" 
-                         HorizontalOptions="FillAndExpand"
+                         WidthRequest="590"    
+                         HorizontalOptions="Start"
+                         TextChanged="puhelinnumero_TextChanged"
                          IsReadOnly="True"/>
 
                     <Label
@@ -127,12 +142,13 @@
                     
                     <Entry
                         x:Name="sahkoposti"
-                        Text=""
                         MaxLength="50"
-                        TextChanged="sahkoposti_TextChanged"
+                        Text=""
                         Grid.Row="7"
-                        Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"
+                        Grid.ColumnSpan="2"
+                        WidthRequest="590"
+                        HorizontalOptions="Start"
+                        TextChanged="sahkoposti_TextChanged"
                         IsReadOnly="True"/>
 
                     <Label
@@ -143,42 +159,46 @@
 
                     <Picker 
                         x:Name="mokin_nimi"
-                        Grid.Row="9"
-                        Grid.ColumnSpan="2" 
-                        HorizontalOptions="FillAndExpand"
+                        Grid.Row="9" 
+                        WidthRequest="290"
+                        HorizontalOptions="Start"
                         ItemsSource="{Binding Mokkis}"
                         ItemDisplayBinding="{Binding Mokkinimi}"
                         SelectedIndexChanged="mokin_nimi_SelectedIndexChanged"/>
 
                     <Label
-                          Text="Postinumero"
-                          Margin="0,5,0,0"
-                          Grid.Row="10"
-                          Grid.Column="0"/>
+                        Text="Postinumero"
+                        Margin="0,5,0,0"
+                        Grid.Row="10"
+                        Grid.Column="0"/>
 
                     <Entry
-                          x:Name="postinumero"
-                          Text=""
+                        x:Name="postinumero"
                         MaxLength="5"
-                        TextChanged="postinumero_TextChanged"
-                          Grid.Row="11"
-                          Grid.Column="0" 
+                        Text=""
+                        Grid.Row="11"
+                        Grid.Column="0"
+                        WidthRequest="290"
+                        HorizontalOptions="Start"
+                        TextChanged="postinumero_TextChanged"            
                         IsEnabled="False"
-                         IsReadOnly="True"/>
+                        IsReadOnly="True"/>
 
                     <Label
-                         Text="Paikkakunta"
-                         Grid.Column="1"
-                         Grid.Row="10"
-                         Margin="0,5,0,0"/>
+                        Text="Paikkakunta"
+                        Grid.Column="1"
+                        Grid.Row="10"
+                        Margin="0,5,0,0"/>
 
                     <Entry
-                         x:Name="paikkakunta"
-                         Text=""
+                        x:Name="paikkakunta"
+                        Text=""
+                        Grid.Column="1"
+                        Grid.Row="11"
+                        WidthRequest="290"
+                        HorizontalOptions="Start"
                         TextChanged="paikkakunta_TextChanged"
-                         Grid.Column="1"
-                         Grid.Row="11"
-                         IsEnabled="False"
+                        IsEnabled="False"
                         IsReadOnly="True"/>
 
                     <Label
@@ -188,10 +208,10 @@
                         Margin="0,5,0,0"/>
 
                     <DatePicker
-                            Grid.Row="13"
-                            Grid.Column="0"
-                            x:Name="alkupvm"
-                            DateSelected="alkupvm_DateSelected"/>
+                        x:Name="alkupvm"
+                        Grid.Row="13"
+                        Grid.Column="0"
+                        DateSelected="alkupvm_DateSelected"/>
 
                     <Label
                         Text="Loppu pvm:"
@@ -200,9 +220,9 @@
                         Margin="0,5,0,0"/>
 
                     <DatePicker
+                        x:Name="loppupvm"
                         Grid.Row="13"
                         Grid.Column="1"
-                        x:Name="loppupvm"
                         DateSelected="loppupvm_DateSelected"/>
 
                     <Label
@@ -212,10 +232,10 @@
                         Margin="0,5,0,0"/>
 
                     <DatePicker
-                            Grid.Row="15"
-                            Grid.Column="0"
-                            x:Name="vahvistuspvm"
-                            DateSelected="vahvistuspvm_DateSelected"/>
+                        x:Name="vahvistuspvm"
+                        Grid.Row="15"
+                        Grid.Column="0"
+                        DateSelected="vahvistuspvm_DateSelected"/>
 
                     <Label
                         Text="Varaus pvm:"
@@ -224,10 +244,12 @@
                         Margin="0,5,0,0"/>
 
                     <Entry
-                        Text="" 
                         x:Name="varauspvm"
+                        Text=""                    
                         Grid.Row="15"
                         Grid.Column="1"
+                        WidthRequest="290"
+                        HorizontalOptions="Start"
                         IsReadOnly="True"/>
 
                     <Button
@@ -259,10 +281,13 @@
                          Grid.Column="1"
                          Clicked="muodostalasku_Clicked"/>
                  </Grid>
-
+                              
+                <!-- Listviewin grid -->
                 <Grid
-                     Grid.Column="1"
-                     Padding="10">
+                Grid.Column="1"
+                Padding="10"
+                VerticalOptions="Start"
+                HorizontalOptions="Start">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -273,21 +298,46 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Label
-                         Text="Hae varauksen alku päivämäärällä"
-                         HorizontalTextAlignment="Center"
-                         VerticalTextAlignment="Center"/>
+                    <!-- hakukentän aliGrid -->
+                    <Grid Grid.Column="0" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="175"/>
+                            <ColumnDefinition Width="400"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                    <DatePicker
-                        x:Name="hae_varaukset"
-                        DateSelected="hae_varaukset_DateSelected"
-                        Grid.Column="1"/>
+                        <Label
+                            Text="Hae alkupvm"
+                            VerticalTextAlignment="Center"
+                            Grid.Column="0"
+                            Grid.Row="0"
+                            HorizontalOptions="Center">
+                        </Label>
 
-                    <Button
+                        <DatePicker
+                            x:Name="hae_varaukset"
+                            DateSelected="hae_varaukset_DateSelected"
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            HorizontalOptions="Start"
+                            WidthRequest="200"
+                            MinimumWidthRequest="200"
+                            MaximumWidthRequest="200">
+                        </DatePicker>
+
+                        <Button
                             x:Name="Hae_varaukset_tyhjenna"
                             Text="Tyhjennä"
                             Clicked="Hae_varaukset_tyhjenna_Clicked"
-                            Grid.Column="2"/>
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            HorizontalOptions="End">
+                        </Button>
+
+                    </Grid>
+                
                     <Frame
                          BorderColor="Black"
                          CornerRadius="2"
@@ -304,7 +354,7 @@
                             ItemsSource="{Binding Varaukset}">
                             <ListView.Header>
                                 <StackLayout Orientation="Horizontal" Padding="10">
-                                    <Label Text="Id" WidthRequest="50" FontAttributes="Bold"/>
+                                    <Label Text="ID" WidthRequest="50" FontAttributes="Bold"/>
                                     <Label Text="Sukunimi" WidthRequest="125" FontAttributes="Bold"/>
                                     <Label Text="Mokin nimi" WidthRequest="125" FontAttributes="Bold"/>
                                     <Label Text="Varaus alku" WidthRequest="125" FontAttributes="Bold"/>
@@ -330,6 +380,6 @@
 
 
             </Grid>
-        </VerticalStackLayout>
+        </HorizontalStackLayout>
     </ScrollView>
 </ContentPage>

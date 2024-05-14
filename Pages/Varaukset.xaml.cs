@@ -444,4 +444,11 @@ public partial class Varaukset : ContentPage
             varauspvm.Text = selectedVaraus.VarattuPvm.Value.ToString("dd.MM.yyyy");
         }     
     }
+
+    private void TyhjennaFunktio()
+    {
+        Grid grid = (Grid)entry_grid;
+        ListView list = (ListView)lista;
+        funktiot.TyhjennaEntryt(grid, list);
+    }
 }

@@ -3,24 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ohj1v0._1.Raportit"
              Title="Raportit">
+    
+    <!-- muokattu näkymää 14052024 KA -->
     <ScrollView>
-        <VerticalStackLayout
+        <HorizontalStackLayout
             Spacing="25"
             Padding="30,0"
-            VerticalOptions="Center">
+            VerticalOptions="Start">
 
-            <Grid>
+            <Grid ColumnSpacing="10">
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="600" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
+                <!-- Syöttökenttien grid -->
                 <Grid
-                    Padding="10">
+                    Padding="10"
+                    x:Name="entry_grid"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Start">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="300" />
+                        <ColumnDefinition Width="300" />
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
@@ -36,7 +42,10 @@
 
                     <Picker 
                         x:Name="raportti_valinta" 
-                        Grid.Row="1">
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        WidthRequest="290"
+                        HorizontalOptions="Start">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
                                 <x:String>Majoitus</x:String>
@@ -53,6 +62,8 @@
                      x:Name="alue_nimi" 
                      Grid.Column="1"
                      Grid.Row="1"
+                     WidthRequest="290"
+                     HorizontalOptions="Start"
                      SelectedIndexChanged="alue_nimi_SelectedIndexChanged"
                      ItemsSource="{Binding Alues}"
                      ItemDisplayBinding="{Binding Nimi}">
@@ -90,31 +101,57 @@
 
                 </Grid>
 
-                <Frame                    
+                <!-- listviewin grid -->
+                <Grid
+                Grid.Column="1"
+                Padding="10"
+                VerticalOptions="Start"
+                HorizontalOptions="Start">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="44"/>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Frame                    
                     BorderColor="Black"
                     CornerRadius="2"
                     Padding="5"
                     Margin="0,10,0,0"
-                    Grid.Column="1"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
                     HorizontalOptions="FillAndExpand">
 
-                    <ListView x:Name="lista">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout Orientation="Horizontal" Padding="10">
+                        <ListView x:Name="lista">
+                            <ListView.Header>
+                                <StackLayout Orientation="Horizontal" Padding="10">
+                                    <Label Text="Tyyppi" WidthRequest="100" FontAttributes="Bold"/>
+                                    <Label Text="Alue" WidthRequest="100" FontAttributes="Bold"/>
+                                    <Label Text="Alkupvm" WidthRequest="100" FontAttributes="Bold"/>
+                                    <Label Text="Loppupvm" WidthRequest="100" FontAttributes="Bold"/>
+                                    <Label Text="Määrä" WidthRequest="100" FontAttributes="Bold"/>
+                                </StackLayout>
+                            </ListView.Header>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal" Padding="10">
                                             <Label Text="{Binding Raporttityyppi}" WidthRequest="100" />
                                             <Label Text="{Binding Alue}" WidthRequest="100" />
                                             <Label Text="{Binding Alkupvm, StringFormat='{0:dd.MM.yyyy}'}" WidthRequest="100" />
                                             <Label Text="{Binding Loppupvm, StringFormat='{0:dd.MM.yyyy}'}" WidthRequest="100" />
                                             <Label Text="{Binding Yhteensa}" WidthRequest="100" />
                                         </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Frame>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Frame>
+                </Grid>
             </Grid>
-        </VerticalStackLayout>
+        </HorizontalStackLayout>
     </ScrollView>
 </ContentPage>

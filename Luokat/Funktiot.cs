@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using iText.Layout.Element;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ohj1v0._1.Models;
 using System;
 using System.Collections;
@@ -214,5 +215,8 @@ namespace ohj1v0._1.Luokat
                 VarauksenPalveluts = new List<VarauksenPalvelut>()
             };
         }
+
+       
+
     }
 }
