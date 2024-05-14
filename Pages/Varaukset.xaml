@@ -160,7 +160,6 @@
                     <Picker 
                         x:Name="mokin_nimi"
                         Grid.Row="9" 
-                        WidthRequest="290"
                         HorizontalOptions="Start"
                         ItemsSource="{Binding Mokkis}"
                         ItemDisplayBinding="{Binding Mokkinimi}"

@@ -76,8 +76,7 @@
                     x:Name="alue_nimi" 
                     Grid.Column="1"
                     Grid.Row="1"
-                    SelectedIndexChanged="alue_nimi_SelectedIndexChanged"
-                    WidthRequest="200"
+                    SelectedIndexChanged="alue_nimi_SelectedIndexChanged"                   
                     HorizontalOptions="Start"
                     ItemsSource="{Binding Alues}"
                     ItemDisplayBinding="{Binding Nimi}">                        

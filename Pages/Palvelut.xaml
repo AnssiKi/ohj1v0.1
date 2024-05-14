@@ -73,7 +73,6 @@
                     Grid.Column="1"
                     Grid.Row="1"                        
                     SelectedIndexChanged="alue_nimi_SelectedIndexChanged"
-                    WidthRequest="200"
                     HorizontalOptions="Start"
                     ItemsSource="{Binding Alues}"
                     ItemDisplayBinding="{Binding Nimi}">
@@ -139,7 +138,6 @@
                     <Picker 
                     x:Name="palvelu_alv" 
                     Grid.Row="9"
-                    WidthRequest="200"
                     HorizontalOptions="Start"
                     SelectedIndexChanged="palvelu_hinta_laskealv">
                         <Picker.ItemsSource>
@@ -230,10 +228,7 @@
                             Grid.Row="0"
                             ItemsSource="{Binding Alues}"
                             ItemDisplayBinding="{Binding Nimi}"
-                            HorizontalOptions="Start"
-                            WidthRequest="200"
-                            MinimumWidthRequest="200"
-                            MaximumWidthRequest="200"> 
+                            HorizontalOptions="Start">
                         </Picker>
 
                         <Button

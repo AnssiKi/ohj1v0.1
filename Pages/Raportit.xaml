@@ -44,7 +44,6 @@
                         x:Name="raportti_valinta" 
                         Grid.Row="1"
                         Grid.Column="0"
-                        WidthRequest="290"
                         HorizontalOptions="Start">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
@@ -62,7 +61,6 @@
                      x:Name="alue_nimi" 
                      Grid.Column="1"
                      Grid.Row="1"
-                     WidthRequest="290"
                      HorizontalOptions="Start"
                      SelectedIndexChanged="alue_nimi_SelectedIndexChanged"
                      ItemsSource="{Binding Alues}"
