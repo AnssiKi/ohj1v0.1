@@ -89,7 +89,7 @@ public partial class Laskut : ContentPage
             {
                 var palvelutInfo = new iTextLOElement.Paragraph($"{lp.Nimi}\n"+
                     $"Hinta sis. {lp.Alv}% alv: \n"+
-                    $"{lp.HintaAlv}€"+
+                    $"{lp.HintaAlv}€\n"+
                     $"_______________")
                     .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
                     .SetFontSize (12);

@@ -103,7 +103,7 @@ public partial class Varaukset : ContentPage
                 var palvelu = p.Nimi;
                 var palvelutInfo = new iTextLOElement.Paragraph($"{p.Nimi}\n+" +
                 $"Hinta sis {p.Alv}% alv: {p.HintaAlv}€\n"+
-                $"_______________")
+                $"_______________\n")
                 .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
                 .SetFontSize(12);
                 document.Add(palvelutInfo);
@@ -140,7 +140,7 @@ public partial class Varaukset : ContentPage
         byte[] pdfData = memoryStream.ToArray();
         using var stream = new MemoryStream(pdfData);
 
-        var fileSaveResult = await FileSaver.Default.SaveAsync("sample.pdf", "Lasku_varaus_" +
+        var fileSaveResult = await FileSaver.Default.SaveAsync("sample.pdf", "Lasku_varaus_0" +
             selectedVaraus.VarausId.ToString() + ".pdf", stream);
 
         if (fileSaveResult.IsSuccessful)
