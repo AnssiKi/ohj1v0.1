@@ -9,7 +9,7 @@ public partial class Laskut : ContentPage
     readonly LaskuViewmodel laskuViewmodel = new LaskuViewmodel();
 
     Lasku selectedLasku;
-    VnContext context;
+    VnContext context = new VnContext();
     Funktiot funktiot;
 
     bool isUserCheckChange = true; //pit‰‰ kirjaa siit‰ onko checkboxiin tehty muutos k‰ytt‰j‰- vai ohjelmaper‰inen

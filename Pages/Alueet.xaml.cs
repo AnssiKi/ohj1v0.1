@@ -140,12 +140,7 @@ public partial class Alueet : ContentPage
                 await DisplayAlert("Virhe", "Alue on jo käytössä, sitä ei voi poistaa.", "OK");
             }
 
-        }
-        else
-        {
-            // Jos käyttäjä valitsee "Ei", peruutetaan toiminto
-            // Tähän ei oo pakko laittaa mitää kerta se ei haluakkaa poistaa.
-        }
+        }return;
     }
 
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -157,7 +152,6 @@ public partial class Alueet : ContentPage
 
         var selectedAlue = (Alue)e.Item;
         alue_nimi.Text = selectedAlue.Nimi;
-
     }
     
     private void alue_nimi_TextChanged(object sender, TextChangedEventArgs e)
@@ -189,6 +183,4 @@ public partial class Alueet : ContentPage
         ListView list = (ListView)lista;
         funktiot.TyhjennaEntryt(grid, list);
     }
-
- 
 }
