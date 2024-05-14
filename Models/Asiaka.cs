@@ -22,4 +22,6 @@ public partial class Asiaka
     public virtual Posti PostinroNavigation { get; set; } = null!;
 
     public virtual ICollection<Varau> Varaus { get; set; } = new List<Varau>();
+
+    public string PnTp => $"{Postinro} {PostinroNavigation.Toimipaikka}";   
 }

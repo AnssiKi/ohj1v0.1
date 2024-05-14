@@ -3,23 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ohj1v0._1.Vanha_asiakas"
              Title="Vanha asiakas">
-    <VerticalStackLayout
+    <HorizontalStackLayout
         Spacing="25"
         Padding="30,0"
-        VerticalOptions="Center">
+        VerticalOptions="Start">
 
-        <Grid>
+        <Grid ColumnSpacing="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="3*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
+                
+            <!-- syöttökenttien grid-->
             <Grid
-                Grid.Column="1"
-                x:Name="entry_grid">
+                Padding="10"
+                x:Name="entry_grid"
+                VerticalOptions="Start"
+                HorizontalOptions="Start">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="300" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
@@ -32,21 +35,20 @@
 
 
                 <Label
-                    Text="Valitse asiakas"
-                    Margin="0,0,0,10"
-                    Grid.ColumnSpan="2"
-                    HorizontalOptions="Center"/>
+                    Text="Valitse asiakas"/>
+                  
 
                 <Label
                     Text="Hae sukunimellä"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
                     Grid.Row="1"/>
 
                 <Entry
                     Grid.Column="1"
                     Grid.Row="1"
                     x:Name="hae_sukunimella"
+                    HorizontalOptions="Start"
+                    WidthRequest="290"
                     TextChanged="hae_sukunimella_TextChanged"/>
 
                 <Frame
@@ -63,15 +65,26 @@
                         x:Name="lista"
                         ItemTapped="lista_ItemTapped"
                          ItemsSource="{Binding Asiakas}">
+                        <ListView.Header>
+                            <StackLayout Orientation="Horizontal" Padding="10">
+                                <Label Text="ID" WidthRequest="50" FontAttributes="Bold"/>
+                                <Label Text="Sukunimi" WidthRequest="125" FontAttributes="Bold"/>
+                                <Label Text="Etunimi" WidthRequest="125" FontAttributes="Bold"/>
+                                <Label Text="lähiosoite" WidthRequest="150" FontAttributes="Bold"/>
+                                <Label Text="Postinro ja toimipaikka" WidthRequest="200" FontAttributes="Bold"/>
+                                <Label Text="Puhelinnumero" WidthRequest="125" FontAttributes="Bold"/>
+                            </StackLayout>
+                        </ListView.Header>
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
                                     <StackLayout Orientation="Horizontal" Padding="10">
-                                        <Label Text="{Binding AsiakasId}" WidthRequest="20"/>
-                                        <Label Text="{Binding Sukunimi}" WidthRequest="100"/>
-                                        <Label Text="{Binding Etunimi}" WidthRequest="100"/>
+                                        <Label Text="{Binding AsiakasId}" WidthRequest="50"/>
+                                        <Label Text="{Binding Sukunimi}" WidthRequest="125"/>
+                                        <Label Text="{Binding Etunimi}" WidthRequest="125"/>
                                         <Label Text="{Binding Lahiosoite}" WidthRequest="150"/>
-                                        <Label Text="{Binding Puhelinnro}" WidthRequest="100"/>
+                                        <Label Text="{Binding PnTn}" WidthRequest="200" />
+                                        <Label Text="{Binding Puhelinnro}" WidthRequest="150"/>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>
@@ -90,6 +103,6 @@
                    Clicked="tallenna_Clicked"/>
             </Grid>
         </Grid>
-    </VerticalStackLayout>
+    </HorizontalStackLayout>
 
 </ContentPage>

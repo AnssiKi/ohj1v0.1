@@ -1,29 +1,32 @@
-using Microsoft.Maui.ApplicationModel.Communication;
 using ohj1v0._1.Luokat;
-using ohj1v0._1.Viewmodels;
 using ohj1v0._1.Models;
-using System.ComponentModel;
+using ohj1v0._1.Viewmodels;
 
 namespace ohj1v0._1;
 
 public partial class Vanha_asiakas : ContentPage
 {
     private VarauksenTiedot varauksenTiedot;
-    AsiakasViewmodel asiakasviewmodel;
+    /*AsiakasViewmodel asiakasviewmodel;
     VarausViewmodel varausViewmodel;
     ListaViewModel listaViewModel;
-    Funktiot funktiot;
+    Funktiot funktiot;*/
     Asiaka selectedAsiakas;
     bool valittu = false;
     private CancellationTokenSource _cts;
-    public Vanha_asiakas(TeeUusiVaraus tuv,VarauksenTiedot tiedot)
-	{
-		InitializeComponent();
+    public Vanha_asiakas(TeeUusiVaraus tuv, VarauksenTiedot tiedot)
+    {
+        InitializeComponent();
         BindingContext = asiakasviewmodel;
         varauksenTiedot = tiedot;
         this.BindingContext = tuv;
     }
-    
+
+    Funktiot funktiot = new Funktiot();
+    AsiakasViewmodel asiakasviewmodel = new AsiakasViewmodel();
+    VarausViewmodel varausViewmodel = new VarausViewmodel();
+    ListaViewModel listaViewModel = new ListaViewModel();
+
     private async void hae_sukunimella_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (_cts != null)
@@ -72,7 +75,7 @@ public partial class Vanha_asiakas : ContentPage
         }
     }
     private async void tallenna_Clicked(object sender, EventArgs e)
-    { 
+    {
         if (valittu) // listasta on valittu asiakas
         {
             try
@@ -120,6 +123,6 @@ public partial class Vanha_asiakas : ContentPage
             {
                 await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
             }
-        }       
-    }   
+        }
+    }
 }

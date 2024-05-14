@@ -47,7 +47,7 @@ public partial class TeeUusiVaraus : ContentPage
 
             if (!mokitValitullaAlueella.Any()) //Jos alueella ei ole mökkejä
             {
-                await DisplayAlert("Tällä alueella ei ole vielä mökkejä", "Valitse uusi alue", "OK!");
+                await DisplayAlert("Ilmoitus", "Alueella ei ole mökkejä", "OK!");
             }
             else
             {
@@ -55,7 +55,7 @@ public partial class TeeUusiVaraus : ContentPage
 
                 if (!palvelutValitullaAlueella.Any()) //Jos alueella ei ole palveluita
                 {
-                    await DisplayAlert("Valitulla alueella ei ole saatavilla palveluita.", "Voit kuitenkin vuokrata mökin tai halutessasi palveluita vaihtaa aluetta", "OK!");
+                    await DisplayAlert("Ilmoitus", "Alueella ei ole  tarjolla palveluita", "OK!");
                 }
                 else
                 {
@@ -72,7 +72,7 @@ public partial class TeeUusiVaraus : ContentPage
         {
             if (alkupaiva.Value < DateTime.Now)
             {
-                await DisplayAlert("Aloituspäivämäärä tulee olla aikaisintaan tänään", "Valitse uusi päivämäärä", "OK!");
+                await DisplayAlert("Ilmoitus", "Aloituspäivämäärä tulee olla aikaisintaan tänään", "OK!");
             }
         }
     }
@@ -91,7 +91,7 @@ public partial class TeeUusiVaraus : ContentPage
             }
             else if (alkupaiva.Value == loppupaiva.Value)
             {
-                await DisplayAlert("Minimi vuokrausaika 1vrk", "Valitse uusi loppu päivämäärä", "OK!");
+                await DisplayAlert("Ilmoitus", "Minimi vuokrausaika 1vrk. Valitse uusi loppu päivämäärä", "OK");
 
             }
             if ((Alue)alue_nimi.SelectedItem != null)
@@ -124,7 +124,7 @@ public partial class TeeUusiVaraus : ContentPage
         }
         else
         {
-            await DisplayAlert("Valitse myös aloituspäivä ", "nämä tiedot ovat pakollisia", "OK!");
+            await DisplayAlert("Ilmoitus", "Valitse aloituspäivämääärä, nämä tiedot ovat pakollisia", "OK");
         }
     }
     private async void henkilomaara_SelectedIndexChanged(object sender, EventArgs e)
@@ -149,7 +149,7 @@ public partial class TeeUusiVaraus : ContentPage
             if (!filteredMokit.Any())
             {
                 //Jos alueella ei ole vapaana mökkejä, annetaan alert
-                await DisplayAlert("Valitettavasti alueella ei ole mökkejä vapaana valittuna ajankohtana", "vaihda päivämääriä", "OK!");
+                await DisplayAlert("Ilmoitus", "Valitettavasti alueella ei ole mökkejä vapaana valittuna ajankohtana", "OK!");
                 mokki_lista.ItemsSource = null;
             }
 
@@ -160,7 +160,7 @@ public partial class TeeUusiVaraus : ContentPage
         }
         else
         {
-            await DisplayAlert("Valitse ensin alue ja päivämäärät,jolloin haluaisit vuokrata mökin", "", "OK!");
+            await DisplayAlert("Ilmoitus", "Valitse ensin alue ja päivämäärät,jolloin haluaisit vuokrata mökin", "OK!");
 
         }
 
@@ -193,7 +193,7 @@ public partial class TeeUusiVaraus : ContentPage
                 .ToList();
             if (mokin_varaukset.Any())
             {//Jos mökillä on varauksia kyseisenä aikana ja vahingossa päässy näkymään yritetään napata se tällä
-                await DisplayAlert("Mökki varattuna valittuna ajankohtana","Vaihda mökkiä tai vuokrausaikaa","OK!");
+                await DisplayAlert("Ilmoitus","Mökki on varattuna halutulla ajankohdalla, valitse eri mökki","OK!");
                 selectedMokki = null;
             }
             else
@@ -218,7 +218,7 @@ public partial class TeeUusiVaraus : ContentPage
         }
         else 
         {
-            await DisplayAlert("Valitse ensin palvelu","Sen jälkeen voit antaa lukumäärän","OK!");
+            await DisplayAlert("Ilmoitus","Valitse ensin palvelu, sen jälkeen lukumäärä","OK!");
         }
         entry.TextChanged += (sender, e) =>
         {
@@ -235,7 +235,7 @@ public partial class TeeUusiVaraus : ContentPage
 
                 if (lukumaara <= 0)
                 {
-                await DisplayAlert("Valitse myös lukumäärä", "Voit ottaa useamman palvelun samaa halutessasi","OK!"); 
+                await DisplayAlert("Virhe", "Valitse palveluiden lukumäärä","OK"); 
                 }         
             }
             else
@@ -270,7 +270,7 @@ public partial class TeeUusiVaraus : ContentPage
         else
         {
             //Jos ei valinnu mökkiä ni ei päästetä etenemään
-            await DisplayAlert("No pittäähän se mökkiki valita jos meinasit mökille mennä", "", "OK!");
+            await DisplayAlert("Virhe", "Mökkiä ei ole valittu", "OK!");
         }
     }
 
@@ -295,7 +295,7 @@ public partial class TeeUusiVaraus : ContentPage
         }
         else
         {   //Ei päästetä jatkamaan jos ei valinnu mökkiä
-            await DisplayAlert("No pittäähän se mökkiki valita jos meinasit mökille mennä", "", "OK!");
+            await DisplayAlert("Virhe", "Mökkiä ei ole valittu", "OK!");
         }
     }
 
@@ -325,7 +325,7 @@ public partial class TeeUusiVaraus : ContentPage
         // Tarkista, onko palvelu valittu ja onko lukumäärä määritelty
         if (listaViewModel.valitutPalvelutIdLista==null || listaViewModel.valitutPalvelutIdLista.Count == 0 || lukumaara <= 0)
         {
-            bool jatkaIlmanPalveluita = await DisplayAlert("Palveluita ei valittu", "Haluatko jatkaa ilman palveluita?", "Kyllä", "Ei");
+            bool jatkaIlmanPalveluita = await DisplayAlert("Ilmoitus", "Haluatko jatkaa ilman palveluita?", "Kyllä", "Ei");
             if (!jatkaIlmanPalveluita)
             {
                 return null; // Jos käyttäjä ei halua jatkaa ilman palveluita, palauta null
