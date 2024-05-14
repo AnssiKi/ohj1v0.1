@@ -18,5 +18,4 @@ namespace ohj1v0._1.Models
         public ICollection<VarauksenPalvelut> VarauksenPalveluts { get; set; } = new List<VarauksenPalvelut>();
 
     }
-  
 }
