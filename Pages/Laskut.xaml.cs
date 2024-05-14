@@ -103,7 +103,8 @@ public partial class Laskut : ContentPage
         $"Pankkiyhteys: HVKVG\n" +
         $"Viite: " +
         selectedLasku.VarausId+"\n"+
-        $"Lasku on tulostettu Lasku -taulusta")
+        $"Laskun p‰iv‰m‰‰r‰: " + DateTime.Now.ToString("d") +
+        $"\nLaskun er‰p‰iv‰: " + DateTime.Now.AddDays(14).ToString("d"))
 
         .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
         .SetFontSize(12);

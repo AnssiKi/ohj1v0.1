@@ -128,7 +128,8 @@ public partial class Varaukset : ContentPage
         $"Pankkiyhteys: HVKVG\n" +
         $"Viite:\n" +
         selectedVaraus.VarausId +
-        $"Lasku on tulostettu varauksen tietojen perusteella")
+        $"Laskun p‰iv‰m‰‰r‰: " + DateTime.Now.ToString("d")+
+        $"\nLaskun er‰p‰iv‰: " + DateTime.Now.AddDays(14).ToString("d"))
 
         .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
         .SetFontSize(12);
