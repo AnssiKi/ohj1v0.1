@@ -15,17 +15,18 @@ namespace ohj1v0._1;
 public partial class Palvelut : ContentPage
 {
 	Funktiot funktiot = new Funktiot();
-    PalveluViewmodel pVm = new PalveluViewmodel();
-    AlueViewmodel aVm = new AlueViewmodel();
+    PalveluViewmodel palveluViewmodel = new PalveluViewmodel();
+    AlueViewmodel alueViewmodel = new AlueViewmodel();
     Palvelu selectedPalvelu;
 
 
     public Palvelut()
 	{
 		InitializeComponent();
-        lista.BindingContext = pVm;
-        alue_nimi.BindingContext = aVm;
-        hae_alueella.BindingContext = aVm;
+        this.BindingContext = palveluViewmodel;
+        lista.BindingContext = palveluViewmodel;
+        alue_nimi.BindingContext = alueViewmodel;
+        hae_alueella.BindingContext = alueViewmodel;
         palvelu_hinta.TextChanged += palvelu_hinta_TextChanged;
         palvelu_hinta.TextChanged += palvelu_hinta_laskealv;
 
@@ -87,95 +88,91 @@ public partial class Palvelut : ContentPage
 
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
-        Type luokka = typeof(ohj1v0._1.Models.Palvelu);
-        string selite = "palvelu";
-        Entry nimi = palvelu_nimi;
-        Entry hinta = palvelu_hinta;
-        Grid grid = (Grid)entry_grid;
-        string vertailu = "Nimi";
-
-
-        if (selectedPalvelu != null)
+        try
         {
-
-            if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
+            if (selectedPalvelu != null)
             {
-                // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-            }
-             /*
-            else if (!funktiot.CheckTupla(this, nimi, lista, luokka, selite, vertailu)) // varmistetaan ettei ole samannimista palvelua
-            {
-                // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-            }
-             */
-
-            else if (!funktiot.CheckEntryDouble(hinta, this)) // tarkistetaan hinta double
-            {
-                // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-            }
-
-            else // Tarkistukset lapi voidaan tallentaa
-            {
-                try
+                if (!funktiot.CheckInput(this, entry_grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
                 {
+                    // Mahdollinen virheenk‰sittely
+                }
+                else if (!funktiot.CheckEntryDouble(palvelu_hinta, this)) // tarkistetaan hinta double
+                {
+                    // Mahdollinen virheenk‰sittely
+                }
+                else // Tarkistukset lapi voidaan tallentaa
+                {
+                    bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti muokata palvelun tietoja?", "Kyll‰", "Ei");
 
-                    using (var dbContext = new VnContext())
+                    if (result)
                     {
-                        bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti muokata palvelun tietoja?", "Kyll‰", "Ei");
-                        //Jos k‰ytt‰j‰ valitsee "Kyll‰", toteutetaan perustoimet
-                        if (result)
+                        if (alue_nimi.SelectedItem is Alue selectedAlue &&
+                            double.TryParse(palvelu_hinta.Text, out double phinta) &&
+                            double.TryParse(palvelu_alv.SelectedItem?.ToString(), out double alv))
                         {
-                            selectedPalvelu.PalveluId = selectedPalvelu.PalveluId;
-                            selectedPalvelu.AlueId = selectedPalvelu.Alue.AlueId;
-                            selectedPalvelu.Nimi = palvelu_nimi.Text;
-                            selectedPalvelu.Kuvaus = palvelu_kuvaus.Text;
-                            selectedPalvelu.Hinta = double.Parse(palvelu_hinta.Text);
-                            selectedPalvelu.Alv = double.Parse(palvelu_alv.SelectedItem.ToString());
+                            using (var dbContext = new VnContext())
+                            {
+                                var palvelu = await dbContext.Palvelus.FindAsync(selectedPalvelu.PalveluId);
 
-                            dbContext.Palvelus.Update(selectedPalvelu);
-                            await dbContext.SaveChangesAsync();
-                            await pVm.LoadPalvelusFromDatabaseAsync();
-                            OnPropertyChanged(nameof(selectedPalvelu));
-                            await DisplayAlert("Tallennus", "Muutokset Tallennettu", "OK");
-                            funktiot.TyhjennaEntryt(grid, lista);
+                                if (palvelu != null)
+                                {
+                                    // P‰ivitet‰‰n arvot
+                                    palvelu.AlueId = selectedAlue.AlueId;
+                                    palvelu.Nimi = palvelu_nimi.Text;
+                                    palvelu.Kuvaus = palvelu_kuvaus.Text;
+                                    palvelu.Hinta = phinta;
+                                    palvelu.Alv = alv;
+
+                                    dbContext.Palvelus.Update(palvelu);
+                                    await dbContext.SaveChangesAsync();
+
+                                    // Lataa p‰ivitetyt tiedot viewmodeliin
+                                    await palveluViewmodel.LoadPalvelusFromDatabaseAsync();
+                                    palveluViewmodel.OnPropertyChanged(nameof(palveluViewmodel.Palvelus));
+
+                                    // N‰yt‰ tallennusilmoitus
+                                    await DisplayAlert("Tallennus", "Muutokset tallennettu", "OK");
+
+                                    // Tyhjenn‰ syˆtekent‰t
+                                    TyhjennaTiedot();
+                                }
+                                else
+                                {
+                                    await DisplayAlert("Virhe", "Palvelua ei lˆytynyt tietokannasta", "OK");
+                                }
+                            }
                         }
                         else
                         {
-                            await DisplayAlert("Tallennus", "Muutoksia ei tallennettu", "OK");
-                            funktiot.TyhjennaEntryt(grid, lista);
+                            await DisplayAlert("Virhe", "Tarkista syˆtt‰m‰si tiedot", "OK");
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
+                    else
+                    {
+                        await DisplayAlert("Tallennus", "Muutoksia ei tallennettu", "OK");
+                        funktiot.TyhjennaEntryt(entry_grid, lista);
+                    }
                 }
             }
-        }
-        else
-        {
-            try
+            else
             {
-                if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
+                // Uuden palvelun tallennus
+                if (!funktiot.CheckInput(this, entry_grid))
                 {
-                    // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+                    // Mahdollinen virheenk‰sittely
                 }
-
-                else if (!funktiot.CheckTupla(this, nimi, lista, luokka, selite, vertailu)) // varmistetaan ettei ole samannimista palvelua
+                else if (!funktiot.CheckTupla(this, palvelu_nimi, lista, typeof(Palvelu), "palvelu", "Nimi"))
                 {
-                    // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+                    // Mahdollinen virheenk‰sittely
                 }
-
-                else if (!funktiot.CheckEntryDouble(hinta, this)) // tarkistetaan hinta double
+                else if (!funktiot.CheckEntryDouble(palvelu_hinta, this))
                 {
-                    // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+                    // Mahdollinen virheenk‰sittely
                 }
-
-                else // Tarkistukset lapi voidaan tallentaa
+                else
                 {
                     using (var dbContext = new VnContext())
                     {
-                        //Haetaan tietokannan PalveluID-sarakkeesta seuraava vapaa arvo ja lis‰t‰‰n siihen +1
                         var maxID = dbContext.Palvelus.DefaultIfEmpty().Max(p => p == null ? 0 : p.PalveluId);
                         var newID = maxID + 1;
 
@@ -190,19 +187,18 @@ public partial class Palvelut : ContentPage
                         };
 
                         dbContext.Palvelus.Add(palvelu);
-                        dbContext.SaveChanges();
-                        BindingContext = new PalveluViewmodel();
-                        pVm.OnPropertyChanged(nameof(pVm.Palvelus)); //lis‰sin t‰h‰n kutsun joka p‰ivitt‰‰ muilla sivuilla listat 0805/MH
-                        await pVm.LoadPalvelusFromDatabaseAsync();
+                        await dbContext.SaveChangesAsync();
+                        await palveluViewmodel.LoadPalvelusFromDatabaseAsync();
+                        palveluViewmodel.OnPropertyChanged(nameof(palveluViewmodel.Palvelus));
                         await DisplayAlert("Tallennus", "Tiedot tallennettu onnistuneesti", "OK");
-                        funktiot.TyhjennaEntryt(grid, lista);
+                        TyhjennaTiedot();
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
-            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
         }
     }
 
@@ -233,7 +229,7 @@ public partial class Palvelut : ContentPage
                 {
                     dbContext.Palvelus.Remove(selectedPalvelu);
                     dbContext.SaveChanges();
-                    await pVm.LoadPalvelusFromDatabaseAsync();
+                    await palveluViewmodel.LoadPalvelusFromDatabaseAsync();
                     TyhjennaTiedot();
                 }
                 await DisplayAlert("", "Poisto Onnistui", "OK");
@@ -303,7 +299,7 @@ public partial class Palvelut : ContentPage
 
         if (selectedAlue != null) 
         {
-            var filteredPalvelut = pVm.Palvelus.Where(p => p.Alue.AlueId == selectedAlue.AlueId).ToList();
+            var filteredPalvelut = palveluViewmodel.Palvelus.Where(p => p.Alue.AlueId == selectedAlue.AlueId).ToList();
             lista.ItemsSource = filteredPalvelut;   
         
         }
@@ -314,16 +310,14 @@ public partial class Palvelut : ContentPage
     private void hae_alueella_tyhjennaClicked(object sender, EventArgs e)
     {
         hae_alueella.SelectedIndex = -1;
-        lista.ItemsSource = pVm.Palvelus;
+        lista.ItemsSource = palveluViewmodel.Palvelus;
     }
 
     //Tyhjennys-funktio, joka tyhjent‰‰ entry-kent‰t sek‰ palvelu_id-labelin. 
     private void TyhjennaTiedot()
     {
-        Grid grid = (Grid)entry_grid;
-        ListView list = (ListView)lista;
-        funktiot.TyhjennaEntryt(grid, list);
+        funktiot.TyhjennaEntryt(entry_grid, lista);
         palvelu_id.Text = null;
-        alvhinta.Text = null;   
+        alvhinta.Text = null;
     }
 }
