@@ -173,27 +173,39 @@ public partial class Palvelut : ContentPage
                 {
                     using (var dbContext = new VnContext())
                     {
+                        // Haetaan seuraava vapaa PalveluID
                         var maxID = dbContext.Palvelus.DefaultIfEmpty().Max(p => p == null ? 0 : p.PalveluId);
                         var newID = maxID + 1;
 
-                        var palvelu = new Palvelu()
+                        // Varmistetaan, ett‰ alue_nimi.SelectedItem on oikein
+                        if (alue_nimi.SelectedItem is Alue selectedAlue)
                         {
-                            PalveluId = newID,
-                            AlueId = (uint)alue_nimi.SelectedIndex + 1,
-                            Nimi = palvelu_nimi.Text,
-                            Kuvaus = palvelu_kuvaus.Text,
-                            Hinta = double.Parse(palvelu_hinta.Text),
-                            Alv = double.Parse(palvelu_alv.SelectedItem.ToString()),
-                        };
+                            var palvelu = new Palvelu()
+                            {
+                                PalveluId = newID,
+                                AlueId = selectedAlue.AlueId,  // K‰ytet‰‰n valitun Alue-objektin AlueId:t‰
+                                Nimi = palvelu_nimi.Text,
+                                Kuvaus = palvelu_kuvaus.Text,
+                                Hinta = double.Parse(palvelu_hinta.Text),
+                                Alv = double.Parse(palvelu_alv.SelectedItem.ToString()),
+                            };
 
-                        dbContext.Palvelus.Add(palvelu);
-                        await dbContext.SaveChangesAsync();
-                        await palveluViewmodel.LoadPalvelusFromDatabaseAsync();
-                        palveluViewmodel.OnPropertyChanged(nameof(palveluViewmodel.Palvelus));
-                        await DisplayAlert("Tallennus", "Tiedot tallennettu onnistuneesti", "OK");
-                        TyhjennaTiedot();
+                            dbContext.Palvelus.Add(palvelu);
+                            await dbContext.SaveChangesAsync();
+
+                            await palveluViewmodel.LoadPalvelusFromDatabaseAsync();
+                            palveluViewmodel.OnPropertyChanged(nameof(palveluViewmodel.Palvelus));
+
+                            await DisplayAlert("Tallennus", "Tiedot tallennettu onnistuneesti", "OK");
+                            TyhjennaTiedot();
+                        }
+                        else
+                        {
+                            await DisplayAlert("Virhe", "Valitse alue", "OK");
+                        }
                     }
                 }
+
             }
         }
         catch (Exception ex)
