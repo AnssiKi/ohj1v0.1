@@ -54,6 +54,7 @@ public partial class Laskut : ContentPage
     private async void tulosta_Clicked(object sender, EventArgs e)
     {
         Asiaka laskunAsiakas = HaeLaskunAsiakas(selectedLasku);
+        List<Palvelu> laskunPalvelut = HaeLaskunPalvelut(selectedLasku);
         string maksuninfo;
         if (selectedLasku == null)
         {
@@ -73,13 +74,26 @@ public partial class Laskut : ContentPage
 
         var varausInfo = new iTextLOElement.Paragraph($"Varaus ID: {selectedLasku.VarausId}\n" +
             $"Laskun numero: {selectedLasku.LaskuId}\n" +
-            $"Asiakas: {laskunAsiakas.Etunimi} {laskunAsiakas.Sukunimi}"+
+            $"Asiakas: {laskunAsiakas.Etunimi} {laskunAsiakas.Sukunimi}\n"+
             $"Hinta: {selectedLasku.Summa}€\n" +
             $"Palvelut:")
             .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
            .SetFontSize(12);
         document.Add(varausInfo);
-        
+
+        if (laskunPalvelut.Any()) 
+        {
+            foreach (var lp in laskunPalvelut) 
+            {
+                var palvelutInfo = new iTextLOElement.Paragraph($"{lp.Nimi}\n"+
+                    $"Hinta sis. {lp.Alv}%:\n"+
+                    $"{lp.HintaAlv}€")
+                    .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
+                    .SetFontSize (12);
+                document.Add(palvelutInfo);
+            }
+        } 
+
         if (selectedLasku.Maksettu == 0)
         {
             maksuninfo = "Laskua ei ole maksettu.";
@@ -177,5 +191,17 @@ public partial class Laskut : ContentPage
         }
         Asiaka asiakas = context.Asiakas.FirstOrDefault(a => a.AsiakasId == varaus.AsiakasId);
         return asiakas;
+    }
+    public List<Palvelu> HaeLaskunPalvelut(Lasku selectedLasku)
+    {
+        Varau varaus = context.Varaus.FirstOrDefault(v => v.VarausId == selectedLasku.VarausId);
+        if (varaus == null)
+        {
+            return null;
+        }
+        List<Palvelu> laskunPalvelut = context.Palvelus
+        .Where(p => varaus.VarauksenPalveluts.Any(vp => vp.PalveluId == p.PalveluId))
+        .ToList();
+        return laskunPalvelut;
     }
 }
