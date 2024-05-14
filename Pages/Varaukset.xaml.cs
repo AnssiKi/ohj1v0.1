@@ -127,9 +127,10 @@ public partial class Varaukset : ContentPage
         $"FI12 3456 7890 1234 56\n" +
         $"Pankkiyhteys: HVKVG\n" +
         $"Viite:\n" +
-        selectedVaraus.VarausId)
+        selectedVaraus.VarausId +
+        $"Lasku on tulostettu varauksen tietojen perusteella")
 
-        .SetTextAlignment(iTextLOP.TextAlignment.RIGHT)
+        .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
         .SetFontSize(12);
         document.Add(maksuInfo);
         document.Close();
