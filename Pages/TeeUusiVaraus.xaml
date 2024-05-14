@@ -69,12 +69,14 @@
                 <DatePicker
                     Grid.Row="4"
                     x:Name="alkupvm"
+                    IsVisible="false"
                     DateSelected="alkupvm_DateSelected"/>
 
                     <DatePicker
                     Grid.Row="4"
                     Grid.Column="1"
                     x:Name="loppupvm"
+                    IsVisible="false"
                     DateSelected="loppupvm_DateSelected"/>
 
                     <Label                    
@@ -84,6 +86,7 @@
 
                 <Picker 
                     x:Name="henkilomaara" 
+                    IsVisible="false"
                     Grid.Row="6"
                     HorizontalOptions="Start"
                     SelectedIndexChanged="henkilomaara_SelectedIndexChanged">
@@ -140,6 +143,7 @@
 
                     <ListView     
                         x:Name="mokki_lista"
+                        IsVisible="false"
                         ItemTapped="mokki_lista_ItemTapped"
                         ItemsSource="{Binding Mokkis}">
                             <ListView.Header>
@@ -183,6 +187,7 @@
 
                         <ListView     
                             x:Name="palvelu_lista"
+                            IsVisible="False"
                             ItemTapped="palvelu_lista_ItemTapped"
                             ItemsSource="{Binding Palvelus}">
                             <ListView.Header>
@@ -211,6 +216,7 @@
 
                 <Button
                 x:Name="uusi_asiakas"
+                IsVisible="False"
                 Text="Uusi asiakas"
                 Margin="0,5,0,0"
                 Grid.Row="12"
@@ -218,6 +224,7 @@
 
                 <Button
                 x:Name="vanha_asiakas"
+                IsVisible="False"
                 Text="Vanha asiakas"
                 Margin="0,5,0,0"
                 Grid.Row="12"

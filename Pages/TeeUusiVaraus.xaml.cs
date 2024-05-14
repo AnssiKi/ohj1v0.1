@@ -38,30 +38,34 @@ public partial class TeeUusiVaraus : ContentPage
 
         if ((Alue)alue_nimi.SelectedItem != null)
         {
+            List<Mokki> mokitValitullaAlueella;
             selectedAlue = (Alue)alue_nimi.SelectedItem;
 
             using var context = new VnContext();
+            {
 
-            var mokitValitullaAlueella = await context.Mokkis.Where(m => m.AlueId == selectedAlue.AlueId).ToListAsync();//filtteroidaan mökit alueella
-            var palvelutValitullaAlueella = await context.Palvelus.Where(p => p.AlueId == selectedAlue.AlueId).ToListAsync();//filtteroidaan palvelut alueella
+                mokitValitullaAlueella = await context.Mokkis.Where(m => m.AlueId == selectedAlue.AlueId).ToListAsync();//filtteroidaan mökit alueella
+                var palvelutValitullaAlueella = await context.Palvelus.Where(p => p.AlueId == selectedAlue.AlueId).ToListAsync();//filtteroidaan palvelut alueella
+            }
 
             if (!mokitValitullaAlueella.Any()) //Jos alueella ei ole mökkejä
             {
                 await DisplayAlert("Ilmoitus", "Alueella ei ole mökkejä", "OK!");
             }
-            else
-            {
-                mokki_lista.ItemsSource = mokitValitullaAlueella;
+            //else
+            //{
+                //mokki_lista.ItemsSource = mokitValitullaAlueella;
 
-                if (!palvelutValitullaAlueella.Any()) //Jos alueella ei ole palveluita
-                {
-                    await DisplayAlert("Ilmoitus", "Alueella ei ole  tarjolla palveluita", "OK!");
-                }
-                else
-                {
-                    palvelu_lista.ItemsSource = palvelutValitullaAlueella;
-                }
-            }
+                //if (!palvelutValitullaAlueella.Any()) //Jos alueella ei ole palveluita
+                //{
+                   // await DisplayAlert("Ilmoitus", "Alueella ei ole  tarjolla palveluita", "OK!");
+                //}
+               // else
+                //{
+                 //   palvelu_lista.ItemsSource = palvelutValitullaAlueella;
+               // }
+           // }
+            alkupvm.IsVisible = true;
         }
     }
 
@@ -74,6 +78,8 @@ public partial class TeeUusiVaraus : ContentPage
             {
                 await DisplayAlert("Ilmoitus", "Aloituspäivämäärä tulee olla aikaisintaan tänään", "OK!");
             }
+
+            loppupvm.IsVisible = true;
         }
     }
 
@@ -112,15 +118,17 @@ public partial class TeeUusiVaraus : ContentPage
                         .Where(m => m.Varaus.All(v => v.VarattuLoppupvm < alkupaiva.Value || v.VarattuAlkupvm > loppupaiva.Value))
                         .ToList();
                 }
-                if (vapaanaolevat.Any())
-                {//Asetetaan vapaanaolevat mökit näkyväksi
-                   mokki_lista.ItemsSource = vapaanaolevat;
-                }
-                else 
-                {//Jos ei oo mökkejä vapaana,ei näytetä mitään
-                   mokki_lista.ItemsSource = null; 
-                }
+              //  if (!vapaanaolevat.Any())
+              //  {//Asetetaan vapaanaolevat mökit näkyväksi
+              //     mokki_lista.ItemsSource = vapaanaolevat;
+               // }
+               // else 
+               // {//Jos ei oo mökkejä vapaana,ei näytetä mitään
+                //   mokki_lista.ItemsSource = null; 
+               // }
             }
+
+              henkilomaara.IsVisible = true;
         }
         else
         {
@@ -155,6 +163,7 @@ public partial class TeeUusiVaraus : ContentPage
 
             else
             {//Asetetaan mökkilistaan vapaana olevat mökit
+                mokki_lista.IsVisible = true;
                 mokki_lista.ItemsSource = filteredMokit;
             }
         }
@@ -168,7 +177,7 @@ public partial class TeeUusiVaraus : ContentPage
 
     private async void mokki_lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
-        //Tarkistetaan ettei mökillä oo samaan aikaan jo olemassa olevia varauksia
+        //Tarkistetaan vielä ettei mökillä oo samaan aikaan jo olemassa olevia varauksia
         using (var context = new VnContext())
         {
             var mokki = e.Item as Mokki;
@@ -191,6 +200,7 @@ public partial class TeeUusiVaraus : ContentPage
                 })
                 .OrderBy(v => v.VarausId)
                 .ToList();
+
             if (mokin_varaukset.Any())
             {//Jos mökillä on varauksia kyseisenä aikana ja vahingossa päässy näkymään yritetään napata se tällä
                 await DisplayAlert("Ilmoitus","Mökki on varattuna halutulla ajankohdalla, valitse eri mökki","OK!");
@@ -199,6 +209,9 @@ public partial class TeeUusiVaraus : ContentPage
             else
             {//jos mökki on vapaana otetaan se olio selectedMokki muuttujaan
                 selectedMokki = (Mokki)mokki_lista.SelectedItem;
+                palvelu_lista.IsVisible = true;
+                uusi_asiakas.IsVisible = true;  
+                vanha_asiakas.IsVisible = true;
             }
         }
     }
