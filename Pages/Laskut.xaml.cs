@@ -102,7 +102,7 @@ public partial class Laskut : ContentPage
         $"FI12 3456 7890 1234 56\n" +
         $"Pankkiyhteys: HVKVG\n" +
         $"Viite: " +
-        selectedLasku.VarausId+
+        selectedLasku.VarausId+"\n"+
         $"Lasku on tulostettu Lasku -taulusta")
 
         .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
