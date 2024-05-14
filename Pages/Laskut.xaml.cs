@@ -53,6 +53,7 @@ public partial class Laskut : ContentPage
 
     private async void tulosta_Clicked(object sender, EventArgs e)
     {
+        Asiaka laskunAsiakas = HaeLaskunAsiakas(selectedLasku);
         string maksuninfo;
         if (selectedLasku == null)
         {
@@ -71,7 +72,8 @@ public partial class Laskut : ContentPage
         document.Add(header);
 
         var varausInfo = new iTextLOElement.Paragraph($"Varaus ID: {selectedLasku.VarausId}\n" +
-            $"Laskun numero: {selectedLasku.LaskuId}\n" +       
+            $"Laskun numero: {selectedLasku.LaskuId}\n" +
+            $"Asiakas: {laskunAsiakas.Etunimi} {laskunAsiakas.Sukunimi}"+
             $"Hinta: {selectedLasku.Summa}€\n" +
             $"Palvelut:")
             .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
@@ -125,8 +127,6 @@ public partial class Laskut : ContentPage
         {
             await DisplayAlert("Virhe", $"Tiedoston tallentaminen ei onnistunut: {fileSaveResult.Exception.Message}", "OK");
         }
-
-
     }
 
     async void tyhjenna_Clicked(object sender, EventArgs e)
@@ -166,5 +166,16 @@ public partial class Laskut : ContentPage
             maksettu.IsChecked = true;
         }
         isUserCheckChange = true;
+    }
+
+    public Asiaka HaeLaskunAsiakas(Lasku selectedLasku) 
+    {
+        Varau varaus = context.Varaus.FirstOrDefault(v=>v.VarausId == selectedLasku.VarausId);
+        if (varaus == null) 
+        {
+            return null;
+        }
+        Asiaka asiakas = context.Asiakas.FirstOrDefault(a => a.AsiakasId == varaus.AsiakasId);
+        return asiakas;
     }
 }
