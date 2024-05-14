@@ -7,60 +7,39 @@ namespace ohj1v0._1;
 public partial class Vanha_asiakas : ContentPage
 {
     private VarauksenTiedot varauksenTiedot;
-    /*AsiakasViewmodel asiakasviewmodel;
-    VarausViewmodel varausViewmodel;
-    ListaViewModel listaViewModel;
-    Funktiot funktiot;*/
-    Asiaka selectedAsiakas;
-    bool valittu = false;
-    private CancellationTokenSource _cts;
-    public Vanha_asiakas(TeeUusiVaraus tuv, VarauksenTiedot tiedot)
-    {
-        InitializeComponent();
-        BindingContext = asiakasviewmodel;
-        varauksenTiedot = tiedot;
-        this.BindingContext = tuv;
-    }
-
     Funktiot funktiot = new Funktiot();
     AsiakasViewmodel asiakasviewmodel = new AsiakasViewmodel();
     VarausViewmodel varausViewmodel = new VarausViewmodel();
     ListaViewModel listaViewModel = new ListaViewModel();
-
-    private async void hae_sukunimella_TextChanged(object sender, TextChangedEventArgs e)
+    Asiaka selectedAsiakas;
+    bool valittu = false;
+ 
+    public Vanha_asiakas(TeeUusiVaraus tuv, VarauksenTiedot tiedot)
     {
-        if (_cts != null)
-        {
-            _cts.Cancel();
-            _cts = null;
-        }
+        InitializeComponent();
+        varauksenTiedot = tiedot;
+        lista.BindingContext = asiakasviewmodel;
+        BindingContext = tuv;
+    }
 
+    private void hae_sukunimella_TextChanged(object sender, TextChangedEventArgs e)
+    {
         string searchText = e.NewTextValue;
 
         if (string.IsNullOrWhiteSpace(searchText))
         {
-            lista.BindingContext = asiakasviewmodel; // n‰ytet‰‰n kaikki asiakkaat, jos ei mit‰‰n hakukent‰ss‰
+            lista.ItemsSource = asiakasviewmodel.Asiakas; // n‰ytet‰‰n kaikki asiakkaat, jos ei mit‰‰n hakukent‰ss‰
         }
         else
         {
-            _cts = new CancellationTokenSource();
-            try
-            {
-                // Odota 500 millisekuntia ennen haun suorittamista
-                await Task.Delay(500, _cts.Token);
-
-                // filtterˆid‰‰n ListView sis‰ltˆ hakukent‰n mukaan
-                var filteredAsiakkaat = asiakasviewmodel.Asiakas
+            // filtterˆid‰‰n ListView sis‰ltˆ hakukent‰n mukaan
+            var filteredAsiakkaat = asiakasviewmodel.Asiakas
                 .Where(a => a.Sukunimi.StartsWith(searchText, StringComparison.OrdinalIgnoreCase))
                 .ToList();
-
-                lista.ItemsSource = filteredAsiakkaat;
-            }
-            catch (TaskCanceledException)
-            {
-                // Ei tehd‰ mit‰‰n, jos haku peruutetaan
-            }
+            lista.ItemsSource = filteredAsiakkaat;
         }
+
+
     }
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
@@ -95,7 +74,7 @@ public partial class Vanha_asiakas : ContentPage
                     await varausViewmodel.LoadVarausFromDatabaseAsync();
                     dbContext.Varaus.Add(varaus);
                     dbContext.SaveChanges();
-                    //Kutsutaan funktioo, joka ilmottaa listalle et se on muuttunut ja p‰ivitt‰is listan varaukset sivulla
+                    //Kutsutaan funktiota, joka ilmottaa listalle et se on muuttunut ja p‰ivitt‰is listan varaukset sivulla
                     varausViewmodel.OnPropertyChanged(nameof(varausViewmodel.Varaukset));
 
                     //lis‰t‰‰n varaukselle varatut palvelut
@@ -113,7 +92,7 @@ public partial class Vanha_asiakas : ContentPage
                     await varausViewmodel.LoadVarausFromDatabaseAsync(); //Ladataan varauslista uusiksi
                 }
 
-                await DisplayAlert("Varaus tallennettu", "", "OK");
+                await DisplayAlert("Ilmoitus", "Varaus tallennettu", "OK");
                 listaViewModel.NollaaValitutPalvelut(); //Nollataan valitut palvelut Listaviewmodelista
                 await funktiot.TyhjennaVarauksenTiedotAsync(varauksenTiedot); // Nollataan varauksentiedot muuttujat uuestaan k‰ytett‰v‰ksi
 
