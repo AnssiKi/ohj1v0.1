@@ -74,6 +74,7 @@ public partial class TeeUusiVaraus : ContentPage
             if (alkupaiva.Value < DateTime.Today)
             {
                 await DisplayAlert("Ilmoitus", "Aloitusp‰iv‰m‰‰r‰ tulee olla aikaisintaan t‰n‰‰n", "OK!");
+                alkupaiva = DateTime.Today;
             }
         }
     }
@@ -88,11 +89,13 @@ public partial class TeeUusiVaraus : ContentPage
             if (alkupaiva.Value > loppupaiva.Value)
             {
                 await DisplayAlert("Virhe", "Aloitusp‰iv‰m‰‰r‰ ei voi olla lopetusp‰iv‰m‰‰r‰n j‰lkeen", "OK");
+                alkupaiva = DateTime.Today;
 
             }
             else if (alkupaiva.Value == loppupaiva.Value)
             {
                 await DisplayAlert("Ilmoitus", "Minimi vuokrausaika 1vrk. Valitse uusi loppu p‰iv‰m‰‰r‰", "OK");
+                alkupaiva=DateTime.Today;
 
             }
             if ((Alue)alue_nimi.SelectedItem != null)
@@ -130,44 +133,9 @@ public partial class TeeUusiVaraus : ContentPage
             await DisplayAlert("Ilmoitus", "Valitse aloitusp‰iv‰m‰‰‰r‰, n‰m‰ tiedot ovat pakollisia", "OK");
         }
     }
-    private async void henkilomaara_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if ((Alue)alue_nimi.SelectedItem != null && alkupaiva.HasValue && loppupaiva.HasValue)
-        {
-            List<Mokki> filteredMokit;
-            int henkilo = henkilomaara.SelectedIndex + 1;
-            
-            using var context = new VnContext();
-            { //suodatetaan ensin mˆkit alueen mukaan ja henkilˆm‰‰r‰n mukaan
-                 filteredMokit = await context.Mokkis
-                .Where(m => m.Henkilomaara >= henkilo && m.AlueId == selectedAlue.AlueId)
-                .Include(m => m.Varaus)
-                .ToListAsync();
+    
 
-                //Sen j‰lkeen suodatetaan mˆkit jotka vapaana annettuina p‰ivin‰
-                filteredMokit = filteredMokit
-                    .Where(m => m.Varaus.All(v => v.VarattuLoppupvm < alkupaiva.Value || v.VarattuAlkupvm > loppupaiva.Value))
-                    .ToList();
-            }
-            if (!filteredMokit.Any())
-            {
-                //Jos alueella ei ole vapaana mˆkkej‰, annetaan alert
-                await DisplayAlert("Ilmoitus", "Valitettavasti alueella ei ole mˆkkej‰ vapaana valittuna ajankohtana", "OK!");
-                mokki_lista.ItemsSource = null;
-            }
-
-            else
-            {//Asetetaan mˆkkilistaan vapaana olevat mˆkit
-                mokki_lista.ItemsSource = filteredMokit;
-            }
-        }
-        else
-        {
-            await DisplayAlert("Ilmoitus", "Valitse ensin alue ja p‰iv‰m‰‰r‰t,jolloin haluaisit vuokrata mˆkin", "OK!");
-
-        }
-
-    }
+    
 
     private async void mokki_lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
@@ -346,12 +314,8 @@ public partial class TeeUusiVaraus : ContentPage
     public void TyhjennaVarausTiedot()
     {
 
-        alue_nimi.SelectedIndex = -1; // tyhjent‰‰ alue pickerin
-
-        if (henkilomaara.SelectedIndex != -1)
-        {
-            henkilomaara.SelectedIndex = -1; // Tyhjent‰‰ henkilˆm‰‰r‰pickerin valinnan
-        }
+       alue_nimi.SelectedItem = null; // tyhjent‰‰ alue pickerin
+       
 
         alkupaiva = DateTime.Today; // asetetaan alkup‰iv‰m‰‰r‰ksi kuluva pv‰
         loppupaiva = null; //nollataan loppup‰iv‰n valinta
@@ -361,11 +325,13 @@ public partial class TeeUusiVaraus : ContentPage
         selectedAlue = null; //nollataan kaikki valinnat
         selectedMokki = null;
         selectedPalvelu = null;
-
-        lukumaara = 0;
+        lukumaara = 0; //Tyhjent‰‰ varauksen palveluihin liittyv‰n lukum‰‰r‰n
 
         mokki_lista.ItemsSource = null; //laitetaan listat tyhjiks
         palvelu_lista.ItemsSource = null;
+
+        mokki_lista.IsEnabled = false;
+        palvelu_lista.IsEnabled = false;
 
 
     }
