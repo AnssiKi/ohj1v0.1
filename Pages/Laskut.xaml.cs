@@ -110,21 +110,6 @@ public partial class Laskut : ContentPage
             document.Add(palvelutInfo);
 
         }
-
-        if (selectedLasku.Maksettu == 0)
-        {
-            maksuninfo = "Laskua ei ole maksettu.";
-        }
-        else 
-        {
-            maksuninfo = "Lasku on maksettu.";
-
-        }
-        var statusInfo = new iTextLOElement.Paragraph(maksuninfo)
-            .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
-           .SetFontSize(12);
-        document.Add(statusInfo);
-
         var loppusummaInfo = new iTextLOElement.Paragraph($"Laskun loppusumma: {selectedLasku.Summa}€\n" +
             $"Verot: {selectedLasku.Alv}€")
             .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
@@ -142,6 +127,20 @@ public partial class Laskut : ContentPage
         .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
         .SetFontSize(12);
         document.Add(maksuInfo);
+
+        if (selectedLasku.Maksettu == 0)
+        {
+            maksuninfo = "Laskua ei ole maksettu.";
+        }
+        else
+        {
+            maksuninfo = "Lasku on maksettu.";
+
+        }
+        var statusInfo = new iTextLOElement.Paragraph(maksuninfo)
+            .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
+           .SetFontSize(12);
+        document.Add(statusInfo);
         document.Close();
 
         byte[] pdfData = memoryStream.ToArray();

@@ -133,7 +133,8 @@ public partial class Varaukset : ContentPage
         $"Viite: " +
         selectedVaraus.VarausId +
         $"\nLaskun p‰iv‰m‰‰r‰: " + DateTime.Now.ToString("d")+
-        $"\nLaskun er‰p‰iv‰: " + DateTime.Now.AddDays(14).ToString("d"))
+        $"\nLaskun er‰p‰iv‰: " + DateTime.Now.AddDays(14).ToString("d") +
+        $"\nLaskua ei ole maksettu")
 
         .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
         .SetFontSize(12);
