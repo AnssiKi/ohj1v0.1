@@ -150,21 +150,19 @@
                         </Grid.RowDefinitions>
 
                         <Label
-                            Text="Hae päivämäärällä"
+                            Text="Näytä avoimet laskut"
                             VerticalTextAlignment="Center"
                             Grid.Column="0"
                             Grid.Row="0"
                             HorizontalOptions="Center">
                         </Label>
 
-                        <DatePicker
-                            x:Name="hakupvm"
+                        <CheckBox
+                            x:Name="haeavoimetlaskut"
                             Grid.Column="1"
                             Grid.Row="0"
-                            WidthRequest="200"
-                            HorizontalOptions="Start"
-                            DateSelected="hakupvm_DateSelected">
-                        </DatePicker>
+                            CheckedChanged="haeavoimet_checkchanged">
+                        </CheckBox>
 
                     </Grid>
 

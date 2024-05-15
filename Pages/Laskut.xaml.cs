@@ -134,7 +134,7 @@ public partial class Laskut : ContentPage
         iTextLOElement.Paragraph maksuInfo = new iTextLOElement.Paragraph($"Saajan tilinumero:\n" +
         $"FI12 3456 7890 1234 56\n" +
         $"Pankkiyhteys: HVKVG\n" +
-        $"Viite: \n" +
+        $"Viite: " +
         selectedLasku.VarausId+"\n"+
         $"Laskun p‰iv‰m‰‰r‰: " + DateTime.Now.ToString("d") +
         $"\nLaskun er‰p‰iv‰: " + DateTime.Now.AddDays(14).ToString("d"))
@@ -175,9 +175,18 @@ public partial class Laskut : ContentPage
         }
         return;
     }
-
-    private void hakupvm_DateSelected(object sender, DateChangedEventArgs e)
+    private async void haeavoimet_checkchanged(object sender, CheckedChangedEventArgs e) 
     {
+        if (haeavoimetlaskut.IsChecked)
+        {
+            await laskuViewmodel.LoadUnPaidLaskutFromDatabaseAsync();
+            BindingContext = laskuViewmodel;
+        }
+        else 
+        {
+            await laskuViewmodel.LoadLaskutFromDatabaseAsync();
+            BindingContext = laskuViewmodel;
+        }
     }
 
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)

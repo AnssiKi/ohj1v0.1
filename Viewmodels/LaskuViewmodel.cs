@@ -54,6 +54,16 @@ namespace ohj1v0._1.Viewmodels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        public async Task LoadUnPaidLaskutFromDatabaseAsync()
+        {
+            LaskuLoad loader = new LaskuLoad();
+            var unpaidLaskutFromDb = await loader.LoadUnpaidLaskutAsync();
+            _laskut.Clear();
+            foreach (var lasku in unpaidLaskutFromDb)
+            {
+                _laskut.Add(lasku);
+            }
+        }
     }
     public class LaskuLoad
     {
@@ -62,6 +72,14 @@ namespace ohj1v0._1.Viewmodels
             using var context = new VnContext();
             var lasku = await context.Laskus.Include(m => m.Varaus).OrderBy(a => a.LaskuId).ToListAsync();
             return lasku;
+        }
+        public async Task<List<Lasku>> LoadUnpaidLaskutAsync()
+        {
+            using var context = new VnContext();
+            var unpaidLaskut = await context.Laskus
+                .Where(lasku => lasku.Maksettu == 0)
+                .ToListAsync();
+            return unpaidLaskut;
         }
     }
 }
