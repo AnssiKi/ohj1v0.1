@@ -274,66 +274,54 @@ public partial class Varaukset : ContentPage
             try
             {
                 using (var dbContext = new VnContext())
+                {
+                    var varaus = await dbContext.Varaus.FindAsync(selectedVaraus.VarausId);
 
-                    if (selectedVaraus != null) // voidaan vain korjata tietoja 
+                    if (varaus != null) // voidaan vain korjata tietoja 
                     {
                         bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti muokata varauksen tietoja?", "Kyllä", "Ei");
 
                         // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
                         if (result)
                         {
-
-                            // VarausId päivittyy automaattisesti tietokannassa
-                            selectedVaraus.Asiakas.Etunimi = etunimi.Text;
-                            selectedVaraus.Asiakas.Sukunimi = sukunimi.Text;
-                            selectedVaraus.Asiakas.Puhelinnro = puhelinnumero.Text;
-                            selectedVaraus.Asiakas.Email = sahkoposti.Text;
-                            selectedVaraus.Mokki.Mokkinimi = ((Mokki)mokin_nimi.SelectedItem).Mokkinimi;
-                            selectedVaraus.Mokki.Postinro = postinumero.Text;
+                            // Päivitetään varauksen tiedot
+                            varaus.Mokki = (Mokki)mokin_nimi.SelectedItem;
+                            varaus.Mokki.Postinro = postinumero.Text;
 
                             if (selectedVaraus.Mokki != null && mokin_nimi.SelectedItem != null)
                             {
-                                selectedVaraus.Mokki.AlueId = ((Mokki)mokin_nimi.SelectedItem).AlueId;
+                                varaus.Mokki.AlueId = ((Mokki)mokin_nimi.SelectedItem).AlueId;
                             }
 
                             if (DateTime.TryParseExact(varauspvm.Text, "dd/MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate))
                             {
-                                selectedVaraus.VarattuPvm = parsedDate;
+                                varaus.VarattuPvm = parsedDate;
                             }
 
-                            if (alkupvm != null)
-                            {
-                                selectedVaraus.VarattuAlkupvm = alkupvm.Date;
-                            }
-                            if (loppupvm != null)
-                            {
-                                selectedVaraus.VarattuLoppupvm = loppupvm.Date;
-                            }
+                            varaus.VarattuAlkupvm = alkupvm?.Date;
+                            varaus.VarattuLoppupvm = loppupvm?.Date;
+                            varaus.VahvistusPvm = vahvistuspvm?.Date;
 
-                            if (vahvistuspvm != null)
-                            {
-                                selectedVaraus.VahvistusPvm = vahvistuspvm.Date;
-                            }
-
-                            dbContext.Varaus.Update(selectedVaraus);
-                            dbContext.SaveChanges();
+                            dbContext.Varaus.Update(varaus);
+                            await dbContext.SaveChangesAsync();
                             await varausViewmodel.LoadVarausFromDatabaseAsync();
+                            varausViewmodel.OnPropertyChanged(nameof(varausViewmodel.Varaukset));
                             await DisplayAlert("", "Muutokset tallennettu", "OK");
                             TyhjennaFunktio();
-
                         }
                         else
                         {
                             await DisplayAlert("Muutoksia ei tallennettu", "Valitse varaus listalta jos haluat muokata mökkiä", "OK");
                             TyhjennaFunktio();
-
-                        }       
+                        }
                     }
+                }
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
             }
+
         }
     }
     private async void tyhjenna_Clicked(object sender, EventArgs e)
