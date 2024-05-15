@@ -348,34 +348,37 @@
                          Grid.ColumnSpan="3" 
                          HorizontalOptions="FillAndExpand">
 
-                        <ListView                            
-                            x:Name="lista"
-                            ItemTapped="lista_ItemTapped"
-                            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                            ItemsSource="{Binding Varaukset}">
-                            <ListView.Header>
-                                <StackLayout Orientation="Horizontal" Padding="10">
-                                    <Label Text="ID" WidthRequest="50" FontAttributes="Bold"/>
-                                    <Label Text="Sukunimi" WidthRequest="125" FontAttributes="Bold"/>
-                                    <Label Text="Mokin nimi" WidthRequest="125" FontAttributes="Bold"/>
-                                    <Label Text="Varaus alku" WidthRequest="125" FontAttributes="Bold"/>
-                                    <Label Text="Varaus loppu" WidthRequest="125" FontAttributes="Bold"/>
-                                </StackLayout>
-                            </ListView.Header>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <StackLayout Orientation="Horizontal" Padding="10">
-                                            <Label Text="{Binding VarausId}" WidthRequest="50"/>
-                                            <Label Text="{Binding Asiakas.Sukunimi}" WidthRequest="125"/>
-                                            <Label Text="{Binding Mokki.Mokkinimi}" WidthRequest="125"/>
-                                            <Label Text="{Binding VarattuAlkupvm, StringFormat='{0:dd.MM.yyyy}'}" WidthRequest="125"/>
-                                            <Label Text="{Binding VarattuLoppupvm, StringFormat='{0:dd.MM.yyyy}'}" WidthRequest="125"/>
-                                        </StackLayout>
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                        <ScrollView>
+                            <ListView                            
+                                x:Name="lista"
+                                ItemTapped="lista_ItemTapped"
+                                SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                                ItemsSource="{Binding Varaukset}"                  
+                                HeightRequest="600">
+                                <ListView.Header>
+                                    <StackLayout Orientation="Horizontal" Padding="10">
+                                        <Label Text="ID" WidthRequest="50" FontAttributes="Bold"/>
+                                        <Label Text="Sukunimi" WidthRequest="125" FontAttributes="Bold"/>
+                                        <Label Text="Mokin nimi" WidthRequest="125" FontAttributes="Bold"/>
+                                        <Label Text="Varaus alku" WidthRequest="125" FontAttributes="Bold"/>
+                                        <Label Text="Varaus loppu" WidthRequest="125" FontAttributes="Bold"/>
+                                    </StackLayout>
+                                </ListView.Header>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout Orientation="Horizontal" Padding="10">
+                                                <Label Text="{Binding VarausId}" WidthRequest="50"/>
+                                                <Label Text="{Binding Asiakas.Sukunimi}" WidthRequest="125"/>
+                                                <Label Text="{Binding Mokki.Mokkinimi}" WidthRequest="125"/>
+                                                <Label Text="{Binding VarattuAlkupvm, StringFormat='{0:dd.MM.yyyy}'}" WidthRequest="125"/>
+                                                <Label Text="{Binding VarattuLoppupvm, StringFormat='{0:dd.MM.yyyy}'}" WidthRequest="125"/>
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </ScrollView>
                     </Frame>
                 </Grid>
 

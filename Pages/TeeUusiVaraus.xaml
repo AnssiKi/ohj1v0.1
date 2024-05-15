@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ohj1v0._1.TeeUusiVaraus"
              Title="Tee uusi varaus">
-    
+
     <ScrollView>
         <HorizontalStackLayout
             Spacing="25"
@@ -16,34 +16,36 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <Grid 
                     Padding="10"
                     x:Name="entry_grid2"
                     Grid.Column="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="300" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="150" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                <Label
+                    <Label
                     Text="Alue"/>
 
                     <Picker 
@@ -52,21 +54,31 @@
                     HorizontalOptions="Start"
                     SelectedIndexChanged="alue_nimi_SelectedIndexChanged"
                     ItemsSource="{Binding Alues}"
-                    ItemDisplayBinding="{Binding Nimi}">
+                    ItemDisplayBinding="{Binding Nimi}"
+                    Grid.ColumnSpan="2">
                     </Picker>
 
-                    <Label
-                        Text="Alku päivämäärä"
-                        Grid.Row="2"
-                        Margin="0,5,0,0"/>
+                    <Entry
+                    Text=""     
+                    x:Name="varauspvm"
+                    Grid.Row="1"    
+                    Grid.Column="2"    
+                    WidthRequest="290"    
+                    IsReadOnly="True"    
+                    IsVisible="False"/>
 
-                <Label
-                    Text="Loppu päivämäärä"
+                    <Label
+                    Text="Alkupäivämäärä"    
+                    Grid.Row="2"    
+                    Margin="0,5,0,0"/>
+
+                    <Label
+                    Text="Loppupäivämäärä"
                     Margin="0,5,0,0"
                     Grid.Column="1"
                     Grid.Row="2"/>
 
-                <DatePicker
+                    <DatePicker
                     Grid.Row="4"
                     x:Name="alkupvm"
                     DateSelected="alkupvm_DateSelected"/>
@@ -77,99 +89,55 @@
                     x:Name="loppupvm"
                     DateSelected="loppupvm_DateSelected"/>
 
-                    
+                    <Button x:Name="HakuBtn"
+                        Text="Hae"
+                        Grid.Row="4"
+                        Grid.Column="2"
+                        WidthRequest="100"
+                        HorizontalOptions="Start"
+                        Clicked="HakuBtn_Clicked">
 
-                
-                
-                    
-                    <Entry
-                        Text="" 
-                        x:Name="varauspvm"
-                        Grid.Row="6"
-                        Grid.Column="0"
-                        WidthRequest="290"
-                        IsReadOnly="True"
-                        IsVisible="False"/>
 
-                <Label                    
+                    </Button>
+
+
+                    <Label                    
                     Text="Valitse mökki"
                     Margin="0,5,0,0"
                     Grid.Row="7"/>
 
-                <Frame                    
+                    <Frame                    
                     BorderColor="Black"
                     CornerRadius="2"
                     Padding="5"
                     Grid.Row="8"
-                    Grid.ColumnSpan="2"
-                    HorizontalOptions="FillAndExpand">
-
-                    <ListView     
-                        x:Name="mokki_lista"
-                        ItemTapped="mokki_lista_ItemTapped"
-                        IsEnabled="false"
-                        ItemsSource="{Binding Mokkis}">
-                            <ListView.Header>
-                                <StackLayout Orientation="Horizontal" Padding="10" >
-                                    <Label Text="ID" WidthRequest="40" FontAttributes="Bold"/>
-                                    <Label Text="Mökin Nimi" WidthRequest="150" FontAttributes="Bold"/>
-                                    <Label Text="Hlö" WidthRequest="75" FontAttributes="Bold"/>
-                                    <Label Text="Hinta" WidthRequest="50" FontAttributes="Bold" />
-                                    <Label Text="Kuvaus" WidthRequest="300" FontAttributes="Bold" />
-                                </StackLayout>
-                            </ListView.Header>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <StackLayout Orientation="Horizontal" Padding="10">
-                                            <Label Text="{Binding MokkiId}" WidthRequest="40"/>
-                                            <Label Text="{Binding Mokkinimi}" WidthRequest="150"/>
-                                            <Label Text="{Binding Henkilomaara}" WidthRequest="75"/>
-                                            <Label Text="{Binding Hinta}" WidthRequest="50"/>
-                                            <Label Text="{Binding Kuvaus}" WidthRequest="300"/>
-                                        </StackLayout>
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                </Frame>
-
-                <Label                    
-                    Text="Valitse ensin lisäpalvelu ja anna sen jälkeen lukumäärä"
-                    Margin="0,5,0,0"
-                    Grid.Row="10"
-                    Grid.ColumnSpan="2"/>
-
-                <Frame                    
-                    BorderColor="Black"
-                    CornerRadius="2"
-                    Padding="5"
-                    Grid.Row="11"
-                    Grid.ColumnSpan="2"
+                    Grid.ColumnSpan="3"
                     HorizontalOptions="FillAndExpand">
 
                         <ListView     
-                            x:Name="palvelu_lista"
-                            IsEnabled="false"
-                            ItemTapped="palvelu_lista_ItemTapped"
-                            ItemsSource="{Binding Palvelus}">
+                            x:Name="mokki_lista"
+                            ItemTapped="mokki_lista_ItemTapped"
+                            IsEnabled="false">
                             <ListView.Header>
-                                <StackLayout Orientation="Horizontal" Padding="10" >
-                                    <Label Text="Lkm" WidthRequest="40" FontAttributes="Bold"/>
-                                    <Label Text="Palvelun Nimi" WidthRequest="150" FontAttributes="Bold"/>
-                                    <Label Text="Hinta" WidthRequest="50" FontAttributes="Bold" />
-                                    <Label Text="Kuvaus" WidthRequest="300" FontAttributes="Bold" />
+                                <StackLayout Orientation="Horizontal" Padding="10">
+                                    <Label Text="ID" WidthRequest="40" FontAttributes="Bold"/>
+                                    <Label Text="Mökin Nimi" WidthRequest="150" FontAttributes="Bold"/>
+                                    <Label Text="Hlö" WidthRequest="75" FontAttributes="Bold"/>
+                                    <Label Text="Hinta" WidthRequest="50" FontAttributes="Bold"/>
+                                    <Label Text="Kuvaus" WidthRequest="300" FontAttributes="Bold"/>
+                                    <Label Text="Status" WidthRequest="200" FontAttributes="Bold"/>
                                 </StackLayout>
                             </ListView.Header>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
                                         <StackLayout Orientation="Horizontal" Padding="10">
-                                            <Entry x:Name="palvelu_lkm" TextChanged="palvelu_lkm_TextChanged"
-                                                   Text="" WidthRequest="40" />
-                                            <Label Text="{Binding Nimi}" WidthRequest="150"/>
-                                            <Label Text="{Binding HintaAlv}" WidthRequest="50"/>
-                                            <Label Text="{Binding Kuvaus}" WidthRequest="300"/>
+                                            <Label Text="{Binding Mokki.MokkiId}" WidthRequest="40"/>
+                                            <Label Text="{Binding Mokki.Mokkinimi}" WidthRequest="150"/>
+                                            <Label Text="{Binding Mokki.Henkilomaara}" WidthRequest="75"/>
+                                            <Label Text="{Binding Mokki.Hinta}" WidthRequest="50"/>
+                                            <Label Text="{Binding Mokki.Kuvaus}" WidthRequest="300"/>
+                                            <Label Text="{Binding Status}" WidthRequest="200"/>
                                         </StackLayout>
                                     </ViewCell>
                                 </DataTemplate>
@@ -177,14 +145,33 @@
                         </ListView>
                     </Frame>
 
-                <Button
+                    <Frame                    
+                    BorderColor="Black"
+                    CornerRadius="2"
+                    Padding="5"
+                    Grid.Row="11"
+                    Grid.ColumnSpan="3"
+                    HorizontalOptions="FillAndExpand">
+
+                        <Grid x:Name="palveluContainer" Padding="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="300" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <!-- Rivin määrittelyt luodaan dynaamisesti koodissa -->
+                            </Grid.RowDefinitions>
+                        </Grid>
+                    </Frame>
+
+                    <Button
                 x:Name="uusi_asiakas"
                 Text="Uusi asiakas"
                 Margin="0,5,0,0"
                 Grid.Row="12"
                 Clicked="uusi_asiakas_Clicked"/>
 
-                <Button
+                    <Button
                 x:Name="vanha_asiakas"
                 Text="Vanha asiakas"
                 Margin="0,5,0,0"
@@ -192,7 +179,7 @@
                 Grid.Column="1"
                 Clicked="vanha_asiakas_Clicked"/>
 
-            </Grid>
+                </Grid>
             </Grid>
         </HorizontalStackLayout>
     </ScrollView>
