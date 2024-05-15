@@ -134,7 +134,7 @@ public partial class Laskut : ContentPage
         iTextLOElement.Paragraph maksuInfo = new iTextLOElement.Paragraph($"Saajan tilinumero:\n" +
         $"FI12 3456 7890 1234 56\n" +
         $"Pankkiyhteys: HVKVG\n" +
-        $"Viite: \n" +
+        $"Viite: " +
         selectedLasku.VarausId+"\n"+
         $"Laskun p‰iv‰m‰‰r‰: " + DateTime.Now.ToString("d") +
         $"\nLaskun er‰p‰iv‰: " + DateTime.Now.AddDays(14).ToString("d"))
