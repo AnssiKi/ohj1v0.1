@@ -30,7 +30,7 @@ public partial class Laskut : ContentPage
 	}
     private void OnPageAppearing(object sender, EventArgs e)
     {
-        BindingContext = laskuViewmodel;
+        BindingContext = new LaskuViewmodel();
     }
 
     private async void maksettu_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -42,7 +42,7 @@ public partial class Laskut : ContentPage
             context.Laskus.Update(selectedLasku);
             context.SaveChanges();
             OnPropertyChanged(nameof(selectedLasku.Maksettu));
-            laskuViewmodel.LoadLaskutFromDatabaseAsync();
+            BindingContext = new LaskuViewmodel();  
             selectedLasku = null;
             await DisplayAlert("Tallennus", "Lasku merkitty maksetuksi", "OK");
         }
@@ -55,8 +55,8 @@ public partial class Laskut : ContentPage
         ListView list = (ListView)lista;
         funktiot.TyhjennaEntryt(grid, list);
         Label_laskuID.Text = "";
-        maksettu.IsChecked = false;
         isUserCheckChange = false;
+        maksettu.IsChecked = false;
     }
 
     private async void tulosta_Clicked(object sender, EventArgs e)
