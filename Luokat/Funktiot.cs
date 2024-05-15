@@ -24,7 +24,7 @@ namespace ohj1v0._1.Luokat
             {
                 if (entry.Text.Length >= maxLength)
                 {
-                    DisplayAlertOnPage(currentPage, "Virhe!", $"Syöte voi olla enintään {maxLength} merkkiä pitkä.", "OK");
+                    DisplayAlertOnPage(currentPage, "Virhe", $"Syöte voi olla enintään {maxLength} merkkiä pitkä.", "OK");
                 }
             }
             catch (Exception e)
