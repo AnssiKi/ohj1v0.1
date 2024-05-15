@@ -1,11 +1,8 @@
 using CommunityToolkit.Maui.Storage;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Maui.Controls;
 using ohj1v0._1.Luokat;
 using ohj1v0._1.Models;
 using ohj1v0._1.Viewmodels;
-using Org.BouncyCastle.Bcpg;
-using System.Linq;
 using iTextKernel = iText.Kernel.Pdf;
 using iTextLayout = iText.Layout;
 using iTextLOElement = iText.Layout.Element;
@@ -19,21 +16,22 @@ public partial class Laskut : ContentPage
     VnContext context = new VnContext();
     Lasku selectedLasku;
     
-    Funktiot funktiot;
+    Funktiot funktiot = new Funktiot();
 
     bool isUserCheckChange = true; //pit‰‰ kirjaa siit‰ onko checkboxiin tehty muutos k‰ytt‰j‰- vai ohjelmaper‰inen
     
     public Laskut()
 	{
 	    InitializeComponent();
-        BindingContext = new LaskuViewmodel();
+        
+        BindingContext = laskuViewmodel;
         maksettu.IsEnabled = false;
+        this.Appearing += OnPageAppearing;
 	}
-   /* protected override async void OnAppearing()
+    private void OnPageAppearing(object sender, EventArgs e)
     {
-       base.OnAppearing();
-        await laskuViewmodel.LoadLaskutFromDatabaseAsync();
-    }*/
+        BindingContext = new LaskuViewmodel();
+    }
 
     private async void maksettu_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
@@ -43,15 +41,22 @@ public partial class Laskut : ContentPage
             selectedLasku.Maksettu = 1;
             context.Laskus.Update(selectedLasku);
             context.SaveChanges();
-            OnPropertyChanged(nameof(selectedLasku));
-            await laskuViewmodel.LoadLaskutFromDatabaseAsync();
+            OnPropertyChanged(nameof(selectedLasku.Maksettu));
+            BindingContext = new LaskuViewmodel();  
             selectedLasku = null;
+            await DisplayAlert("Tallennus", "Lasku merkitty maksetuksi", "OK");
         }
         else 
         {
             await DisplayAlert("Virhe", "Valitse ensin lasku", "OK");
             return; 
         }
+        Grid grid = (Grid)entry_grid;
+        ListView list = (ListView)lista;
+        funktiot.TyhjennaEntryt(grid, list);
+        Label_laskuID.Text = "";
+        isUserCheckChange = false;
+        maksettu.IsChecked = false;
     }
 
     private async void tulosta_Clicked(object sender, EventArgs e)
@@ -166,6 +171,7 @@ public partial class Laskut : ContentPage
             ListView list = (ListView)lista;
             funktiot.TyhjennaEntryt(grid, list);
             Label_laskuID.Text = "";
+            
         }
         return;
     }
