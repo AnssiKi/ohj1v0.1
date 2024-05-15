@@ -15,10 +15,10 @@ namespace ohj1v0._1;
 
 public partial class Laskut : ContentPage
 {
-    readonly LaskuViewmodel laskuViewmodel = new LaskuViewmodel();
-
-    Lasku selectedLasku;
+    LaskuViewmodel laskuViewmodel = new LaskuViewmodel();
     VnContext context = new VnContext();
+    Lasku selectedLasku;
+    
     Funktiot funktiot;
 
     bool isUserCheckChange = true; //pit‰‰ kirjaa siit‰ onko checkboxiin tehty muutos k‰ytt‰j‰- vai ohjelmaper‰inen
@@ -26,7 +26,7 @@ public partial class Laskut : ContentPage
     public Laskut()
 	{
 	    InitializeComponent();
-        BindingContext = laskuViewmodel;
+        BindingContext = new LaskuViewmodel();
         maksettu.IsEnabled = false;
 	}
    /* protected override async void OnAppearing()
