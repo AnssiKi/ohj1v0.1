@@ -26,7 +26,7 @@ public partial class Laskut : ContentPage
         
         BindingContext = laskuViewmodel;
         maksettu.IsEnabled = false;
-        this.Appearing += OnPageAppearing;
+        this.Appearing += OnPageAppearing; //eventti laukoo OnPageAppearing -funktion aina kun tämä sivu latautuu
 	}
     private void OnPageAppearing(object sender, EventArgs e)
     {
