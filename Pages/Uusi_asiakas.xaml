@@ -4,148 +4,168 @@
              x:Class="ohj1v0._1.Uusi_asiakas"
              Title="Uusi asiakas">
     <ScrollView>
-        <VerticalStackLayout>
+        <HorizontalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Start">
+
+
             <Grid Padding="10"
-                  x:Name="entry_grid">
+                     x:Name="entry_grid"
+                     VerticalOptions="Start"
+                     HorizontalOptions="Start">
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="200"/>
+                    </Grid.ColumnDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
 
-                <Label
-             Text="Uusi asiakas: "
-             Margin="0,5,0,0"
-             Grid.Row="0"/>
+                        <Label
+                         Text="Uusi asiakas: "
+                         Margin="0,5,0,0"
+                         Grid.Row="0"/>
 
-                <Label
-             Text="Etunimi"
-             Margin="0,5,0,0"
-             Grid.Row="1"
-             Grid.Column="0"/>
+                        <Label
+                         Text="Etunimi"
+                         Margin="0,5,0,0"
+                         Grid.Row="1"
+                         Grid.Column="0"/>
 
-                <Entry
-                     x:Name="etunimi"
-                     Text=""
-                     MaxLength="20"
-                     Grid.Row="2"
-                     Grid.ColumnSpan="2" 
-                     HorizontalOptions="FillAndExpand"
-                     TextChanged="etunimi_TextChanged"/>
+                        <Entry
+                         x:Name="etunimi"    
+                         Text=""    
+                         MaxLength="20"    
+                         Grid.Row="2"      
+                         Grid.ColumnSpan="2"
+                         WidthRequest="340"
+                         HorizontalOptions="Start"    
+                         TextChanged="etunimi_TextChanged"/>    
 
-                <Label
-             Text="Sukunimi"
-             Margin="0,5,0,0"
-             Grid.Row="3"
-             Grid.Column="0"/>
+                        <Label
+                         Text="Sukunimi"
+                         Margin="0,5,0,0"
+                         Grid.Row="3"
+                         Grid.Column="0"/>
 
-                <Entry
-                     x:Name="sukunimi"
-                     Text=""
-                     MaxLength="40"
-                     Grid.Row="4"
-                     Grid.ColumnSpan="2" 
-                     HorizontalOptions="FillAndExpand"
-                     TextChanged="sukunimi_TextChanged"/>
+                        <Entry
+                         x:Name="sukunimi"
+                         Text=""
+                         MaxLength="40"
+                         Grid.Row="4"  
+                         Grid.ColumnSpan="2"
+                         WidthRequest="340"
+                         HorizontalOptions="Start"   
+                         TextChanged="sukunimi_TextChanged"/>
 
-                <Label
-             Text="Osoite"
-             Margin="0,5,0,0"
-             Grid.Row="5"
-             Grid.Column="0"/>
+                        <Label
+                         Text="Osoite"
+                         Margin="0,5,0,0"
+                         Grid.Row="5"
+                         Grid.Column="0"/>
 
-                <Entry
-                     x:Name="lahiosoite"
-                     Text=""
-                     MaxLength="40"
-                     Grid.Row="6"
-                     Grid.ColumnSpan="2" 
-                     HorizontalOptions="FillAndExpand"
-                     TextChanged="lahiosoite_TextChanged"/>
+                        <Entry
+                         x:Name="lahiosoite"
+                         Text=""
+                         MaxLength="40"
+                         Grid.Row="6"
+                         Grid.ColumnSpan="2"
+                         WidthRequest="340"
+                         HorizontalOptions="Start"
+                         TextChanged="lahiosoite_TextChanged"/>
 
-                <Label
-             Text="Postinumero"
-             Margin="0,5,0,0"
-             Grid.Column="0"
-             Grid.Row="7"/>
+                        <Label
+                         Text="Postinumero"
+                         Margin="0,5,0,0"
+                         Grid.Column="0"
+                         Grid.Row="7"
+                         HorizontalOptions="Start"/>
 
-                <Label
-             Text="Paikkakunta"
-             Margin="0,5,0,0"
-             Grid.Column="1"
-             Grid.Row="7"/>
+                        <Label
+                         Text="Paikkakunta"
+                         Margin="0,5,0,0"
+                         Grid.Column="1"
+                         Grid.Row="7"
+                         HorizontalOptions="Start"/>
 
-                <Entry
-             x:Name="postinumero"
-             Text=""
-             Grid.Row="8"
-             Grid.Column="0"
-             TextChanged="postinumero_TextChanged"/>
+                        <Entry
+                         x:Name="postinumero"
+                         Text=""
+                         Grid.Row="8"
+                         Grid.Column="0"
+                         WidthRequest="140"
+                         HorizontalOptions="Start"
+                         TextChanged="postinumero_TextChanged"/>
 
-                <Entry
-             x:Name="paikkakunta"
-             Text=""
-             Grid.Column="1"
-             Grid.Row="8"
-             IsEnabled="False"/>
+                        <Entry
+                         x:Name="paikkakunta"
+                         Text=""
+                         Grid.Column="1"
+                         Grid.Row="8"
+                         WidthRequest="190"
+                         HorizontalOptions="Start"
+                         IsEnabled="False"/>
 
 
-                <Label
-             Text="Puhelinnumero"
-             Margin="0,5,0,0"
-             Grid.Row="10"/>
+                        <Label
+                         Text="Puhelinnumero"
+                         Margin="0,5,0,0"
+                         Grid.Row="10"/>
 
-                <Entry
-                    x:Name="puhelinnumero"
-                    Text=""
-                    MaxLength="15"
-                    Grid.Row="11"
-                    TextChanged="puhelinnumero_TextChanged"
-                    Grid.ColumnSpan="2" 
-                    HorizontalOptions="FillAndExpand"/>
+                        <Entry
+                         x:Name="puhelinnumero"
+                         Text=""
+                         MaxLength="15"
+                         Grid.Row="11"
+                         Grid.ColumnSpan="2"
+                         TextChanged="puhelinnumero_TextChanged"   
+                         WidthRequest="340"
+                         HorizontalOptions="Start"/>      
 
-                <Label
-             Text="Sähköposti"
-             Margin="0,5,0,0"
-             Grid.Row="12"/>
+                        <Label
+                         Text="Sähköposti"
+                         Margin="0,5,0,0"
+                         Grid.Row="12"/>
 
-                <Entry
-                     x:Name="email"
-                     Text=""
-                     MaxLength="50"
-                     Grid.Row="13"
-                     TextChanged="email_TextChanged"
-                     Grid.ColumnSpan="2" 
-                     HorizontalOptions="FillAndExpand"/>
+                        <Entry
+                         x:Name="email"
+                         Text=""
+                         MaxLength="50"
+                         Grid.Row="13"
+                         Grid.ColumnSpan="2"
+                         TextChanged="email_TextChanged"
+                         WidthRequest="340"
+                         HorizontalOptions="Start"/>
 
-                <Button
-             x:Name="tallenna"
-             Text="Tallenna"
-             Margin="0,5,0,0"
-             Grid.Row="14"
-             Clicked="tallenna_Clicked"/>
+                        <Button
+                         x:Name="tallenna"
+                         Text="Tallenna"
+                         Margin="0,5,0,0"
+                         Grid.Row="16"
+                         Clicked="tallenna_Clicked"/>
+               
             </Grid>
 
-        </VerticalStackLayout>
+        </HorizontalStackLayout>
     </ScrollView>
 </ContentPage>
