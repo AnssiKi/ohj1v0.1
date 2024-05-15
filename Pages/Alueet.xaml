@@ -129,29 +129,31 @@
                           HorizontalOptions="FillAndExpand"
                           VerticalOptions="FillAndExpand">
 
-                        <ListView                            
-                           x:Name="lista"
-                           ItemTapped="lista_ItemTapped"
-                           ItemSelected="lista_ItemSelected"
-                           ItemsSource="{Binding Alues}">
-                            <ListView.Header>
-                                <StackLayout Orientation="Horizontal" Padding="10">
-                                    <Label Text="ID" WidthRequest="50" FontAttributes="Bold"/>
-                                    <Label Text="Nimi" WidthRequest="200" FontAttributes="Bold"/>
-                                </StackLayout>
-                            </ListView.Header>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <StackLayout Orientation="Horizontal" Padding="10">
-                                            <Label Text="{Binding AlueId}" WidthRequest="50"/>
-                                            <Label Text="{Binding Nimi}" WidthRequest="200"/>
-                                        </StackLayout>
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                        
+                        <ScrollView>
+                            <ListView                            
+                               x:Name="lista"
+                               ItemTapped="lista_ItemTapped"
+                               ItemSelected="lista_ItemSelected"
+                               HeightRequest="600"
+                               ItemsSource="{Binding Alues}">
+                                <ListView.Header>
+                                    <StackLayout Orientation="Horizontal" Padding="10">
+                                        <Label Text="ID" WidthRequest="50" FontAttributes="Bold"/>
+                                        <Label Text="Nimi" WidthRequest="200" FontAttributes="Bold"/>
+                                    </StackLayout>
+                                </ListView.Header>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout Orientation="Horizontal" Padding="10">
+                                                <Label Text="{Binding AlueId}" WidthRequest="50"/>
+                                                <Label Text="{Binding Nimi}" WidthRequest="200"/>
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </ScrollView>
                     </Frame>
                 </Grid>
             </Grid>

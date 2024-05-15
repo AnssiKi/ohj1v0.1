@@ -300,9 +300,11 @@
                         Grid.ColumnSpan="2" 
                         HorizontalOptions="FillAndExpand">
 
+                        <ScrollView>
                             <ListView
                             x:Name="lista"
                             ItemTapped="lista_ItemTapped"
+                            HeightRequest="600"
                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                             ItemsSource="{Binding Mokkis}">
                                 <ListView.Header>
@@ -328,6 +330,7 @@
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
+                        </ScrollView>
                         </Frame>
 
                 </Grid>

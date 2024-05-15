@@ -254,35 +254,38 @@
                     Grid.ColumnSpan="2" 
                     HorizontalOptions="FillAndExpand">
 
-                        <ListView
-                        x:Name="lista"
-                        ItemTapped="lista_ItemTapped"
-                         ItemsSource="{Binding Asiakas}">
-                            <ListView.Header>
-                                <StackLayout Orientation="Horizontal" Padding="10">
-                                    <Label Text="ID" WidthRequest="50" FontAttributes="Bold"/>
-                                    <Label Text="Sukunimi" WidthRequest="125" FontAttributes="Bold"/>
-                                    <Label Text="Etunimi" WidthRequest="125" FontAttributes="Bold"/>
-                                    <Label Text="Postinumero" WidthRequest="100" FontAttributes="Bold"/>
-                                    <Label Text="Kaupunki" WidthRequest="100" FontAttributes="Bold"/>
-                                    <Label Text="Puhnro" WidthRequest="125" FontAttributes="Bold"/>
-                                </StackLayout>
-                            </ListView.Header>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <StackLayout Orientation="Horizontal" Padding="10">
-                                            <Label Text="{Binding AsiakasId}" WidthRequest="50"/>
-                                            <Label Text="{Binding Sukunimi}" WidthRequest="125"/>
-                                            <Label Text="{Binding Etunimi}" WidthRequest="125"/>
-                                            <Label Text="{Binding Postinro}" WidthRequest="100"/>
-                                            <Label Text="{Binding PostinroNavigation.Toimipaikka}" WidthRequest="100"/>
-                                            <Label Text="{Binding Puhelinnro}" WidthRequest="125"/>
-                                        </StackLayout>
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                        <ScrollView>
+                            <ListView
+                            x:Name="lista"
+                            ItemTapped="lista_ItemTapped"
+                            HeightRequest="600"
+                             ItemsSource="{Binding Asiakas}">
+                                <ListView.Header>
+                                    <StackLayout Orientation="Horizontal" Padding="10">
+                                        <Label Text="ID" WidthRequest="50" FontAttributes="Bold"/>
+                                        <Label Text="Sukunimi" WidthRequest="125" FontAttributes="Bold"/>
+                                        <Label Text="Etunimi" WidthRequest="125" FontAttributes="Bold"/>
+                                        <Label Text="Postinumero" WidthRequest="100" FontAttributes="Bold"/>
+                                        <Label Text="Kaupunki" WidthRequest="100" FontAttributes="Bold"/>
+                                        <Label Text="Puhnro" WidthRequest="125" FontAttributes="Bold"/>
+                                    </StackLayout>
+                                </ListView.Header>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout Orientation="Horizontal" Padding="10">
+                                                <Label Text="{Binding AsiakasId}" WidthRequest="50"/>
+                                                <Label Text="{Binding Sukunimi}" WidthRequest="125"/>
+                                                <Label Text="{Binding Etunimi}" WidthRequest="125"/>
+                                                <Label Text="{Binding Postinro}" WidthRequest="100"/>
+                                                <Label Text="{Binding PostinroNavigation.Toimipaikka}" WidthRequest="100"/>
+                                                <Label Text="{Binding Puhelinnro}" WidthRequest="125"/>
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </ScrollView>
                     </Frame>
 
                 </Grid>

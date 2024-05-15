@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ohj1v0._1.Luokat;
 using ohj1v0._1.Models;
 using ohj1v0._1.Viewmodels;
+using System.Linq;
 
 namespace ohj1v0._1;
 
@@ -21,65 +22,30 @@ public partial class TeeUusiVaraus : ContentPage
     private DateTime? alkupaiva = DateTime.Today;
     private DateTime? loppupaiva = DateTime.Today.AddDays(1);
 
-
     public TeeUusiVaraus()
     {
         InitializeComponent();
         alue_nimi.BindingContext = alueViewmodel;
         varauspvm.Text = DateTime.Now.ToString("dd.MM.yyyy");
         mokki_lista.BindingContext = mokkiViewmodel.Mokkis;
-        palvelu_lista.BindingContext = palveluViewmodel.Palvelus;
-        InitializeDefaultValues();
-    }
-
-    private void InitializeDefaultValues()
-    {
-        alkupvm.Date = DateTime.Today;
-        loppupvm.Date = DateTime.Today.AddDays(1);
-        alkupvm.IsEnabled = false;
-        loppupvm.IsEnabled = false;
-        alue_nimi.SelectedIndex = -1;
+        TyhjennaVarausTiedot();
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        InitializeDefaultValues();
+        TyhjennaVarausTiedot();
     }
 
-
-    private async void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
+    private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
-
-        if ((Alue)alue_nimi.SelectedItem != null)
+        if (alue_nimi.SelectedItem is Alue selected)
         {
-            selectedAlue = (Alue)alue_nimi.SelectedItem;
-
-            using var context = new VnContext();
-
-            var mokitValitullaAlueella = await context.Mokkis.Where(m => m.AlueId == selectedAlue.AlueId).ToListAsync();//filtteroidaan mˆkit alueella
-            var palvelutValitullaAlueella = await context.Palvelus.Where(p => p.AlueId == selectedAlue.AlueId).ToListAsync();//filtteroidaan palvelut alueella
-
+            selectedAlue = selected;
             alkupvm.IsEnabled = true;
             loppupvm.IsEnabled = true;
-
-            if (!mokitValitullaAlueella.Any()) //Jos alueella ei ole mˆkkej‰
-            {
-                await DisplayAlert("Ilmoitus", "Alueella ei ole mˆkkej‰", "OK!");
-            }
-            else
-            {
-                mokki_lista.ItemsSource = mokitValitullaAlueella;
-
-                if (!palvelutValitullaAlueella.Any()) //Jos alueella ei ole palveluita
-                {
-                    await DisplayAlert("Ilmoitus", "Alueella ei ole  tarjolla palveluita", "OK!");
-                }
-                else
-                {
-                    palvelu_lista.ItemsSource = palvelutValitullaAlueella;
-                }
-            }
+            HakuBtn.IsEnabled = true;
+            LoadPalvelut();  // Kutsu LoadPalvelut-metodia alueen valinnan j‰lkeen
         }
     }
 
@@ -87,7 +53,7 @@ public partial class TeeUusiVaraus : ContentPage
     {
         if (e.NewDate < DateTime.Today)
         {
-            await DisplayAlert("Ilmoitus", "Aloitusp‰iv‰m‰‰r‰ tulee olla aikaisintaan t‰n‰‰n", "OK!");
+            await DisplayAlert("Ilmoitus", "Aloitusp‰iv‰m‰‰r‰ tulee olla aikaisintaan t‰n‰‰n", "OK");
             alkupvm.Date = DateTime.Today;  // Resetoi alkup‰iv‰m‰‰r‰
         }
         else
@@ -106,7 +72,7 @@ public partial class TeeUusiVaraus : ContentPage
     {
         if (alkupaiva.HasValue && e.NewDate <= alkupaiva.Value)
         {
-            await DisplayAlert("Ilmoitus", "Loppup‰iv‰m‰‰r‰ tulee olla v‰hint‰‰n yksi p‰iv‰ alkup‰iv‰m‰‰r‰n j‰lkeen", "OK!");
+            await DisplayAlert("Ilmoitus", "Loppup‰iv‰m‰‰r‰ tulee olla v‰hint‰‰n yksi p‰iv‰ alkup‰iv‰m‰‰r‰n j‰lkeen", "OK");
             loppupaiva = alkupaiva.Value.AddDays(1);
             loppupvm.Date = loppupaiva.Value;
         }
@@ -114,38 +80,37 @@ public partial class TeeUusiVaraus : ContentPage
         {
             loppupaiva = e.NewDate;
         }
+    }
 
+    private async void HakuBtn_Clicked(object sender, EventArgs e)
+    {
         if (alkupaiva.HasValue && loppupaiva.HasValue)
         {
             if (selectedAlue != null)
             {
+                List<Mokki> kaikkiMokit;
                 List<Mokki> vapaanaolevat;
 
                 using var context = new VnContext();
                 {
-                    // Suodatetaan ensin mˆkit alueen mukaan
-                    vapaanaolevat = await context.Mokkis
+                    kaikkiMokit = await context.Mokkis
                         .Where(m => m.AlueId == selectedAlue.AlueId)
                         .Include(m => m.Varaus)
                         .ToListAsync();
 
-                    // Sen j‰lkeen suodatetaan mˆkit, jotka ovat vapaana annettuina p‰ivin‰
-                    vapaanaolevat = vapaanaolevat
+                    vapaanaolevat = kaikkiMokit
                         .Where(m => m.Varaus.All(v => v.VarattuLoppupvm < alkupaiva.Value || v.VarattuAlkupvm > loppupaiva.Value))
                         .ToList();
                 }
-                if (vapaanaolevat.Any())
+
+                var mokkiViews = kaikkiMokit.Select(m => new MokkiView
                 {
-                    // Asetetaan vapaanaolevat mˆkit n‰kyv‰ksi
-                    mokki_lista.ItemsSource = vapaanaolevat;
-                }
-                else
-                {
-                    // Jos ei ole mˆkkej‰ vapaana, ei n‰ytet‰ mit‰‰n
-                    mokki_lista.ItemsSource = null;
-                }
+                    Mokki = m,
+                    Status = vapaanaolevat.Contains(m) ? "Vapaa" : "Varattu"
+                }).ToList();
+
+                mokki_lista.ItemsSource = mokkiViews;
                 mokki_lista.IsEnabled = true;
-                palvelu_lista.IsEnabled = true;
             }
         }
         else
@@ -154,19 +119,17 @@ public partial class TeeUusiVaraus : ContentPage
         }
     }
 
-
-
-
     private async void mokki_lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
-        //Tarkistetaan ettei mˆkill‰ oo samaan aikaan jo olemassa olevia varauksia
-        using (var context = new VnContext())
-        {
-            var mokki = e.Item as Mokki;
-            var mokkiId = mokki.MokkiId;
-            //eka filtterˆid‰‰n mˆkin kaikki varaukset ja tarkistetaan ettei ole valittuina p‰ivin‰
-            var mokin_varaukset = context.Varaus
+        var selectedMokkiView = e.Item as MokkiView;
+        var selectedMokki = selectedMokkiView?.Mokki;
 
+        if (selectedMokkiView != null && selectedMokkiView.Status == "Vapaa")
+        {
+            using var context = new VnContext();
+            var mokkiId = selectedMokki.MokkiId;
+
+            var mokin_varaukset = context.Varaus
                 .Where(v => v.MokkiId == mokkiId &&
                             ((v.VarattuAlkupvm <= alkupaiva && v.VarattuLoppupvm >= alkupaiva) ||
                              (v.VarattuAlkupvm <= loppupaiva && v.VarattuLoppupvm >= loppupaiva)))
@@ -182,91 +145,59 @@ public partial class TeeUusiVaraus : ContentPage
                 })
                 .OrderBy(v => v.VarausId)
                 .ToList();
+
             if (mokin_varaukset.Any())
-            {//Jos mˆkill‰ on varauksia kyseisen‰ aikana ja vahingossa p‰‰ssy n‰kym‰‰n yritet‰‰n napata se t‰ll‰
+            {
                 await DisplayAlert("Ilmoitus", "Mˆkki on varattuna halutulla ajankohdalla, valitse eri mˆkki", "OK!");
                 selectedMokki = null;
             }
             else
-            {//jos mˆkki on vapaana otetaan se olio selectedMokki muuttujaan
-                selectedMokki = (Mokki)mokki_lista.SelectedItem;
+            {
+                this.selectedMokki = selectedMokki;
             }
         }
-    }
-    private async void palvelu_lkm_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        Entry entry = (Entry)sender;
-
-        if (!funktiot.CheckEntryInteger(entry, this))
+        else
         {
-            // funktiossa tarkistetaan ettei syote sisalla tekstia
+            await DisplayAlert("Ilmoitus", "Voit valita vain vapaana olevia mˆkkej‰", "OK!");
         }
-        else if (selectedPalvelu != null)
-        {
-            lukumaara = int.Parse(entry.Text);
-            entry.BindingContext = selectedPalvelu;
-            listaViewModel.PalveluLkm_TextChanged(sender, e);
-        }
-        entry.TextChanged += (sender, e) =>
-        {
-            listaViewModel.PalveluLkm_TextChanged(sender, e);
-        };
     }
-    private async void palvelu_lista_ItemTapped(object sender, ItemTappedEventArgs e)
-    {
-        selectedPalvelu = (Palvelu)palvelu_lista.SelectedItem;
-
-        if (selectedPalvelu != null)
-        {
-            // P‰ivit‰ valittujen palveluiden lista
-            listaViewModel.OnItemTapped(selectedPalvelu);
 
 
-        }
-
-    }
     private async void uusi_asiakas_Clicked(object sender, EventArgs e)
     {
-
-        if (selectedMokki != null && selectedAlue != null && alkupaiva.HasValue && loppupaiva.HasValue) //T‰st‰ poistettu funkiot-luokan k‰yttˆ tarkistuksista ja vaaditaan ett‰ kaikki n‰m‰ on valittuna ennen kun voi siirty‰ tallentamaan varausta
+        if (selectedMokki != null && selectedAlue != null && alkupaiva.HasValue && loppupaiva.HasValue)
         {
-            //Hetaan varauksen tiedot omiin muuttujiin talteen annetaan mukaan uudelle sivulle ja siell‰ kysyt‰‰n haluaako ilman palveluita
             VarauksenTiedot varauksenTiedot = await VarauksenTiedotAsync();
 
             if (varauksenTiedot != null)
-            {// jos varauksen tiedot tallentui siirryt‰‰n uudelle sivulle
+            {
                 await Navigation.PushAsync(new Uusi_asiakas(this, varauksenTiedot));
             }
         }
         else
         {
-            //Jos ei valinnu mˆkki‰ tai aluetta tai p‰iv‰m‰‰ri‰ ni ei p‰‰stet‰ etenem‰‰n
-            await DisplayAlert("Virhe", "Kaikkia varaukseen tarvittavia tietoja ei ole valittu", "OK!");
+            await DisplayAlert("Virhe", "Kaikkia varaukseen tarvittavia tietoja ei ole valittu", "OK");
         }
     }
 
     private async void vanha_asiakas_Clicked(object sender, EventArgs e)
     {
-
-        if (selectedMokki != null && selectedAlue != null && alkupaiva.HasValue && loppupaiva.HasValue)//Tarkistetaan ett‰ on valinnut kaikki tarvittavat tiedot
+        if (selectedMokki != null && selectedAlue != null && alkupaiva.HasValue && loppupaiva.HasValue)
         {
-            // Haetaan varauksen tiedot omiin muuttujiin talteen. Siell‰ kysyt‰‰n haluaako jatkaa ilman palveluita
             VarauksenTiedot varauksenTiedot = await VarauksenTiedotAsync();
 
             if (varauksenTiedot != null)
-            {//Jos k‰ytt‰j‰ on joko valinnut palvelut tai siirtymisen ilman palveluita, p‰‰st‰‰n etenem‰‰n
+            {
                 await Navigation.PushAsync(new Vanha_asiakas(this, varauksenTiedot));
             }
         }
         else
-        {   //Ei p‰‰stet‰ jatkamaan jos ei valinnu kaikkia tarvittavia tietoja
-            await DisplayAlert("Virhe", "Kaikkia varaukseen tarvittavia tietoja ei ole valittu", "OK!");
+        {
+            await DisplayAlert("Virhe", "Kaikkia varaukseen tarvittavia tietoja ei ole valittu", "OK");
         }
     }
-
     private async Task<VarauksenTiedot> VarauksenTiedotAsync()
     {
-        //Tarkistetaan ett‰ onko varaus alkamassa jo alle viikonp‰‰st‰
         var erotus = alkupvm.Date - DateTime.Now;
         var vahvistus = DateTime.Now;
 
@@ -274,10 +205,13 @@ public partial class TeeUusiVaraus : ContentPage
         {
             vahvistus = DateTime.Now;
         }
-        else { vahvistus = alkupvm.Date - TimeSpan.FromDays(7); }
+        else
+        {
+            vahvistus = alkupvm.Date - TimeSpan.FromDays(7);
+        }
 
         VarauksenTiedot varauksenTiedot = new VarauksenTiedot
-        {  // T‰m‰ ottaa talteen varauksentiedot luokkaan omiin muuttujiin, jotta helpompi siirty‰ sivulta toiselle
+        {
             ValittuMokki = selectedMokki,
             ValittuAlue = selectedAlue,
             VarattuAlkupvm = alkupvm.Date,
@@ -287,67 +221,98 @@ public partial class TeeUusiVaraus : ContentPage
             VarauksenPalveluts = new List<VarauksenPalvelut>()
         };
 
-        // Tarkista, onko palvelu valittu ja onko lukum‰‰r‰ m‰‰ritelty
-        if (!listaViewModel.valitutPalvelutIdLista.Any())
+        foreach (var child in palveluContainer.Children)
         {
-            bool jatkaIlmanPalveluita = await DisplayAlert("Ilmoitus", "Haluatko jatkaa ilman palveluita?", "Kyll‰", "Ei");
-            if (!jatkaIlmanPalveluita)
+            if (child is Picker picker && picker.BindingContext is uint palveluId && picker.SelectedItem is int palvelunLukumaara)
             {
-                return null; // Jos k‰ytt‰j‰ ei halua jatkaa ilman palveluita, palauta null
-
-            }
-
-            // Jos k‰ytt‰j‰ haluaa jatkaa ilman palveluita, jatketaan ilman palveluiden lis‰yst‰
-
-        }
-        else
-        {
-            // Jos palveluita on valittu, lis‰t‰‰n ne varauksen tietoihin
-            foreach (var palveluId in listaViewModel.valitutPalvelutIdLista)
-            {
-                int palvelunLukumaara = listaViewModel.PalveluidenLkm.ContainsKey(palveluId) ? listaViewModel.PalveluidenLkm[palveluId] : 0;
-
-                if (selectedPalvelu != null && palvelunLukumaara <= 0)
-                {
-                    palvelunLukumaara += 1;
-
-                    varauksenTiedot.VarauksenPalveluts.Add(new VarauksenPalvelut
-                    {
-                        PalveluId = palveluId, // K‰ytet‰‰n palvelun ID:t‰
-                        Lkm = palvelunLukumaara
-                    });
-
-
-                    listaViewModel.EiValittu(selectedPalvelu, palvelunLukumaara);
-                }
                 if (palvelunLukumaara > 0)
                 {
                     varauksenTiedot.VarauksenPalveluts.Add(new VarauksenPalvelut
                     {
-                        PalveluId = palveluId, // K‰ytet‰‰n palvelun ID:t‰
+                        PalveluId = palveluId,
                         Lkm = palvelunLukumaara
                     });
                 }
             }
         }
+
         return varauksenTiedot;
     }
+
+
     public void TyhjennaVarausTiedot()
     {
+        alkupvm.Date = DateTime.Today;
+        loppupvm.Date = DateTime.Today.AddDays(1);
+        alkupvm.IsEnabled = false;
+        loppupvm.IsEnabled = false;
+        alue_nimi.SelectedIndex = -1;
+        HakuBtn.IsEnabled = false;
 
-        InitializeDefaultValues();
-
-        selectedAlue = null; //nollataan kaikki valinnat
+        selectedAlue = null;
         selectedMokki = null;
         selectedPalvelu = null;
-        lukumaara = 0; //Tyhjent‰‰ varauksen palveluihin liittyv‰n lukum‰‰r‰n
+        lukumaara = 0;
 
-        mokki_lista.ItemsSource = null; //laitetaan listat tyhjiks
-        palvelu_lista.ItemsSource = null;
-
+        mokki_lista.ItemsSource = null;
         mokki_lista.IsEnabled = false;
-        palvelu_lista.IsEnabled = false;
 
-
+        palveluContainer.Children.Clear();
     }
+
+    private async void LoadPalvelut()
+    {
+        if (selectedAlue == null) return;
+
+        using var context = new VnContext();
+        var palvelut = await context.Palvelus
+            .Where(p => p.AlueId == selectedAlue.AlueId)
+            .ToListAsync();
+
+        palveluContainer.Children.Clear();
+        palveluContainer.RowDefinitions.Clear();
+
+        for (int i = 0; i < palvelut.Count; i++)
+        {
+            var palvelu = palvelut[i];
+
+            // Lis‰‰ rivi Grid:iin
+            palveluContainer.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+            var palveluLabel = new Label
+            {
+                Text = palvelu.Nimi,
+                VerticalOptions = LayoutOptions.Center
+            };
+
+            var picker = new Picker
+            {
+                Title = "M‰‰r‰",
+                WidthRequest = 100,
+                ItemsSource = Enumerable.Range(0, 6).ToList(),
+                BindingContext = palvelu.PalveluId, // Aseta BindingContext palvelun ID:lle
+                SelectedIndex = 0 // Aseta oletusvalinnaksi ensimm‰inen arvo (0)
+            };
+
+            picker.SelectedIndexChanged += (s, e) =>
+            {
+                if (picker.SelectedIndex != -1)
+                {
+                    var selectedAmount = (int)picker.SelectedItem;
+                    listaViewModel.PalveluidenLkm[palvelu.PalveluId] = selectedAmount;
+                }
+            };
+
+            // Aseta Label ja Picker Grid:iin
+            Grid.SetRow(palveluLabel, i);
+            Grid.SetColumn(palveluLabel, 0);
+
+            Grid.SetRow(picker, i);
+            Grid.SetColumn(picker, 1);
+
+            palveluContainer.Children.Add(palveluLabel);
+            palveluContainer.Children.Add(picker);
+        }
+    }
+
 }
