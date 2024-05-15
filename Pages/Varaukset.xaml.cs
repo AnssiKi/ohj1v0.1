@@ -130,9 +130,9 @@ public partial class Varaukset : ContentPage
         iTextLOElement.Paragraph maksuInfo = new iTextLOElement.Paragraph($"Saajan tilinumero:\n" +
         $"FI12 3456 7890 1234 56\n" +
         $"Pankkiyhteys: HVKVG\n" +
-        $"Viite:\n" +
+        $"Viite: " +
         selectedVaraus.VarausId +
-        $"Laskun p‰iv‰m‰‰r‰: " + DateTime.Now.ToString("d")+
+        $"\nLaskun p‰iv‰m‰‰r‰: " + DateTime.Now.ToString("d")+
         $"\nLaskun er‰p‰iv‰: " + DateTime.Now.AddDays(14).ToString("d"))
 
         .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
