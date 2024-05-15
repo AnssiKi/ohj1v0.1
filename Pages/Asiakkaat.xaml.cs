@@ -117,7 +117,7 @@ public partial class Asiakkaat : ContentPage
                             await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
                             lista.ItemsSource = asiakasviewmodel.Asiakas;
                             OnPropertyChanged(nameof(asiakasviewmodel.Asiakas));
-                            await DisplayAlert("", "Muutokset tallennettu", "OK");
+                            await DisplayAlert("Tallennus", "Muutokset tallennettu", "OK");
                             funktiot.TyhjennaEntryt(grid,lista);
                             asiakas_id.Text = "";
                             selectedAsiakas = null;
@@ -156,12 +156,12 @@ public partial class Asiakkaat : ContentPage
                 // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
             }
 
-            else if (!funktiot.CheckTupla(this, puhelin, lista, luokka, selite, vertailu)) // varmistetaan ettei ole samaa puhelinnumeroa
+            else if (!funktiot.CheckTupla(this, puhelin, lista, luokka, vertailu, vertailu)) // varmistetaan ettei ole samaa puhelinnumeroa
             {
                 // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
             }
 
-            else if (!funktiot.CheckTupla(this, sahkoposti, lista, luokka, selite, vertailu2)) // varmistetaan ettei ole samaa sahkopostia
+            else if (!funktiot.CheckTupla(this, sahkoposti, lista, luokka, vertailu2, vertailu2)) // varmistetaan ettei ole samaa sahkopostia
             {
                 // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
             }

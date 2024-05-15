@@ -31,7 +31,7 @@ public partial class Laskut : ContentPage
 	}
     protected override async void OnAppearing()
     {
-        base.OnAppearing();
+       base.OnAppearing();
         await laskuViewmodel.LoadLaskutFromDatabaseAsync();
     }
     private async void maksettu_CheckedChanged(object sender, CheckedChangedEventArgs e)

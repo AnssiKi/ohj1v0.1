@@ -25,7 +25,7 @@ public partial class Mokit : ContentPage
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
-        selectedAlue = (Alue)lista.SelectedItem;
+        
     }
 
     private void mokki_nimi_TextChanged(object sender, TextChangedEventArgs e)
@@ -36,14 +36,14 @@ public partial class Mokit : ContentPage
 
     private async void mokki_nimi_Unfocused(object sender, FocusEventArgs e)
     {
-        Type luokka = typeof(Mokki);
+       /* Type luokka = typeof(Mokki);
         Entry entry = mokki_nimi;
 
         if (CheckTuplaTietokanta(mokki_nimi.Text, selectedAlue.AlueId)) // varmistetaan ettei ole samannimista mokkia
         {
             await DisplayAlert("Virhe", "Saman niminen mökki on jo alueella", "OK");
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-        }
+        }*/
     }
 
     private void mokki_katuosoite_TextChanged(object sender, TextChangedEventArgs e)
@@ -203,7 +203,7 @@ public partial class Mokit : ContentPage
                                     Postinro = mokki_postinumero.Text,
                                     Hinta = double.Parse(mokki_hinta.Text),
                                     Kuvaus = mokki_kuvaus.Text,
-                                    Varustelu = mokki_kuvaus.Text,
+                                    Varustelu = mokki_varustelu.Text,
                                     Henkilomaara = int.Parse(mokki_henkilomaara.SelectedItem.ToString()),
 
                                 };
@@ -347,6 +347,7 @@ public partial class Mokit : ContentPage
         funktiot.TyhjennaEntryt(grid, list);
         mokki_kuvaus.Text = "N/A";
         mokki_varustelu.Text = "N/A";
+        selectedMokki = null;
     }
 
     private bool CheckTuplaTietokanta(string mokkiNimi, uint alueId)

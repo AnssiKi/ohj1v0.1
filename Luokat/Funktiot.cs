@@ -118,7 +118,7 @@ namespace ohj1v0._1.Luokat
                     var vertailtavaArvo = vertailu.GetType().GetProperty(propertyName).GetValue(vertailu, null);
                     if (vertailtavaArvo.ToString() == entry.Text)
                     {
-                        DisplayAlertOnPage(currentPage, "Virhe", string.Format("Saman niminen {0} jo olemassa", selite), "OK");
+                        DisplayAlertOnPage(currentPage, "Virhe", string.Format("{0} jo olemassa", selite), "OK");
                         return false;
                     }
                 }
