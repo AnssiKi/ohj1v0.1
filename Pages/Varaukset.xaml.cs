@@ -26,7 +26,12 @@ public partial class Varaukset : ContentPage
         lista.BindingContext = varausViewmodel;
         alue_nimi.BindingContext = alueViewmodel;
         mokin_nimi.BindingContext = mokkiViewmodel;
-    } 
+        this.Appearing += OnPageAppearing;
+    }
+    private void OnPageAppearing(object sender, EventArgs e)
+    {
+        BindingContext = new VarausViewmodel();
+    }
     public async void muodostalasku_Clicked(object sender, EventArgs e)
     { 
         //Tallennus tietokantaan
