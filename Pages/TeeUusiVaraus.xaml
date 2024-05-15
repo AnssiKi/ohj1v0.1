@@ -114,10 +114,12 @@
                     Grid.ColumnSpan="3"
                     HorizontalOptions="FillAndExpand">
 
+                        <ScrollView>
                         <ListView     
                             x:Name="mokki_lista"
                             ItemTapped="mokki_lista_ItemTapped"
-                            IsEnabled="false">
+                            IsEnabled="false"
+                            HeightRequest="300">
                             <ListView.Header>
                                 <StackLayout Orientation="Horizontal" Padding="10">
                                     <Label Text="ID" WidthRequest="40" FontAttributes="Bold"/>
@@ -143,6 +145,7 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
+                        </ScrollView>
                     </Frame>
 
                     <Frame                    
@@ -152,16 +155,17 @@
                     Grid.Row="11"
                     Grid.ColumnSpan="3"
                     HorizontalOptions="FillAndExpand">
-
-                        <Grid x:Name="palveluContainer" Padding="10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="300" />
-                                <ColumnDefinition Width="100" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <!-- Rivin määrittelyt luodaan dynaamisesti koodissa -->
-                            </Grid.RowDefinitions>
-                        </Grid>
+                        <ScrollView>
+                            <Grid x:Name="palveluContainer" Padding="10" HeightRequest="200">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="300" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <!-- Rivin määrittelyt luodaan dynaamisesti koodissa -->
+                                </Grid.RowDefinitions>
+                            </Grid>
+                        </ScrollView>
                     </Frame>
 
                     <Button
