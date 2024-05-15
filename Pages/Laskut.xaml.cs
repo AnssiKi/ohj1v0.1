@@ -71,15 +71,18 @@ public partial class Laskut : ContentPage
 
     private async void tulosta_Clicked(object sender, EventArgs e)
     {
-        Asiaka laskunAsiakas = HaeLaskunAsiakas(selectedLasku);
-        List<Palvelu> laskunPalvelut = HaeLaskunPalvelut(selectedLasku);
-        string maksuninfo;
+        
         if (selectedLasku == null)
         {
             DisplayAlert("Virhe", "Valitse ensin varaus josta haluat muodostaa laskun", "OK");
             return;
         }
+
         //Tehd‰‰n PDF:
+
+        Asiaka laskunAsiakas = HaeLaskunAsiakas(selectedLasku);
+        List<Palvelu> laskunPalvelut = HaeLaskunPalvelut(selectedLasku);
+        string maksuninfo;
         using var memoryStream = new MemoryStream();
         iTextKernel.PdfWriter writer = new iTextKernel.PdfWriter(memoryStream);
         iTextKernel.PdfDocument pdf = new iTextKernel.PdfDocument(writer);
