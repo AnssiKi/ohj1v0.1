@@ -79,8 +79,9 @@ public partial class Laskut : ContentPage
         }
 
         //Tehd‰‰n PDF:
-
+        Varau laskunVaraus = HaeLaskunVaraus(selectedLasku);
         Asiaka laskunAsiakas = HaeLaskunAsiakas(selectedLasku);
+        Mokki laskunMokki = HaeLaskunMokki(selectedLasku);
         List<Palvelu> laskunPalvelut = HaeLaskunPalvelut(selectedLasku);
         string maksuninfo;
         using var memoryStream = new MemoryStream();
@@ -96,7 +97,12 @@ public partial class Laskut : ContentPage
         var varausInfo = new iTextLOElement.Paragraph($"Varaus ID: {selectedLasku.VarausId}\n" +
             $"Laskun numero: {selectedLasku.LaskuId}\n" +
             $"Asiakas: {laskunAsiakas.Etunimi} {laskunAsiakas.Sukunimi}\n"+
-            $"Hinta: {selectedLasku.Summa}Ä\n" +
+            $"Mˆkki: {laskunMokki.Mokkinimi}\n" +
+            $"Mˆkin varausp‰iv‰: {laskunVaraus.VarattuPvm}\n" +
+            $"Varauksen vahvistusp‰iv‰: {laskunVaraus.VahvistusPvm}\n" +
+            $"Majoituksen alkamisp‰iv‰: {laskunVaraus.VarattuAlkupvm}\n" +
+            $"Majoituksen loppumisp‰iv‰: {laskunVaraus.VarattuLoppupvm}\n" +
+            $"Hinta: {laskunVaraus.Mokki.Hinta}Ä\n" +
             $"Palvelut:")
             .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
            .SetFontSize(12);
@@ -251,5 +257,24 @@ public partial class Laskut : ContentPage
             .ToList();
 
         return palvelut;
+    }
+    public Mokki HaeLaskunMokki(Lasku selectedLasku) 
+    {
+        Varau varaus = context.Varaus.FirstOrDefault(v => v.VarausId == selectedLasku.VarausId);
+        if (varaus == null)
+        {
+            return null;
+        }
+        Mokki mokki = context.Mokkis.FirstOrDefault(m => m.MokkiId == varaus.MokkiId);
+        return varaus.Mokki;
+    }
+    public Varau HaeLaskunVaraus(Lasku selectedLasku)
+    {
+        Varau varaus = context.Varaus.FirstOrDefault(v => v.VarausId == selectedLasku.VarausId);
+        if (varaus == null)
+        {
+            return null;
+        }
+        return varaus;
     }
 }
