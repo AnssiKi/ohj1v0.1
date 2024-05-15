@@ -26,7 +26,12 @@ public partial class Laskut : ContentPage
         
         BindingContext = laskuViewmodel;
         maksettu.IsEnabled = false;
+        this.Appearing += OnPageAppearing;
 	}
+    private void OnPageAppearing(object sender, EventArgs e)
+    {
+        BindingContext = new LaskuViewmodel();
+    }
 
     private async void maksettu_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
