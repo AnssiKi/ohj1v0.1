@@ -74,6 +74,7 @@ public partial class TeeUusiVaraus : ContentPage
             if (alkupaiva.Value < DateTime.Today)
             {
                 await DisplayAlert("Ilmoitus", "Aloituspäivämäärä tulee olla aikaisintaan tänään", "OK!");
+                alkupaiva = DateTime.Today;
             }
         }
     }
@@ -88,11 +89,13 @@ public partial class TeeUusiVaraus : ContentPage
             if (alkupaiva.Value > loppupaiva.Value)
             {
                 await DisplayAlert("Virhe", "Aloituspäivämäärä ei voi olla lopetuspäivämäärän jälkeen", "OK");
+                alkupaiva = DateTime.Today;
 
             }
             else if (alkupaiva.Value == loppupaiva.Value)
             {
                 await DisplayAlert("Ilmoitus", "Minimi vuokrausaika 1vrk. Valitse uusi loppu päivämäärä", "OK");
+                alkupaiva=DateTime.Today;
 
             }
             if ((Alue)alue_nimi.SelectedItem != null)
@@ -130,44 +133,9 @@ public partial class TeeUusiVaraus : ContentPage
             await DisplayAlert("Ilmoitus", "Valitse aloituspäivämääärä, nämä tiedot ovat pakollisia", "OK");
         }
     }
-    private async void henkilomaara_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        if ((Alue)alue_nimi.SelectedItem != null && alkupaiva.HasValue && loppupaiva.HasValue)
-        {
-            List<Mokki> filteredMokit;
-            int henkilo = henkilomaara.SelectedIndex + 1;
-            
-            using var context = new VnContext();
-            { //suodatetaan ensin mökit alueen mukaan ja henkilömäärän mukaan
-                 filteredMokit = await context.Mokkis
-                .Where(m => m.Henkilomaara >= henkilo && m.AlueId == selectedAlue.AlueId)
-                .Include(m => m.Varaus)
-                .ToListAsync();
+    
 
-                //Sen jälkeen suodatetaan mökit jotka vapaana annettuina päivinä
-                filteredMokit = filteredMokit
-                    .Where(m => m.Varaus.All(v => v.VarattuLoppupvm < alkupaiva.Value || v.VarattuAlkupvm > loppupaiva.Value))
-                    .ToList();
-            }
-            if (!filteredMokit.Any())
-            {
-                //Jos alueella ei ole vapaana mökkejä, annetaan alert
-                await DisplayAlert("Ilmoitus", "Valitettavasti alueella ei ole mökkejä vapaana valittuna ajankohtana", "OK!");
-                mokki_lista.ItemsSource = null;
-            }
-
-            else
-            {//Asetetaan mökkilistaan vapaana olevat mökit
-                mokki_lista.ItemsSource = filteredMokit;
-            }
-        }
-        else
-        {
-            await DisplayAlert("Ilmoitus", "Valitse ensin alue ja päivämäärät,jolloin haluaisit vuokrata mökin", "OK!");
-
-        }
-
-    }
+    
 
     private async void mokki_lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
@@ -347,7 +315,7 @@ public partial class TeeUusiVaraus : ContentPage
     {
 
        alue_nimi.SelectedItem = null; // tyhjentää alue pickerin
-       henkilomaara.SelectedItem = null; // Tyhjentää henkilömääräpickerin valinnan
+       
 
         alkupaiva = DateTime.Today; // asetetaan alkupäivämääräksi kuluva pvä
         loppupaiva = null; //nollataan loppupäivän valinta
@@ -357,13 +325,13 @@ public partial class TeeUusiVaraus : ContentPage
         selectedAlue = null; //nollataan kaikki valinnat
         selectedMokki = null;
         selectedPalvelu = null;
-        henkilomaara = null;
-        lukumaara = 0;
+        lukumaara = 0; //Tyhjentää varauksen palveluihin liittyvän lukumäärän
 
         mokki_lista.ItemsSource = null; //laitetaan listat tyhjiks
         palvelu_lista.ItemsSource = null;
 
-        
+        mokki_lista.IsEnabled = false;
+        palvelu_lista.IsEnabled = false;
 
 
     }

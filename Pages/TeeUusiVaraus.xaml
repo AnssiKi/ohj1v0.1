@@ -77,52 +77,20 @@
                     x:Name="loppupvm"
                     DateSelected="loppupvm_DateSelected"/>
 
-                    <Label                    
-                    Text="Henkilömäärä"
-                    Margin="0,5,0,0"
-                    Grid.Row="5"/>
+                    
 
-                <Picker 
-                    x:Name="henkilomaara" 
-                    Grid.Row="6"
-                    HorizontalOptions="Start"
-                    SelectedIndexChanged="henkilomaara_SelectedIndexChanged">
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>1</x:String>
-                            <x:String>2</x:String>
-                            <x:String>3</x:String>
-                            <x:String>4</x:String>
-                            <x:String>5</x:String>
-                            <x:String>6</x:String>
-                            <x:String>7</x:String>
-                            <x:String>8</x:String>
-                            <x:String>9</x:String>
-                            <x:String>10</x:String>
-                            <x:String>11</x:String>
-                            <x:String>12</x:String>
-                            <x:String>13</x:String>
-                            <x:String>14</x:String>
-                            <x:String>15</x:String>
-                            <x:String>16</x:String>
-                            <x:String>17</x:String>
-                            <x:String>18</x:String>
-                            <x:String>19</x:String>
-                            <x:String>20</x:String>
-                        </x:Array>
-                    </Picker.ItemsSource>
-                </Picker>
+                
                     <Label
                         Text="Varaus pvm:"
                         Margin="0,5,0,0"
                         Grid.Row="5"
-                        Grid.Column="1"/>
+                        Grid.Column="0"/>
                     
                     <Entry
                         Text="" 
                         x:Name="varauspvm"
                         Grid.Row="6"
-                        Grid.Column="1"
+                        Grid.Column="0"
                         WidthRequest="290"
                         IsReadOnly="True"/>
 
