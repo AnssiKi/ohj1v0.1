@@ -175,9 +175,9 @@ public partial class Laskut : ContentPage
         }
         return;
     }
-
-    private void hakupvm_DateSelected(object sender, DateChangedEventArgs e)
+    private void haeavoimet_checkchanged(object sender, CheckedChangedEventArgs e) 
     {
+
     }
 
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
