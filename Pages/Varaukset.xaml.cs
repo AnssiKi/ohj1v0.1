@@ -367,7 +367,7 @@ public partial class Varaukset : ContentPage
                 }
                 catch
                 {
-                    await DisplayAlert("Virhe", "Varausta ei voitu poistaa.", "OK");
+                    await DisplayAlert("Virhe", "Varausta ei voitu poistaa. Varaukseen on liitetty lasku.", "OK");
                 }
             }          
         }
