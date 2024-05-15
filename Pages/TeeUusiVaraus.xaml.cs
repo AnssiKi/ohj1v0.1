@@ -346,8 +346,12 @@ public partial class TeeUusiVaraus : ContentPage
     public void TyhjennaVarausTiedot()
     {
 
-       alue_nimi.SelectedItem = null; // tyhjent‰‰ alue pickerin
-       henkilomaara.SelectedItem = null; // Tyhjent‰‰ henkilˆm‰‰r‰pickerin valinnan
+        alue_nimi.SelectedIndex = -1; // tyhjent‰‰ alue pickerin
+
+        if (henkilomaara.SelectedIndex != -1)
+        {
+            henkilomaara.SelectedIndex = -1; // Tyhjent‰‰ henkilˆm‰‰r‰pickerin valinnan
+        }
 
         alkupaiva = DateTime.Today; // asetetaan alkup‰iv‰m‰‰r‰ksi kuluva pv‰
         loppupaiva = null; //nollataan loppup‰iv‰n valinta
@@ -357,13 +361,11 @@ public partial class TeeUusiVaraus : ContentPage
         selectedAlue = null; //nollataan kaikki valinnat
         selectedMokki = null;
         selectedPalvelu = null;
-        henkilomaara = null;
+
         lukumaara = 0;
 
         mokki_lista.ItemsSource = null; //laitetaan listat tyhjiks
         palvelu_lista.ItemsSource = null;
-
-        
 
 
     }
