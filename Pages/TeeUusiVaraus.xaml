@@ -80,11 +80,7 @@
                     
 
                 
-                    <Label
-                        Text="Varaus pvm:"
-                        Margin="0,5,0,0"
-                        Grid.Row="5"
-                        Grid.Column="0"/>
+                
                     
                     <Entry
                         Text="" 
@@ -92,7 +88,8 @@
                         Grid.Row="6"
                         Grid.Column="0"
                         WidthRequest="290"
-                        IsReadOnly="True"/>
+                        IsReadOnly="True"
+                        IsVisible="False"/>
 
                 <Label                    
                     Text="Valitse mökki"

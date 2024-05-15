@@ -1,10 +1,7 @@
-using ohj1v0._1;
-using ohj1v0._1.Luokat;
-using ohj1v0._1.Viewmodels;
-using ohj1v0._1.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata.Ecma335;
-using Org.BouncyCastle.Asn1.Ocsp;
+using ohj1v0._1.Luokat;
+using ohj1v0._1.Models;
+using ohj1v0._1.Viewmodels;
 
 namespace ohj1v0._1;
 
@@ -17,6 +14,14 @@ public partial class TeeUusiVaraus : ContentPage
     PalveluViewmodel palveluViewmodel = new PalveluViewmodel();
     ListaViewModel listaViewModel = new ListaViewModel();
 
+    Alue selectedAlue = null;
+    Mokki selectedMokki = null;
+    Palvelu selectedPalvelu = null;
+    private int lukumaara = 0;
+    private DateTime? alkupaiva = DateTime.Today;
+    private DateTime? loppupaiva = DateTime.Today.AddDays(1);
+
+
     public TeeUusiVaraus()
     {
         InitializeComponent();
@@ -24,15 +29,24 @@ public partial class TeeUusiVaraus : ContentPage
         varauspvm.Text = DateTime.Now.ToString("dd.MM.yyyy");
         mokki_lista.BindingContext = mokkiViewmodel.Mokkis;
         palvelu_lista.BindingContext = palveluViewmodel.Palvelus;
-
+        InitializeDefaultValues();
     }
 
-    Alue selectedAlue = null;
-    Mokki selectedMokki = null;
-    Palvelu selectedPalvelu = null;
-    private int lukumaara = 0;
-    private DateTime? alkupaiva = DateTime.Today;
-    private DateTime? loppupaiva = null;
+    private void InitializeDefaultValues()
+    {
+        alkupvm.Date = DateTime.Today;
+        loppupvm.Date = DateTime.Today.AddDays(1);
+        alkupvm.IsEnabled = false;
+        loppupvm.IsEnabled = false;
+        alue_nimi.SelectedIndex = -1;
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        InitializeDefaultValues();
+    }
+
 
     private async void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -45,6 +59,9 @@ public partial class TeeUusiVaraus : ContentPage
 
             var mokitValitullaAlueella = await context.Mokkis.Where(m => m.AlueId == selectedAlue.AlueId).ToListAsync();//filtteroidaan mökit alueella
             var palvelutValitullaAlueella = await context.Palvelus.Where(p => p.AlueId == selectedAlue.AlueId).ToListAsync();//filtteroidaan palvelut alueella
+
+            alkupvm.IsEnabled = true;
+            loppupvm.IsEnabled = true;
 
             if (!mokitValitullaAlueella.Any()) //Jos alueella ei ole mökkejä
             {
@@ -68,43 +85,44 @@ public partial class TeeUusiVaraus : ContentPage
 
     private async void alkupvm_DateSelected(object sender, DateChangedEventArgs e)
     {
-        alkupaiva = e.NewDate;
-        if (alkupaiva.HasValue) 
+        if (e.NewDate < DateTime.Today)
         {
-            if (alkupaiva.Value < DateTime.Today)
+            await DisplayAlert("Ilmoitus", "Aloituspäivämäärä tulee olla aikaisintaan tänään", "OK!");
+            alkupvm.Date = DateTime.Today;  // Resetoi alkupäivämäärä
+        }
+        else
+        {
+            alkupaiva = e.NewDate;
+            // Varmistetaan, että loppupäivämäärä on vähintään yksi päivä alkupäivämäärän jälkeen
+            if (loppupaiva.HasValue && loppupaiva.Value <= alkupaiva.Value)
             {
-                await DisplayAlert("Ilmoitus", "Aloituspäivämäärä tulee olla aikaisintaan tänään", "OK!");
-                alkupaiva = DateTime.Today;
+                loppupaiva = alkupaiva.Value.AddDays(1);
+                loppupvm.Date = loppupaiva.Value;
             }
         }
     }
 
     private async void loppupvm_DateSelected(object sender, DateChangedEventArgs e)
     {
-        loppupaiva = e.NewDate;
+        if (alkupaiva.HasValue && e.NewDate <= alkupaiva.Value)
+        {
+            await DisplayAlert("Ilmoitus", "Loppupäivämäärä tulee olla vähintään yksi päivä alkupäivämäärän jälkeen", "OK!");
+            loppupaiva = alkupaiva.Value.AddDays(1);
+            loppupvm.Date = loppupaiva.Value;
+        }
+        else
+        {
+            loppupaiva = e.NewDate;
+        }
 
         if (alkupaiva.HasValue && loppupaiva.HasValue)
         {
-
-            if (alkupaiva.Value > loppupaiva.Value)
-            {
-                await DisplayAlert("Virhe", "Aloituspäivämäärä ei voi olla lopetuspäivämäärän jälkeen", "OK");
-                alkupaiva = DateTime.Today;
-
-            }
-            else if (alkupaiva.Value == loppupaiva.Value)
-            {
-                await DisplayAlert("Ilmoitus", "Minimi vuokrausaika 1vrk. Valitse uusi loppu päivämäärä", "OK");
-                alkupaiva=DateTime.Today;
-
-            }
-            if ((Alue)alue_nimi.SelectedItem != null)
+            if (selectedAlue != null)
             {
                 List<Mokki> vapaanaolevat;
 
                 using var context = new VnContext();
                 {
-
                     // Suodatetaan ensin mökit alueen mukaan
                     vapaanaolevat = await context.Mokkis
                         .Where(m => m.AlueId == selectedAlue.AlueId)
@@ -117,12 +135,14 @@ public partial class TeeUusiVaraus : ContentPage
                         .ToList();
                 }
                 if (vapaanaolevat.Any())
-                {//Asetetaan vapaanaolevat mökit näkyväksi
-                   mokki_lista.ItemsSource = vapaanaolevat;
+                {
+                    // Asetetaan vapaanaolevat mökit näkyväksi
+                    mokki_lista.ItemsSource = vapaanaolevat;
                 }
-                else 
-                {//Jos ei oo mökkejä vapaana,ei näytetä mitään
-                   mokki_lista.ItemsSource = null; 
+                else
+                {
+                    // Jos ei ole mökkejä vapaana, ei näytetä mitään
+                    mokki_lista.ItemsSource = null;
                 }
                 mokki_lista.IsEnabled = true;
                 palvelu_lista.IsEnabled = true;
@@ -130,12 +150,12 @@ public partial class TeeUusiVaraus : ContentPage
         }
         else
         {
-            await DisplayAlert("Ilmoitus", "Valitse aloituspäivämääärä, nämä tiedot ovat pakollisia", "OK");
+            await DisplayAlert("Ilmoitus", "Valitse aloituspäivämäärä, nämä tiedot ovat pakollisia", "OK");
         }
     }
-    
 
-    
+
+
 
     private async void mokki_lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
@@ -164,7 +184,7 @@ public partial class TeeUusiVaraus : ContentPage
                 .ToList();
             if (mokin_varaukset.Any())
             {//Jos mökillä on varauksia kyseisenä aikana ja vahingossa päässy näkymään yritetään napata se tällä
-                await DisplayAlert("Ilmoitus","Mökki on varattuna halutulla ajankohdalla, valitse eri mökki","OK!");
+                await DisplayAlert("Ilmoitus", "Mökki on varattuna halutulla ajankohdalla, valitse eri mökki", "OK!");
                 selectedMokki = null;
             }
             else
@@ -196,18 +216,18 @@ public partial class TeeUusiVaraus : ContentPage
     {
         selectedPalvelu = (Palvelu)palvelu_lista.SelectedItem;
 
-            if (selectedPalvelu != null)
-            {
-                // Päivitä valittujen palveluiden lista
-                listaViewModel.OnItemTapped(selectedPalvelu);
+        if (selectedPalvelu != null)
+        {
+            // Päivitä valittujen palveluiden lista
+            listaViewModel.OnItemTapped(selectedPalvelu);
 
-                       
-            }
-           
+
+        }
+
     }
     private async void uusi_asiakas_Clicked(object sender, EventArgs e)
     {
-       
+
         if (selectedMokki != null && selectedAlue != null && alkupaiva.HasValue && loppupaiva.HasValue) //Tästä poistettu funkiot-luokan käyttö tarkistuksista ja vaaditaan että kaikki nämä on valittuna ennen kun voi siirtyä tallentamaan varausta
         {
             //Hetaan varauksen tiedot omiin muuttujiin talteen annetaan mukaan uudelle sivulle ja siellä kysytään haluaako ilman palveluita
@@ -227,13 +247,14 @@ public partial class TeeUusiVaraus : ContentPage
 
     private async void vanha_asiakas_Clicked(object sender, EventArgs e)
     {
-       
+
         if (selectedMokki != null && selectedAlue != null && alkupaiva.HasValue && loppupaiva.HasValue)//Tarkistetaan että on valinnut kaikki tarvittavat tiedot
-        {   
+        {
             // Haetaan varauksen tiedot omiin muuttujiin talteen. Siellä kysytään haluaako jatkaa ilman palveluita
             VarauksenTiedot varauksenTiedot = await VarauksenTiedotAsync();
 
-            if (varauksenTiedot != null) {//Jos käyttäjä on joko valinnut palvelut tai siirtymisen ilman palveluita, päästään etenemään
+            if (varauksenTiedot != null)
+            {//Jos käyttäjä on joko valinnut palvelut tai siirtymisen ilman palveluita, päästään etenemään
                 await Navigation.PushAsync(new Vanha_asiakas(this, varauksenTiedot));
             }
         }
@@ -246,10 +267,10 @@ public partial class TeeUusiVaraus : ContentPage
     private async Task<VarauksenTiedot> VarauksenTiedotAsync()
     {
         //Tarkistetaan että onko varaus alkamassa jo alle viikonpäästä
-        var erotus= alkupvm.Date - DateTime.Now;
+        var erotus = alkupvm.Date - DateTime.Now;
         var vahvistus = DateTime.Now;
 
-        if (erotus.TotalDays <= 7) 
+        if (erotus.TotalDays <= 7)
         {
             vahvistus = DateTime.Now;
         }
@@ -273,11 +294,11 @@ public partial class TeeUusiVaraus : ContentPage
             if (!jatkaIlmanPalveluita)
             {
                 return null; // Jos käyttäjä ei halua jatkaa ilman palveluita, palauta null
-               
+
             }
-            
+
             // Jos käyttäjä haluaa jatkaa ilman palveluita, jatketaan ilman palveluiden lisäystä
-           
+
         }
         else
         {
@@ -296,7 +317,7 @@ public partial class TeeUusiVaraus : ContentPage
                         Lkm = palvelunLukumaara
                     });
 
-                    
+
                     listaViewModel.EiValittu(selectedPalvelu, palvelunLukumaara);
                 }
                 if (palvelunLukumaara > 0)
@@ -310,17 +331,11 @@ public partial class TeeUusiVaraus : ContentPage
             }
         }
         return varauksenTiedot;
-    }  
+    }
     public void TyhjennaVarausTiedot()
     {
 
-       alue_nimi.SelectedItem = null; // tyhjentää alue pickerin
-       
-
-        alkupaiva = DateTime.Today; // asetetaan alkupäivämääräksi kuluva pvä
-        loppupaiva = null; //nollataan loppupäivän valinta
-        alkupvm.Date = DateTime.Today; //pickeriin kuluva pvä
-        loppupvm.Date = DateTime.Today.AddDays(1);//tähän pickeriin seuraava päivä ni ei tuu alerttia
+        InitializeDefaultValues();
 
         selectedAlue = null; //nollataan kaikki valinnat
         selectedMokki = null;
