@@ -31,7 +31,7 @@ public partial class TeeUusiVaraus : ContentPage
     Mokki selectedMokki = null;
     Palvelu selectedPalvelu = null;
     private int lukumaara = 0;
-    private DateTime? alkupaiva = DateTime.Now;
+    private DateTime? alkupaiva = DateTime.Today;
     private DateTime? loppupaiva = null;
 
     private async void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
@@ -71,7 +71,7 @@ public partial class TeeUusiVaraus : ContentPage
         alkupaiva = e.NewDate;
         if (alkupaiva.HasValue) 
         {
-            if (alkupaiva.Value < DateTime.Now)
+            if (alkupaiva.Value < DateTime.Today)
             {
                 await DisplayAlert("Ilmoitus", "Aloitusp‰iv‰m‰‰r‰ tulee olla aikaisintaan t‰n‰‰n", "OK!");
             }
@@ -213,15 +213,11 @@ public partial class TeeUusiVaraus : ContentPage
         {
             // funktiossa tarkistetaan ettei syote sisalla tekstia
         }
-        else if (selectedPalvelu != null) 
+        else if (selectedPalvelu != null)
         {
             lukumaara = int.Parse(entry.Text);
             entry.BindingContext = selectedPalvelu;
             listaViewModel.PalveluLkm_TextChanged(sender, e);
-        }
-        else 
-        {
-            await DisplayAlert("Ilmoitus","Valitse ensin palvelu, sen j‰lkeen lukum‰‰r‰","OK!");
         }
         entry.TextChanged += (sender, e) =>
         {
@@ -353,10 +349,10 @@ public partial class TeeUusiVaraus : ContentPage
        alue_nimi.SelectedItem = null; // tyhjent‰‰ alue pickerin
        henkilomaara.SelectedItem = null; // Tyhjent‰‰ henkilˆm‰‰r‰pickerin valinnan
 
-        alkupaiva = DateTime.Now; // asetetaan alkup‰iv‰m‰‰r‰ksi kuluva pv‰
+        alkupaiva = DateTime.Today; // asetetaan alkup‰iv‰m‰‰r‰ksi kuluva pv‰
         loppupaiva = null; //nollataan loppup‰iv‰n valinta
-        alkupvm.Date = DateTime.Now; //pickereihin asetetaan kuluvap‰iv‰
-        loppupvm.Date = DateTime.Now.AddDays(1);
+        alkupvm.Date = DateTime.Today; //pickeriin kuluva pv‰
+        loppupvm.Date = DateTime.Today.AddDays(1);//t‰h‰n pickeriin seuraava p‰iv‰ ni ei tuu alerttia
 
         selectedAlue = null; //nollataan kaikki valinnat
         selectedMokki = null;
@@ -366,6 +362,8 @@ public partial class TeeUusiVaraus : ContentPage
 
         mokki_lista.ItemsSource = null; //laitetaan listat tyhjiks
         palvelu_lista.ItemsSource = null;
+
+        
 
 
     }
