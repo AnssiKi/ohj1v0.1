@@ -68,8 +68,6 @@ namespace ohj1v0._1.Viewmodels
         }
     }
 
-
-
     public class AsiakasLoad
     {
         public async Task<List<Asiaka>> LoadAsiakasAsync()

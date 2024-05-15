@@ -26,7 +26,7 @@ public partial class Laskut : ContentPage
     public Laskut()
 	{
 	    InitializeComponent();
-        this.BindingContext = laskuViewmodel;
+        BindingContext = laskuViewmodel;
         maksettu.IsEnabled = false;
 	}
    /* protected override async void OnAppearing()

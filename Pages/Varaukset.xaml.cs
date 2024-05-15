@@ -57,7 +57,8 @@ public partial class Varaukset : ContentPage
 
             dbContext.Add(l);
             await dbContext.SaveChangesAsync();
-            laskuViewmodel.LoadLaskutFromDatabaseAsync();
+            laskuViewmodel.OnPropertyChanged(nameof(laskuViewmodel.Laskut));
+            laskuViewmodel.LoadLaskutFromDatabaseAsync(); 
             TulostaPDF(selectedVaraus, varauksenPalvelut, loppusumma, verot);
         }
         else 
