@@ -30,7 +30,7 @@ public partial class Varaukset : ContentPage
     }
     private void OnPageAppearing(object sender, EventArgs e)
     {
-        BindingContext = new VarausViewmodel();
+        lista.BindingContext = new VarausViewmodel();
     }
     public async void muodostalasku_Clicked(object sender, EventArgs e)
     { 
