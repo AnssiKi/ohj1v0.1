@@ -26,14 +26,15 @@ public partial class Laskut : ContentPage
     public Laskut()
 	{
 	    InitializeComponent();
-        BindingContext = laskuViewmodel;
+        this.BindingContext = laskuViewmodel;
         maksettu.IsEnabled = false;
 	}
-    protected override async void OnAppearing()
+   /* protected override async void OnAppearing()
     {
        base.OnAppearing();
         await laskuViewmodel.LoadLaskutFromDatabaseAsync();
-    }
+    }*/
+
     private async void maksettu_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         if (!isUserCheckChange) return;

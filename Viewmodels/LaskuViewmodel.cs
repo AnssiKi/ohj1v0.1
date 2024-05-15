@@ -10,15 +10,15 @@ namespace ohj1v0._1.Viewmodels
         public event PropertyChangedEventHandler PropertyChanged;
         private ObservableCollection<Lasku> _laskut;
         public ObservableCollection<Lasku> Laskut
-        { 
+        {
             get => _laskut;
             set
             {
-                if (_laskut != value) 
+                if (_laskut != value)
                 {
                     _laskut = value;
                     OnPropertyChanged(nameof(Laskut));
-                   
+
                 }
             }
         }
@@ -32,13 +32,17 @@ namespace ohj1v0._1.Viewmodels
         {
             LaskuLoad loader = new LaskuLoad();
             var LaskuFromDb = await loader.LoadLaskuAsync();
-            Laskut = new ObservableCollection<Lasku>(LaskuFromDb);
+            _laskut.Clear();
+            foreach (var lasku in LaskuFromDb)
+            {
+                _laskut.Add(lasku);
+            }
         }
-  
-        public async Task PoistaLaskuAsync(int laskuID) 
+
+        public async Task PoistaLaskuAsync(int laskuID)
         {
             var lasku = _laskut.FirstOrDefault(a => a.LaskuId == laskuID);
-            if(lasku!=null)
+            if (lasku != null)
             {
                 _laskut.Remove(lasku);
                 using var context = new VnContext();
@@ -51,13 +55,14 @@ namespace ohj1v0._1.Viewmodels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-    public class LaskuLoad 
+    public class LaskuLoad
     {
-        public async Task<List<Lasku>> LoadLaskuAsync() 
+        public async Task<List<Lasku>> LoadLaskuAsync()
         {
             using var context = new VnContext();
-            var lasku = await context.Laskus.ToListAsync();
+            var lasku = await context.Laskus.Include(m => m.Varaus).OrderBy(a => a.LaskuId).ToListAsync();
             return lasku;
         }
     }
 }
+
