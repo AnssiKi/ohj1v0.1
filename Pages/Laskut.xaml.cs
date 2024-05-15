@@ -36,21 +36,31 @@ public partial class Laskut : ContentPage
     private async void maksettu_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         if (!isUserCheckChange) return;
-        if (selectedLasku != null && selectedLasku.Maksettu == 0) 
+        if (selectedLasku != null && selectedLasku.Maksettu == 0)
         {
             selectedLasku.Maksettu = 1;
             context.Laskus.Update(selectedLasku);
             context.SaveChanges();
             OnPropertyChanged(nameof(selectedLasku.Maksettu));
-            BindingContext = new LaskuViewmodel();  
-            selectedLasku = null;
+            BindingContext = new LaskuViewmodel();
             await DisplayAlert("Tallennus", "Lasku merkitty maksetuksi", "OK");
         }
-        else 
+        else if (selectedLasku != null && selectedLasku.Maksettu == 1)
+        {
+            selectedLasku.Maksettu = 0;
+            context.Laskus.Update(selectedLasku);
+            context.SaveChanges();;
+            OnPropertyChanged(nameof(selectedLasku.Maksettu));
+            BindingContext = new LaskuViewmodel();
+            await DisplayAlert("Tallennus", "Lasku merkitty avoimeksi", "OK");
+        }
+        else
         {
             await DisplayAlert("Virhe", "Valitse ensin lasku", "OK");
-            return; 
+            return;
         }
+        context.ChangeTracker.Clear();
+        selectedLasku = null;
         Grid grid = (Grid)entry_grid;
         ListView list = (ListView)lista;
         funktiot.TyhjennaEntryt(grid, list);

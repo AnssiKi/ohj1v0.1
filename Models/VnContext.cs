@@ -242,6 +242,7 @@ public partial class VnContext : DbContext
             entity.HasIndex(e => e.AsiakasId, "varaus_as_id_index");
 
             entity.Property(e => e.VarausId)
+                .ValueGeneratedOnAdd()
                 .HasColumnType("int(10) unsigned")
                 .HasColumnName("varaus_id");
             entity.Property(e => e.AsiakasId)
