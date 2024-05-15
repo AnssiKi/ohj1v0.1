@@ -19,6 +19,7 @@ public partial class Varaukset : ContentPage
     VarausViewmodel varausViewmodel = new VarausViewmodel();
     MokkiViewmodel mokkiViewmodel = new MokkiViewmodel();
     Varau selectedVaraus;
+
     public Varaukset()
     {
         InitializeComponent();
@@ -330,10 +331,7 @@ public partial class Varaukset : ContentPage
         // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
         if (result)
         {
-            Grid grid = (Grid)entry_grid;
-            ListView list = (ListView)lista;
-            funktiot.TyhjennaEntryt(grid, list);
-            selectedVaraus = null;         
+            TyhjennaFunktio();
         }
     }
     private async void poista_Clicked(object sender, EventArgs e)
@@ -384,6 +382,9 @@ public partial class Varaukset : ContentPage
 
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
+        alue_nimi.IsEnabled = true;
+        mokin_nimi.IsEnabled = true;
+
         Grid grid = (Grid)entry_grid;
         if (e.Item == null)
         {
@@ -440,5 +441,9 @@ public partial class Varaukset : ContentPage
         Grid grid = (Grid)entry_grid;
         ListView list = (ListView)lista;
         funktiot.TyhjennaEntryt(grid, list);
+        selectedVaraus = null;
+        alue_nimi.IsEnabled = false;
+        mokin_nimi.IsEnabled = false;
+
     }
 }
