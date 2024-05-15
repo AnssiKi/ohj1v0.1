@@ -88,4 +88,11 @@ public partial class Raportit : ContentPage
     {
 
     }
+
+    private void tyhjenna_Clicked(object sender, EventArgs e)
+    {
+        raportti.Clear();
+        lista.ItemsSource = null;
+        lista.ItemsSource = raportti;
+    }
 }

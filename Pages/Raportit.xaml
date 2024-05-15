@@ -96,6 +96,13 @@
                         Margin="0,5,0,0"
                         Grid.Row="4"
                         Clicked="hae_Clicked"/>
+                    <Button 
+                        x:Name="tyhjenna"
+                        Text="Tyhjennä"
+                        Margin="0,5,0,0"
+                        Grid.Column="1"
+                        Grid.Row="4"
+                        Clicked="tyhjenna_Clicked"/>
 
                 </Grid>
 
