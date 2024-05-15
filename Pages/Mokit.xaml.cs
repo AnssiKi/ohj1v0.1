@@ -17,6 +17,7 @@ public partial class Mokit : ContentPage
     public Mokit()
     {
         InitializeComponent();
+        this.BindingContext = mokkiViewmodel;
         lista.BindingContext = mokkiViewmodel;
         alue_nimi.BindingContext = alueViewmodel;
     }
@@ -90,130 +91,145 @@ public partial class Mokit : ContentPage
 
     private async void tallenna_Clicked(object sender, EventArgs e)
     {
-        Type luokka = typeof(Mokki);
-        Entry nimi = mokki_nimi;
-        Entry hinta = mokki_hinta;
-        Entry postinumero = mokki_postinumero;
-        Grid grid = (Grid)entry_grid;
-
-        if (selectedMokki != null) // paivitetaan jo olemassa olevaa mokkia
+     
+        try
         {
-            if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
-            {
-                // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-            }
 
-            else if (!funktiot.CheckEntryDouble(hinta, this)) // tarkistetaan onko hinta double
+            if (selectedMokki != null) // paivitetaan jo olemassa olevaa mokkia
             {
-                // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-            }
-
-            else if (!funktiot.CheckEntryInteger(postinumero, this)) // tarkistetaan onko postinumero int
-            {
-                // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-            }
-
-            else // Tarkistukset lapi voidaan tallentaa
-            {
-                try
+                if (!funktiot.CheckInput(this, entry_grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
                 {
-                    using (var dbContext = new VnContext())
-                    {
-                        bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti muokata mökin tietoja?", "Kyllä", "Ei");
+                    // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+                }
 
-                        // Jos käyttäjä valitsee "Kyllä", toteutetaan peruutustoimet
-                        if (result)
-                        {
-                            //selectedMokki.AlueId = ((Alue)alue_nimi.SelectedItem).AlueId;
-                            selectedMokki.Alue = (Alue)alue_nimi.SelectedItem;
-                            selectedMokki.Mokkinimi = mokki_nimi.Text;
-                            selectedMokki.Katuosoite = mokki_katuosoite.Text;
-                            selectedMokki.Postinro = mokki_postinumero.Text;
-                            selectedMokki.Hinta = double.Parse(mokki_hinta.Text);
-                            selectedMokki.Kuvaus = mokki_kuvaus.Text;
-                            selectedMokki.Varustelu = mokki_varustelu.Text;
-                            selectedMokki.Henkilomaara = int.Parse(mokki_henkilomaara.SelectedItem.ToString());
-                            dbContext.Mokkis.Update(selectedMokki);
-                            await dbContext.SaveChangesAsync();
-                            await mokkiViewmodel.LoadMokkisFromDatabaseAsync();
-                            mokkiViewmodel.OnPropertyChanged(nameof(mokkiViewmodel.Mokkis));
-                            await DisplayAlert("Tallennus", "Muutokset tallennettu", "OK");
-                            TyhjennaFunktio();
+                else if (!funktiot.CheckEntryDouble(mokki_hinta, this)) // tarkistetaan onko hinta double
+                {
+                    // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+                }
+
+                else if (!funktiot.CheckEntryInteger(mokki_postinumero, this)) // tarkistetaan onko postinumero int
+                {
+                    // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+                }
+
+                else // Tarkistukset lapi voidaan tallentaa
+                {
+                         bool result = await DisplayAlert("Vahvistus", "Haluatko varmasti muokata mökin tietoja?", "Kyllä", "Ei");
+
+                    if (result) { 
+                        if(alue_nimi.SelectedItem is Alue selectedAlue && double.TryParse(mokki_hinta.Text, out double mhinta) && int.TryParse(mokki_henkilomaara.SelectedItem.ToString(), out int hlo))
+                        { 
+                            using (var dbContext = new VnContext())
+                            {
+                                var mokki = await dbContext.Mokkis.FindAsync(selectedMokki.MokkiId);
+                                if (mokki != null)
+                                {
+                                    mokki.AlueId = selectedAlue.AlueId;  
+                                    mokki.Mokkinimi = mokki_nimi.Text;
+                                    mokki.Katuosoite = mokki_katuosoite.Text;
+                                    mokki.Postinro = mokki_postinumero.Text;
+                                    mokki.Hinta = mhinta;
+                                    mokki.Kuvaus = mokki_kuvaus.Text;
+                                    mokki.Varustelu = mokki_varustelu.Text;
+                                    mokki.Henkilomaara = hlo;
+
+                                    dbContext.Mokkis.Update(mokki);
+                                    await dbContext.SaveChangesAsync();
+
+                                    await mokkiViewmodel.LoadMokkisFromDatabaseAsync();
+                                    mokkiViewmodel.OnPropertyChanged(nameof(mokkiViewmodel.Mokkis));
+
+                                    await DisplayAlert("Tallennus", "Muutokset tallennettu", "OK");
+
+                                    TyhjennaFunktio();
+                                }
+                                else //jos ei haluakaan tallentaa, tyhjennetään tiedot
+                                {
+                                    await DisplayAlert("Virhe", "Mökkiä ei löytynyt tietokannasta", "OK");
+                                    TyhjennaFunktio();
+                                }
+                            }
                         }
-                        else //jos ei haluakaan tallentaa, tyhjennetään tiedot
+                        else
                         {
-                            await DisplayAlert("Tallennus", "Valitse ensin mökki listalta jos haluat muokata tietoja", "OK");
-                            TyhjennaFunktio();
+                            await DisplayAlert("Virhe", "Tarkista syöttämäsi tiedot", "OK");
                         }
                     }
-                }
-
-                catch (Exception ex)
-                {
-                    await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
-                }
-            }
-        }
-
-        else // tallennetaan uusi mokki
-        {
-
-            if (!funktiot.CheckInput(this, grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
-                   {
-                       // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-                   }
-
-            else if (CheckTuplaTietokanta(mokki_nimi.Text, (uint)alue_nimi.SelectedIndex + 1)) // varmistetaan ettei ole samannimista mokkia
-            {
-                await DisplayAlert("Virhe", "Alueella on jo saman niminen mökki", "OK");
-            }
-
-            else if (!funktiot.CheckEntryDouble(hinta, this)) // tarkistetaan onko hinta double
-            {
-                // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-            }
-
-            else if (!funktiot.CheckEntryInteger(postinumero, this)) // tarkistetaan onko postinumero int
-            {
-                // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
-            }
-
-            else // Tarkistukset lapi voidaan tallentaa
-            {
-                try
-                {
-                    using (var dbContext = new VnContext())
+                    else
                     {
-                        var mokki = new Mokki()
-                        {
-                            // MokkiId päivittyy automaattisesti tietokannassa
-                            AlueId = (uint)alue_nimi.SelectedIndex + 1,
-                            Mokkinimi = mokki_nimi.Text,
-                            Katuosoite = mokki_katuosoite.Text,
-                            Postinro = mokki_postinumero.Text,
-                            Hinta = double.Parse(mokki_hinta.Text),
-                            Kuvaus = mokki_kuvaus.Text,
-                            Varustelu = mokki_kuvaus.Text,
-                            Henkilomaara = int.Parse(mokki_henkilomaara.SelectedItem.ToString()),
-
-                        };
-
-                        dbContext.Mokkis.Add(mokki);
-                        dbContext.SaveChanges();
-                        BindingContext = new MokkiViewmodel();
-                        await mokkiViewmodel.LoadMokkisFromDatabaseAsync();
-                        await DisplayAlert("Tallennus", "Tietojen tallennus onnistui", "OK");
-                        TyhjennaFunktio();
-
-                    }                        
-
+                        await DisplayAlert("Tallennus", "Muutoksia ei tallennettu", "OK");
+                        TyhjennaFunktio(); 
+                    }
                 }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
-                }
-
             }
+
+            else // tallennetaan uusi mokki
+            {
+
+                if (!funktiot.CheckInput(this, entry_grid)) // Tarkistetaan onko kaikissa entryissa ja pickereissa sisaltoa
+                {
+                    // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+                }
+
+                else if (CheckTuplaTietokanta(mokki_nimi.Text, (uint)alue_nimi.SelectedIndex + 1)) // varmistetaan ettei ole samannimista mokkia
+                {
+                    await DisplayAlert("Virhe", "Alueella on jo saman niminen mökki", "OK");
+                }
+
+                else if (!funktiot.CheckEntryDouble(mokki_hinta, this)) // tarkistetaan onko hinta double
+                {
+                    // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+                }
+
+                else if (!funktiot.CheckEntryInteger(mokki_postinumero, this)) // tarkistetaan onko postinumero int
+                {
+                    // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
+                }
+
+                else // Tarkistukset lapi voidaan tallentaa
+                {
+                   
+                        using (var dbContext = new VnContext())
+                        {
+                            if(alue_nimi.SelectedItem is Alue selectedAlue)
+                            { 
+                                var mokki = new Mokki()
+                                {
+                                    // MokkiId päivittyy automaattisesti tietokannassa
+                                    AlueId = selectedAlue.AlueId,
+                                    Mokkinimi = mokki_nimi.Text,
+                                    Katuosoite = mokki_katuosoite.Text,
+                                    Postinro = mokki_postinumero.Text,
+                                    Hinta = double.Parse(mokki_hinta.Text),
+                                    Kuvaus = mokki_kuvaus.Text,
+                                    Varustelu = mokki_kuvaus.Text,
+                                    Henkilomaara = int.Parse(mokki_henkilomaara.SelectedItem.ToString()),
+
+                                };
+
+                                dbContext.Mokkis.Add(mokki);
+                                dbContext.SaveChanges();
+                                BindingContext = new MokkiViewmodel();
+                                await mokkiViewmodel.LoadMokkisFromDatabaseAsync();
+                                await DisplayAlert("Tallennus", "Tietojen tallennus onnistui", "OK");
+                                TyhjennaFunktio();
+                            }
+                            else
+                            {
+                            await DisplayAlert("Virhe", "Valitse alue", "OK");
+                            }
+                        }
+
+                    
+
+                    
+                 
+
+                }
+            }
+        }catch (Exception ex)
+        {
+            await DisplayAlert("Virhe", $"Tallennuksessa tapahtui virhe: {ex.Message}", "OK");
         }
        
 

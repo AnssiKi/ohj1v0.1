@@ -139,6 +139,7 @@ public partial class Palvelut : ContentPage
                                 else
                                 {
                                     await DisplayAlert("Virhe", "Palvelua ei löytynyt tietokannasta", "OK");
+                                    TyhjennaTiedot();
                                 }
                             }
                         }
@@ -150,7 +151,7 @@ public partial class Palvelut : ContentPage
                     else
                     {
                         await DisplayAlert("Tallennus", "Muutoksia ei tallennettu", "OK");
-                        funktiot.TyhjennaEntryt(entry_grid, lista);
+                        TyhjennaTiedot();
                     }
                 }
             }
