@@ -4,6 +4,7 @@ using ohj1v0._1.Viewmodels;
 using ohj1v0._1.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace ohj1v0._1;
 
@@ -230,6 +231,7 @@ public partial class TeeUusiVaraus : ContentPage
     private async void palvelu_lista_ItemTapped(object sender, ItemTappedEventArgs e)
     {
         selectedPalvelu = (Palvelu)palvelu_lista.SelectedItem;
+
             if (selectedPalvelu != null)
             {
                 // P‰ivit‰ valittujen palveluiden lista
@@ -237,64 +239,43 @@ public partial class TeeUusiVaraus : ContentPage
 
                        
             }
-            else
-            {
-              await DisplayAlert("Tuli t‰h‰n","",""); //v‰liaikanen alertti virheen seurantaan
-            }
+           
     }
     private async void uusi_asiakas_Clicked(object sender, EventArgs e)
     {
-        Grid grid = (Grid)entry_grid;
-        Grid grid2 = (Grid)entry_grid2;
-
-        if (!funktiot.CheckInput(this, entry_grid))
+       
+        if (selectedMokki != null && selectedAlue != null && alkupaiva.HasValue && loppupaiva.HasValue) //T‰st‰ poistettu funkiot-luokan k‰yttˆ tarkistuksista ja vaaditaan ett‰ kaikki n‰m‰ on valittuna ennen kun voi siirty‰ tallentamaan varausta
         {
-            //Tarkistetaan onko kaikki tarvittavat tiedot annettu
-        }
-        else if (!funktiot.CheckInput(this, entry_grid2))
-        {
-            //Tarkistetaan onko kaikki tarvittavat tiedot annettu
-        }
-
-        else if (selectedMokki != null)
-        {
-            //navigointi uudelle sivulle ja annetaan mukaan varauksen tiedot
+            //Hetaan varauksen tiedot omiin muuttujiin talteen annetaan mukaan uudelle sivulle ja siell‰ kysyt‰‰n haluaako ilman palveluita
             VarauksenTiedot varauksenTiedot = await VarauksenTiedotAsync();
 
             if (varauksenTiedot != null)
-            {//jos k‰ytt‰j‰ valitsee ett‰ haluaakin lis‰t‰ palvelut ni estet‰‰n siirtyminen uuelle sivulle
+            {// jos varauksen tiedot tallentui siirryt‰‰n uudelle sivulle
                 await Navigation.PushAsync(new Uusi_asiakas(this, varauksenTiedot));
             }
         }
         else
         {
-            //Jos ei valinnu mˆkki‰ ni ei p‰‰stet‰ etenem‰‰n
-            await DisplayAlert("Virhe", "Mˆkki‰ ei ole valittu", "OK!");
+            //Jos ei valinnu mˆkki‰ tai aluetta tai p‰iv‰m‰‰ri‰ ni ei p‰‰stet‰ etenem‰‰n
+            await DisplayAlert("Virhe", "Kaikkia varaukseen tarvittavia tietoja ei ole valittu", "OK!");
         }
     }
 
     private async void vanha_asiakas_Clicked(object sender, EventArgs e)
     {
-        if (!funktiot.CheckInput(this, entry_grid))
-        {
-            //Tarkistetaan onko kaikki tarvittavat tiedot annettu
-        }
-        else if (!funktiot.CheckInput(this, entry_grid2))
-        {
-            //Tarkistetaan onko kaikki tarvittavat tiedot annettu
-        }
-        else if (selectedMokki != null)
-        {   //Tarkistetaan ett‰ on valinnut myˆs mˆkin ja sit siirryt‰‰n
-            // Navigointi uudelle sivulle ja annetaan mukaan varauksen tiedot
+       
+        if (selectedMokki != null && selectedAlue != null && alkupaiva.HasValue && loppupaiva.HasValue)//Tarkistetaan ett‰ on valinnut kaikki tarvittavat tiedot
+        {   
+            // Haetaan varauksen tiedot omiin muuttujiin talteen. Siell‰ kysyt‰‰n haluaako jatkaa ilman palveluita
             VarauksenTiedot varauksenTiedot = await VarauksenTiedotAsync();
 
-            if (varauksenTiedot != null) {//jos k‰ytt‰j‰ valitsee ett‰ haluaakin lis‰t‰ palvelut ni estet‰‰n siirtyminen uuelle sivulle
+            if (varauksenTiedot != null) {//Jos k‰ytt‰j‰ on joko valinnut palvelut tai siirtymisen ilman palveluita, p‰‰st‰‰n etenem‰‰n
                 await Navigation.PushAsync(new Vanha_asiakas(this, varauksenTiedot));
             }
         }
         else
-        {   //Ei p‰‰stet‰ jatkamaan jos ei valinnu mˆkki‰
-            await DisplayAlert("Virhe", "Mˆkki‰ ei ole valittu", "OK!");
+        {   //Ei p‰‰stet‰ jatkamaan jos ei valinnu kaikkia tarvittavia tietoja
+            await DisplayAlert("Virhe", "Kaikkia varaukseen tarvittavia tietoja ei ole valittu", "OK!");
         }
     }
 
@@ -365,4 +346,24 @@ public partial class TeeUusiVaraus : ContentPage
         }
         return varauksenTiedot;
     }  
+    public void TyhjennaVarausTiedot()
+    {
+
+       alue_nimi.SelectedItem = null; // tyhjent‰‰ alue pickerin
+       henkilomaara.SelectedItem = null; // Tyhjent‰‰ henkilˆm‰‰r‰pickerin valinnan
+
+        alkupaiva = DateTime.Now; // asetetaan alkup‰iv‰m‰‰r‰ksi kuluva pv‰
+        loppupaiva = null; //nollataan loppup‰iv‰n valinta
+        alkupvm.Date = DateTime.Now; //pickereihin asetetaan kuluvap‰iv‰
+        loppupvm.Date = DateTime.Now;
+
+        selectedAlue = null; //nollataan kaikki valinnat
+        selectedMokki = null;
+        selectedPalvelu = null;
+        henkilomaara = null;
+        lukumaara = 0;
+
+        
+
+    }
 }

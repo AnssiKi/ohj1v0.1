@@ -6,11 +6,14 @@ namespace ohj1v0._1;
 
 public partial class Vanha_asiakas : ContentPage
 {
-    private VarauksenTiedot varauksenTiedot;
-    Funktiot funktiot = new Funktiot();
-    AsiakasViewmodel asiakasviewmodel = new AsiakasViewmodel();
+    private VarauksenTiedot varauksenTiedot; //T‰t‰ k‰ytet‰‰n varauksen tiedoille
+    Funktiot funktiot = new Funktiot(); // Luodaan funktiot-luokan k‰ytˆlle olio
+
+    AsiakasViewmodel asiakasviewmodel = new AsiakasViewmodel(); //luodaan viewmodeleille oliot
     VarausViewmodel varausViewmodel = new VarausViewmodel();
     ListaViewModel listaViewModel = new ListaViewModel();
+
+    TeeUusiVaraus teeUV = new TeeUusiVaraus(); //T‰m‰ luodaan jotta voidaan kutsua sen sivun tyhjenn‰ funktiota
     Asiaka selectedAsiakas;
     bool valittu = false;
  
@@ -20,6 +23,7 @@ public partial class Vanha_asiakas : ContentPage
         varauksenTiedot = tiedot;
         lista.BindingContext = asiakasviewmodel;
         BindingContext = tuv;
+        teeUV = tuv;
     }
 
     private void hae_sukunimella_TextChanged(object sender, TextChangedEventArgs e)
@@ -74,29 +78,33 @@ public partial class Vanha_asiakas : ContentPage
                     await varausViewmodel.LoadVarausFromDatabaseAsync();
                     dbContext.Varaus.Add(varaus);
                     dbContext.SaveChanges();
+
                     //Kutsutaan funktiota, joka ilmottaa listalle et se on muuttunut ja p‰ivitt‰is listan varaukset sivulla
                     varausViewmodel.OnPropertyChanged(nameof(varausViewmodel.Varaukset));
+                    if (varauksenTiedot.VarauksenPalveluts.Any()) { //jos varauksentiedoilla on palvelut, lis‰t‰‰n ne ‰sken luotuun varaukseen
 
-                    //lis‰t‰‰n varaukselle varatut palvelut
-                    var varausId = varaus.VarausId;
+                      var varausId = varaus.VarausId;
 
-                    // Lis‰t‰‰n varauksen ID jokaiseen VarauksenPalvelut-olioon
+                    // Lis‰t‰‰n varauksen ID jokaiseen VarauksenPalvelut-olioon, jos useampi palvelu valittu,voidaan n‰in yhdist‰‰ kaikki palvelut oikeaan varaukseen
                     foreach (var palvelu in varauksenTiedot.VarauksenPalveluts)
                     {
                         palvelu.VarausId = varausId;
                         dbContext.VarauksenPalveluts.Add(palvelu);
                     }
 
-                    dbContext.SaveChanges(); //Tallennetaan muutokset
-                    //T‰h‰n v‰liin pit‰‰ laittaa jotain mill‰ p‰ivitet‰‰n varauksen palvelut lista jos ne laitetaan n‰kyville.
-                    await varausViewmodel.LoadVarausFromDatabaseAsync(); //Ladataan varauslista uusiksi
+                        dbContext.SaveChanges(); //Tallennetaan muutokset
+                     //T‰h‰n v‰liin pit‰‰ laittaa jotain mill‰ p‰ivitet‰‰n varauksen palvelut lista jos ne laitetaan n‰kyville.
+                         await varausViewmodel.LoadVarausFromDatabaseAsync(); //Ladataan varauslista uusiksi
+                    }
                 }
 
                 await DisplayAlert("Ilmoitus", "Varaus tallennettu", "OK");
+
                 listaViewModel.NollaaValitutPalvelut(); //Nollataan valitut palvelut Listaviewmodelista
                 await funktiot.TyhjennaVarauksenTiedotAsync(varauksenTiedot); // Nollataan varauksentiedot muuttujat uuestaan k‰ytett‰v‰ksi
+                teeUV.TyhjennaVarausTiedot(); //Tyhjennet‰‰n edellinen sivu ennen kuin sinne palataan
 
-                await Navigation.PushAsync(new TeeUusiVaraus());
+                await Navigation.PopAsync(); //palataan edelliselle sivulle
             }
             catch (Exception ex)
             {

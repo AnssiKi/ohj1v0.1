@@ -13,16 +13,18 @@ public partial class Uusi_asiakas : ContentPage
         InitializeComponent();
         this.BindingContext = mp;
         varauksenTiedot = tiedot;
+        tuv = mp;
     }
+    //Luodaan funktioluokalle oma olio
     Funktiot funktiot = new Funktiot();
+
+    //T‰ss‰ luodaan viewmodeleiden oliot
     AsiakasViewmodel asiakasviewmodel = new AsiakasViewmodel();
     VarausViewmodel varausViewmodel = new VarausViewmodel();
     ListaViewModel listaViewModel = new ListaViewModel();
 
-    private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
-    {
-
-    }
+    TeeUusiVaraus tuv = new TeeUusiVaraus(); //T‰m‰ sit‰ varten ett‰ voi tyhjent‰‰ sivun tiedot kutsumalla sen sivun funktiota
+    
 
     private void etunimi_TextChanged(object sender, TextChangedEventArgs e)
     { // entryn pituus rajoitettu xaml.cs max 20 merkkiin
@@ -93,7 +95,7 @@ public partial class Uusi_asiakas : ContentPage
         }
         else
         {
-            bool onKaytossa = await asiakasviewmodel.OnkoPuhelinTaiSahkopostiKaytossa(puhelinnumero.Text, email.Text);
+            bool onKaytossa = await asiakasviewmodel.OnkoPuhelinTaiSahkopostiKaytossa(puhelinnumero.Text, email.Text);//Tarkistetaan ettei asiakas olekin jo tietokannassa jos puhelinnumero tai s‰hkˆposti on sama
 
             if (!onKaytossa)
             {
@@ -113,13 +115,15 @@ public partial class Uusi_asiakas : ContentPage
                             // AsiakasId p‰ivittyy automaattisesti tietokannassa
                         };
 
-                        dbContext.Asiakas.Add(asiakas);
+                        dbContext.Asiakas.Add(asiakas); //Lis‰s‰‰n asiakas tietokantaan ja listaan
                         dbContext.SaveChanges();
                         BindingContext = new AsiakasViewmodel();
-                        asiakasviewmodel.OnPropertyChanged(nameof(asiakasviewmodel.Asiakas));
+
+                        asiakasviewmodel.OnPropertyChanged(nameof(asiakasviewmodel.Asiakas));//Kutsutaan funktioo, joka ilmoittaa observacollectionille ett‰ asiakaslista on muuttunut ja p‰ivitt‰‰ asiakaslistan n‰kym‰n
+
                         await asiakasviewmodel.LoadAsiakasFromDatabaseAsync();
                 
-                            var varaus = new Varau()
+                            var varaus = new Varau()//Lis‰t‰‰n uuden asiakkaan varaus
                             {
                                 AsiakasId = asiakas.AsiakasId,
                                 MokkiId = varauksenTiedot.ValittuMokki.MokkiId,
@@ -131,13 +135,15 @@ public partial class Uusi_asiakas : ContentPage
                             };
 
                             await varausViewmodel.LoadVarausFromDatabaseAsync();
-                            dbContext.Varaus.Add(varaus);
+                            dbContext.Varaus.Add(varaus);//Lis‰t‰‰n varaus tietokantaan ja listaan
                             dbContext.SaveChanges();
-                            varausViewmodel.OnPropertyChanged(nameof(varausViewmodel.Varaukset));
-                        //lis‰t‰‰n varaukselle varatut palvelut
-                        var varausId = varaus.VarausId;
+                            varausViewmodel.OnPropertyChanged(nameof(varausViewmodel.Varaukset)); //kutsutaan funktioo joka kertoo observacollectionille listan muuttuneen ja p‰ivitt‰‰ listan myˆs varaus-sivulla
 
-                            // Lis‰t‰‰n varauksen ID jokaiseen VarauksenPalvelut-olioon
+                        if (varauksenTiedot.VarauksenPalveluts.Any()) //Jos varauksella on palveluita lis‰t‰‰n ne varaukseen ja tietokantaan
+                        {
+                            var varausId = varaus.VarausId;
+
+                            // Lis‰t‰‰n varauksen ID jokaiseen VarauksenPalvelut-olioon,jos useampi palvelu ni kaikki saa varauksen id,ett‰ voi yhdist‰‰ palvelut oikeaan varaukseen
                             foreach (var palvelu in varauksenTiedot.VarauksenPalveluts)
                             {
                                 palvelu.VarausId = varausId;
@@ -145,25 +151,29 @@ public partial class Uusi_asiakas : ContentPage
                             }
                             //T‰h‰n pit‰‰ lis‰t‰ mill‰ p‰ivitet‰‰n varauksen palvelut lista, jos ne lis‰t‰‰n n‰kym‰‰n
                             dbContext.SaveChanges();
-                        await varausViewmodel.LoadVarausFromDatabaseAsync();
+                            await varausViewmodel.LoadVarausFromDatabaseAsync();
+                        }
                     }
                     await DisplayAlert("Asiakkaan ja varauksen tallennus onnistui!", "", "OK");
 
                     //nollataan listviewin lista
                     listaViewModel.NollaaValitutPalvelut();
+
                     //nollataan varauksenTiedot
                     await funktiot.TyhjennaVarauksenTiedotAsync(varauksenTiedot);
+
+                    tuv.TyhjennaVarausTiedot(); //nollataan teeuusivaraus-sivun tiedot
                     
                     grid = (Grid)entry_grid;
 
-                    foreach (var child in grid.Children)
+                    foreach (var child in grid.Children)//Nollataan t‰m‰n sivun entryt
                     {
                         if (child is Entry entry)
                         {
                             entry.Text = ""; // Tyhjent‰‰ entryn
                         }
                     }
-                    await Navigation.PushAsync(new TeeUusiVaraus());
+                    await Navigation.PopAsync(); //kokeillaan nyt nollauksen j‰lkeen vaan palata takas sinne sivulle et toimiiko.
                 }
                 catch (Exception ex)
                 {
