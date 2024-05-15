@@ -303,7 +303,7 @@ public partial class TeeUusiVaraus : ContentPage
         };
 
         // Tarkista, onko palvelu valittu ja onko lukum‰‰r‰ m‰‰ritelty
-        if (listaViewModel.valitutPalvelutIdLista==null)
+        if (!listaViewModel.valitutPalvelutIdLista.Any())
         {
             bool jatkaIlmanPalveluita = await DisplayAlert("Ilmoitus", "Haluatko jatkaa ilman palveluita?", "Kyll‰", "Ei");
             if (!jatkaIlmanPalveluita)
@@ -311,6 +311,7 @@ public partial class TeeUusiVaraus : ContentPage
                 return null; // Jos k‰ytt‰j‰ ei halua jatkaa ilman palveluita, palauta null
                
             }
+            
             // Jos k‰ytt‰j‰ haluaa jatkaa ilman palveluita, jatketaan ilman palveluiden lis‰yst‰
            
         }
@@ -355,7 +356,7 @@ public partial class TeeUusiVaraus : ContentPage
         alkupaiva = DateTime.Now; // asetetaan alkup‰iv‰m‰‰r‰ksi kuluva pv‰
         loppupaiva = null; //nollataan loppup‰iv‰n valinta
         alkupvm.Date = DateTime.Now; //pickereihin asetetaan kuluvap‰iv‰
-        loppupvm.Date = DateTime.Now;
+        loppupvm.Date = DateTime.Now.AddDays(1);
 
         selectedAlue = null; //nollataan kaikki valinnat
         selectedMokki = null;
@@ -363,7 +364,9 @@ public partial class TeeUusiVaraus : ContentPage
         henkilomaara = null;
         lukumaara = 0;
 
-        
+        mokki_lista.ItemsSource = null; //laitetaan listat tyhjiks
+        palvelu_lista.ItemsSource = null;
+
 
     }
 }
