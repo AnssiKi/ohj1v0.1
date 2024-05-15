@@ -13,6 +13,7 @@ public partial class Mokit : ContentPage
     MokkiViewmodel mokkiViewmodel = new MokkiViewmodel();
     AlueViewmodel alueViewmodel = new AlueViewmodel();
     Mokki selectedMokki;
+    Alue selectedAlue= null;
 
     public Mokit()
     {
@@ -24,7 +25,7 @@ public partial class Mokit : ContentPage
 
     private void alue_nimi_SelectedIndexChanged(object sender, EventArgs e)
     {
-
+        selectedAlue = (Alue)lista.SelectedItem;
     }
 
     private void mokki_nimi_TextChanged(object sender, TextChangedEventArgs e)
@@ -38,7 +39,7 @@ public partial class Mokit : ContentPage
         Type luokka = typeof(Mokki);
         Entry entry = mokki_nimi;
 
-        if (CheckTuplaTietokanta(mokki_nimi.Text, (uint)alue_nimi.SelectedIndex + 1)) // varmistetaan ettei ole samannimista mokkia
+        if (CheckTuplaTietokanta(mokki_nimi.Text, selectedAlue.AlueId)) // varmistetaan ettei ole samannimista mokkia
         {
             await DisplayAlert("Virhe", "Saman niminen mökki on jo alueella", "OK");
             // tahan esim entryn background varin vaihtamista tai focus suoraan kyseiseen entryyn
