@@ -138,6 +138,7 @@ public partial class Uusi_asiakas : ContentPage
                             dbContext.Varaus.Add(varaus);//Lis‰t‰‰n varaus tietokantaan ja listaan
                             dbContext.SaveChanges();
                             varausViewmodel.OnPropertyChanged(nameof(varausViewmodel.Varaukset)); //kutsutaan funktioo joka kertoo observacollectionille listan muuttuneen ja p‰ivitt‰‰ listan myˆs varaus-sivulla
+                        
 
                         if (varauksenTiedot.VarauksenPalveluts.Any()) //Jos varauksella on palveluita lis‰t‰‰n ne varaukseen ja tietokantaan
                         {

@@ -14,7 +14,7 @@ public partial class Vanha_asiakas : ContentPage
     ListaViewModel listaViewModel = new ListaViewModel();
 
     TeeUusiVaraus teeUV = new TeeUusiVaraus(); //T‰m‰ luodaan jotta voidaan kutsua sen sivun tyhjenn‰ funktiota
-    Asiaka selectedAsiakas;
+    Asiaka selectedAsiakas = null;
     bool valittu = false;
  
     public Vanha_asiakas(TeeUusiVaraus tuv, VarauksenTiedot tiedot)
@@ -103,6 +103,7 @@ public partial class Vanha_asiakas : ContentPage
                 listaViewModel.NollaaValitutPalvelut(); //Nollataan valitut palvelut Listaviewmodelista
                 await funktiot.TyhjennaVarauksenTiedotAsync(varauksenTiedot); // Nollataan varauksentiedot muuttujat uuestaan k‰ytett‰v‰ksi
                 teeUV.TyhjennaVarausTiedot(); //Tyhjennet‰‰n edellinen sivu ennen kuin sinne palataan
+                selectedAsiakas = null; //nollataan asiakasvalinta
 
                 await Navigation.PopAsync(); //palataan edelliselle sivulle
             }
