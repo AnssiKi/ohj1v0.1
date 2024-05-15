@@ -175,14 +175,18 @@ public partial class Laskut : ContentPage
         }
         return;
     }
-    private void haeavoimet_checkchanged(object sender, CheckedChangedEventArgs e) 
+    private async void haeavoimet_checkchanged(object sender, CheckedChangedEventArgs e) 
     {
         if (haeavoimetlaskut.IsChecked)
-        { 
-            laskuViewmodel.LoadUnPaidLaskutFromDatabaseAsync();
+        {
+            await laskuViewmodel.LoadUnPaidLaskutFromDatabaseAsync();
+            BindingContext = laskuViewmodel;
         }
-        BindingContext = new LaskuViewmodel();  
-        return ;
+        else 
+        {
+            await laskuViewmodel.LoadLaskutFromDatabaseAsync();
+            BindingContext = laskuViewmodel;
+        }
     }
 
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
