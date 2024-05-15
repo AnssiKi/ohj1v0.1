@@ -32,6 +32,7 @@ public partial class Varaukset : ContentPage
         //Tallennus tietokantaan
         if (selectedVaraus != null)
         {
+            Type luokka = typeof(ohj1v0._1.Models.Lasku);
             double loppusumma = 0;
             double verot = 0;
             var dbContext = new VnContext();
@@ -57,8 +58,9 @@ public partial class Varaukset : ContentPage
 
             dbContext.Add(l);
             await dbContext.SaveChangesAsync();
+            await laskuViewmodel.LoadLaskutFromDatabaseAsync();
             laskuViewmodel.OnPropertyChanged(nameof(laskuViewmodel.Laskut));
-            await laskuViewmodel.LoadLaskutFromDatabaseAsync(); 
+             
             TulostaPDF(selectedVaraus, varauksenPalvelut, loppusumma, verot);
         }
         else 

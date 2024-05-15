@@ -1,11 +1,8 @@
 using CommunityToolkit.Maui.Storage;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Maui.Controls;
 using ohj1v0._1.Luokat;
 using ohj1v0._1.Models;
 using ohj1v0._1.Viewmodels;
-using Org.BouncyCastle.Bcpg;
-using System.Linq;
 using iTextKernel = iText.Kernel.Pdf;
 using iTextLayout = iText.Layout;
 using iTextLOElement = iText.Layout.Element;
@@ -26,14 +23,10 @@ public partial class Laskut : ContentPage
     public Laskut()
 	{
 	    InitializeComponent();
-        BindingContext = new LaskuViewmodel();
+        
+        BindingContext = laskuViewmodel;
         maksettu.IsEnabled = false;
 	}
-   /* protected override async void OnAppearing()
-    {
-       base.OnAppearing();
-        await laskuViewmodel.LoadLaskutFromDatabaseAsync();
-    }*/
 
     private async void maksettu_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
