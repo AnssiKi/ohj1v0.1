@@ -16,7 +16,7 @@ public partial class Laskut : ContentPage
     VnContext context = new VnContext();
     Lasku selectedLasku;
     
-    Funktiot funktiot;
+    Funktiot funktiot = new Funktiot();
 
     bool isUserCheckChange = true; //pit‰‰ kirjaa siit‰ onko checkboxiin tehty muutos k‰ytt‰j‰- vai ohjelmaper‰inen
     
@@ -30,7 +30,7 @@ public partial class Laskut : ContentPage
 	}
     private void OnPageAppearing(object sender, EventArgs e)
     {
-        BindingContext = new LaskuViewmodel();
+        BindingContext = laskuViewmodel;
     }
 
     private async void maksettu_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -41,15 +41,22 @@ public partial class Laskut : ContentPage
             selectedLasku.Maksettu = 1;
             context.Laskus.Update(selectedLasku);
             context.SaveChanges();
-            OnPropertyChanged(nameof(selectedLasku));
-            await laskuViewmodel.LoadLaskutFromDatabaseAsync();
+            OnPropertyChanged(nameof(selectedLasku.Maksettu));
+            laskuViewmodel.LoadLaskutFromDatabaseAsync();
             selectedLasku = null;
+            await DisplayAlert("Tallennus", "Lasku merkitty maksetuksi", "OK");
         }
         else 
         {
             await DisplayAlert("Virhe", "Valitse ensin lasku", "OK");
             return; 
         }
+        Grid grid = (Grid)entry_grid;
+        ListView list = (ListView)lista;
+        funktiot.TyhjennaEntryt(grid, list);
+        Label_laskuID.Text = "";
+        maksettu.IsChecked = false;
+        isUserCheckChange = false;
     }
 
     private async void tulosta_Clicked(object sender, EventArgs e)
@@ -164,6 +171,7 @@ public partial class Laskut : ContentPage
             ListView list = (ListView)lista;
             funktiot.TyhjennaEntryt(grid, list);
             Label_laskuID.Text = "";
+            
         }
         return;
     }
