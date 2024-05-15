@@ -161,7 +161,7 @@
                             x:Name="haeavoimetlaskut"
                             Grid.Column="1"
                             Grid.Row="0"
-                            DateSelected="haeavoimet_checkchanged">
+                            CheckedChanged="haeavoimet_checkchanged">
                         </CheckBox>
 
                     </Grid>

@@ -177,7 +177,12 @@ public partial class Laskut : ContentPage
     }
     private void haeavoimet_checkchanged(object sender, CheckedChangedEventArgs e) 
     {
-
+        if (haeavoimetlaskut.IsChecked)
+        { 
+            laskuViewmodel.LoadUnPaidLaskutFromDatabaseAsync();
+        }
+        BindingContext = new LaskuViewmodel();  
+        return ;
     }
 
     private void lista_ItemTapped(object sender, ItemTappedEventArgs e)
