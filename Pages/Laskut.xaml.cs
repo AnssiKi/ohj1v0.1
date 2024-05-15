@@ -49,8 +49,8 @@ public partial class Laskut : ContentPage
         else 
         {
             await DisplayAlert("Virhe", "Valitse ensin lasku", "OK");
-            return; }
-
+            return; 
+        }
     }
 
     private async void tulosta_Clicked(object sender, EventArgs e)
@@ -128,7 +128,7 @@ public partial class Laskut : ContentPage
         iTextLOElement.Paragraph maksuInfo = new iTextLOElement.Paragraph($"Saajan tilinumero:\n" +
         $"FI12 3456 7890 1234 56\n" +
         $"Pankkiyhteys: HVKVG\n" +
-        $"Viite: " +
+        $"Viite: \n" +
         selectedLasku.VarausId+"\n"+
         $"Laskun p‰iv‰m‰‰r‰: " + DateTime.Now.ToString("d") +
         $"\nLaskun er‰p‰iv‰: " + DateTime.Now.AddDays(14).ToString("d"))

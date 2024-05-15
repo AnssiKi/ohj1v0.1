@@ -111,13 +111,12 @@ public partial class Varaukset : ContentPage
         }
         else
         {
-            var palvelutInfo = new iTextLOElement.Paragraph($"Muistathan varata ensi kerralla myös lisähuvit!")
+            var palvelutInfo = new iTextLOElement.Paragraph($"Muistathan varata ensi kerralla myös lisäpalvelut!")
                 .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
                 .SetFontSize(12);
             document.Add(palvelutInfo);
 
         }
-
         var loppusummaInfo = new iTextLOElement.Paragraph($"Laskun loppusumma: {loppusumma}€\n" +
             $"Verot: {verot}€")
             .SetTextAlignment(iTextLOP.TextAlignment.LEFT)
