@@ -363,6 +363,7 @@ public partial class Varaukset : ContentPage
                         TyhjennaFunktio();
                     }
                     varausViewmodel.OnPropertyChanged(nameof(Varaukset));
+                    lista.BindingContext = new VarausViewmodel();
                     await DisplayAlert("Poisto onnistui", "", "OK");
                 }
                 catch
