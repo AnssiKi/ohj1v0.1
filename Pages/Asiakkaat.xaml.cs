@@ -220,6 +220,7 @@ public partial class Asiakkaat : ContentPage
             ListView list = (ListView)lista;
             funktiot.TyhjennaEntryt(grid, list);
             asiakas_id.Text = "";
+            selectedAsiakas = null;
         }
         else
         {
