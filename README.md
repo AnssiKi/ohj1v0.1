@@ -1,2 +1,3 @@
 # ohj1v0.1
-//testiä MH
+//testiï¿½ MH
+//1st programming project in school for a cabin reservation system
